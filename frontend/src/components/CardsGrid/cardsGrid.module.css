@@ -1,0 +1,20 @@
+.grid {
+  width: 100%;
+  max-width: 130rem;
+  display: grid;
+  gap: 7.2rem;
+
+  grid-template-columns: repeat(4, minmax(26.4rem, 1fr));
+
+  @media (max-width: 1325px) {
+    grid-template-columns: repeat(3, minmax(26.4rem, 1fr));
+  }
+
+  @media (max-width: 980px) {
+    grid-template-columns: repeat(2, minmax(26.4rem, 1fr));
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: repeat(1, minmax(26.4rem, 1fr));
+  }
+}
