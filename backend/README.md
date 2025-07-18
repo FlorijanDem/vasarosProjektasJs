@@ -12,17 +12,26 @@
 
    ```env
    PORT=3000
+   DB_HOST=localhost
+   DB_PORT=5432
+   DB_NAME=summer
+   DB_USER=student
+   DB_PASSWORD=goodPassword
    ```
 
 3. Start the server:
    ```bash
-   node server.js
+   npm run dev
    ```
+
 
 ## Endpoints
 
 - `GET /` - Returns a welcome message.
 
-## Environment Variables
+### Example API
 
-- `PORT`: Port number for the server (default: 3000)
+- `POST /api/v1/examples` - Create a new example
+  - Body: `{ "name": "Example name", "recipe": "Example recipe" }`
+- `GET /api/v1/examples/:name` - Get all examples by name
+
