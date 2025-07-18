@@ -20,3 +20,13 @@ exports.getUserByEmail = async (email) => {
   `;
   return users[0];
 };
+
+exports.checkUser = async (email) => {
+  const users = await sql`
+  SELECT *
+  FROM users
+  WHERE email = ${email}
+  `;
+  
+  return users [0];
+}

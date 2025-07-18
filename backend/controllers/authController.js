@@ -1,4 +1,4 @@
-const { createUser } = require('../models/authModel');
+const { createUser, checkUser } = require('../models/authModel');
 const jwt = require('jsonwebtoken');
 const argon2 = require('argon2');
 
@@ -54,4 +54,24 @@ exports.logout = (req, res) => {
     .clearCookie('jwt')
     .status(200)
     .json({ message: "You're now logged out." });
+};
+
+exports.login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const user = await checkUser(email);
+
+    const token = signToken(user.id);
+    sendTokenCookie(token, res);
+
+    user.password = undefined;
+    user.id = undefined;
+
+    res.status(200).json({
+      status: 'success',
+      data: user,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
