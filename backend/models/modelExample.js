@@ -3,7 +3,7 @@ const sql = require('../utils/postgres');
 // Example function to create an example (row)
 async function createExample(name, recipe) {
   return await sql`
-    INSERT INTO cakes (name, recipe)
+    INSERT INTO examples (name, recipe)
     VALUES (${name}, ${recipe})
     RETURNING *
   `;
@@ -13,7 +13,7 @@ async function createExample(name, recipe) {
 async function getExampleByName(name) {
   return await sql`
     SELECT * 
-    FROM cakes 
+    FROM exapmles 
     WHERE name = ${name}
   `;
 }
