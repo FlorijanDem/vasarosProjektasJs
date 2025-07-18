@@ -33,13 +33,10 @@ exports.signup = async (req, res, next) => {
       throw new AppError('User not created', 400);
     }
 
-    //po signup, iš karto login:
     const token = signToken(createdUser.id);
 
-    //įrašime token'ą į naršyklės cookie, expires date turime nurodyti data, datą sukursime iš milisekundžių
     sendTokenCookie(token, res);
 
-    // hide user password and id before sending to client
     createdUser.password = undefined;
     createdUser.id = undefined;
 
@@ -50,4 +47,11 @@ exports.signup = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+};
+
+exports.logout = (req, res) => {
+  return res
+    .clearCookie('jwt')
+    .status(200)
+    .json({ message: "You're now logged out." });
 };

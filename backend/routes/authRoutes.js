@@ -10,9 +10,11 @@ const {
   validateGetExampleByName,
 } = require("../validators/exampleValidation");
 
-const { signup } = require("../controllers/authControler");
+const { signup, logout } = require("../controllers/authController");
+const { validateSignup } = require('../validators/signup');
 
-router.route('/signup').post(signup);
+router.route("/signup").post(validateSignup, signup);
+router.route("/logout").get(logout);
 
 // POST /examples - create a new example
 router.post("/examples", validateCreateExample, createExampleController);
