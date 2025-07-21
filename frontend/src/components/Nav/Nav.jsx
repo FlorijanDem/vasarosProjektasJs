@@ -1,5 +1,6 @@
 // For adapt to different screens with standart css
 // you can use with media queries
+import { Link } from "react-router";
 import moon from "../../../src/assets/moon.svg";
 const Nav = () => {
   return (
@@ -12,15 +13,19 @@ const Nav = () => {
       <div className="flex w-1/4 max-2xl:w-1/2 justify-between ">
         <div className="flex gap-2 w-1/3 ">
           <img src={moon} alt="Sign up icon" className="max-md:hidden" />
-          <button className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer">
-            Sign up
-          </button>
+          <Link>
+            <button className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer">
+              Sign up
+            </button>
+          </Link>
         </div>
         <div className="flex gap-2 w-1/3">
           <img src={moon} alt="Log in icon" className="max-md:hidden" />
-          <button className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer">
-            Log in
-          </button>
+          <Link>
+            <button className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer">
+              Log in
+            </button>
+          </Link>
         </div>
         <div
           className="flex gap-2 w-1/3
