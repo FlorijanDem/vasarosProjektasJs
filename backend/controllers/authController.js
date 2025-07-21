@@ -1,7 +1,7 @@
-const { createUser, getUserByEmail } = require('../models/authModel');
+const { createUser, getUserByEmail } = require("../models/authModel");
 const { validationResult } = require("express-validator");
-const jwt = require('jsonwebtoken');
-const argon2 = require('argon2');
+const jwt = require("jsonwebtoken");
+const argon2 = require("argon2");
 
 const signToken = (id) => {
   const token = jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -18,11 +18,11 @@ const sendTokenCookie = (token, res) => {
     httpOnly: true,
   };
 
-  res.cookie('jwt', token, cookieOptions);
+  res.cookie("jwt", token, cookieOptions);
 };
 
 exports.signup = async (req, res, next) => {
-const errors = validationResult(req);
+  const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
@@ -35,7 +35,7 @@ const errors = validationResult(req);
     const createdUser = await createUser(newUser);
 
     if (!createdUser) {
-      throw new AppError('User not created', 400);
+      throw new AppError("User not created", 400);
     }
 
     const token = signToken(createdUser.id);
@@ -46,7 +46,7 @@ const errors = validationResult(req);
     createdUser.id = undefined;
 
     res.status(201).json({
-      status: 'success',
+      status: "success",
       data: createdUser,
     });
   } catch (error) {
@@ -56,12 +56,17 @@ const errors = validationResult(req);
 
 exports.logout = (req, res) => {
   return res
-    .clearCookie('jwt')
+    .clearCookie("jwt")
     .status(200)
     .json({ message: "You're now logged out." });
 };
 
 exports.login = async (req, res, next) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   try {
     const { email, password } = req.body;
     const user = await getUserByEmail(email);
@@ -73,7 +78,7 @@ exports.login = async (req, res, next) => {
     user.id = undefined;
 
     res.status(200).json({
-      status: 'success',
+      status: "success",
       data: user,
     });
   } catch (error) {
