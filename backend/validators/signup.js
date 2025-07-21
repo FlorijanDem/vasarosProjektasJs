@@ -12,7 +12,7 @@ const validateSignup = [
     .normalizeEmail()
     .custom(async (value) => {
       const user = await getUserByEmail(value);
-      console.log(value, user)
+      console.log(value)
       if (user) {
         throw new Error("Email already exists");
       }

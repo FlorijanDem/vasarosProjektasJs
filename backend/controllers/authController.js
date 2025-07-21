@@ -1,4 +1,4 @@
-const { createUser, checkUser } = require('../models/authModel');
+const { createUser, getUserByEmail } = require('../models/authModel');
 const jwt = require('jsonwebtoken');
 const argon2 = require('argon2');
 
@@ -59,7 +59,7 @@ exports.logout = (req, res) => {
 exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    const user = await checkUser(email);
+    const user = await getUserByEmail(email);
 
     const token = signToken(user.id);
     sendTokenCookie(token, res);
