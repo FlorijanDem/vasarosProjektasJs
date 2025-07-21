@@ -1,16 +1,7 @@
 import styles from "./excursionCard.module.css";
 import { renderStars } from "../../utils/renderStars";
 
-const excursion = {
-  image: "https://walkablevilnius.com/content/uploads/1_3.jpg",
-  title: "Vilnius Old Town Tour",
-  rating: 3,
-  closestDate: "8/1/2025",
-  duration: "3 hours",
-  price: 36,
-};
-
-const ExcursionCard = () => {
+const ExcursionCard = ({ excursion }) => {
   return (
     <article className={styles.card}>
       <figure className={styles.figure}>
@@ -30,7 +21,7 @@ const ExcursionCard = () => {
             <p>{excursion.closestDate}</p>
           </div>
           <div className={styles.durationPriceSection}>
-            <p>{excursion.duration}</p>
+            <p>{`${excursion.duration} hours`}</p>
             <p>{`${excursion.price} €`}</p>
           </div>
           <div className={styles.btnContainer}>
