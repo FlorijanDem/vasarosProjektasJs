@@ -1,4 +1,5 @@
-const { createUser, checkUser } = require('../models/authModel');
+const { createUser, getUserByEmail } = require('../models/authModel');
+const { validationResult } = require("express-validator");
 const jwt = require('jsonwebtoken');
 const argon2 = require('argon2');
 
@@ -21,6 +22,10 @@ const sendTokenCookie = (token, res) => {
 };
 
 exports.signup = async (req, res, next) => {
+const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   try {
     const newUser = req.body;
 
@@ -59,7 +64,7 @@ exports.logout = (req, res) => {
 exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    const user = await checkUser(email);
+    const user = await getUserByEmail(email);
 
     const token = signToken(user.id);
     sendTokenCookie(token, res);
