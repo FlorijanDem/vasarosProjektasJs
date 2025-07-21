@@ -1,6 +1,7 @@
-const { createUser, checkUser } = require('../models/authModel');
-const jwt = require('jsonwebtoken');
-const argon2 = require('argon2');
+const { createUser, getUserByEmail } = require("../models/authModel");
+const { validationResult } = require("express-validator");
+const jwt = require("jsonwebtoken");
+const argon2 = require("argon2");
 
 const signToken = (id) => {
   const token = jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -17,10 +18,14 @@ const sendTokenCookie = (token, res) => {
     httpOnly: true,
   };
 
-  res.cookie('jwt', token, cookieOptions);
+  res.cookie("jwt", token, cookieOptions);
 };
 
 exports.signup = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   try {
     const newUser = req.body;
 
@@ -30,7 +35,7 @@ exports.signup = async (req, res, next) => {
     const createdUser = await createUser(newUser);
 
     if (!createdUser) {
-      throw new AppError('User not created', 400);
+      throw new AppError("User not created", 400);
     }
 
     const token = signToken(createdUser.id);
@@ -41,7 +46,7 @@ exports.signup = async (req, res, next) => {
     createdUser.id = undefined;
 
     res.status(201).json({
-      status: 'success',
+      status: "success",
       data: createdUser,
     });
   } catch (error) {
@@ -51,15 +56,20 @@ exports.signup = async (req, res, next) => {
 
 exports.logout = (req, res) => {
   return res
-    .clearCookie('jwt')
+    .clearCookie("jwt")
     .status(200)
     .json({ message: "You're now logged out." });
 };
 
 exports.login = async (req, res, next) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   try {
     const { email, password } = req.body;
-    const user = await checkUser(email);
+    const user = await getUserByEmail(email);
 
     const token = signToken(user.id);
     sendTokenCookie(token, res);
@@ -68,7 +78,7 @@ exports.login = async (req, res, next) => {
     user.id = undefined;
 
     res.status(200).json({
-      status: 'success',
+      status: "success",
       data: user,
     });
   } catch (error) {
