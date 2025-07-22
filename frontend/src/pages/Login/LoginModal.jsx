@@ -23,7 +23,7 @@ const LoginModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post('http://localhost:3001/login', {
+      const response = await axios.post('http://localhost:3000/api/v1/login', {
         email: data.email,
         password: data.password,
       });

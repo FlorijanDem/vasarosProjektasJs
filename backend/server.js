@@ -1,14 +1,14 @@
 const app = require('./app');
 require('dotenv').config()
 const { sql, testConnection} = require('./utils/postgres')
-const { createTables } = require('./createTables');
+// const { createTables } = require('./createTables');
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 (async () => {
   try {
     await testConnection();
-    await createTables();
+    // await createTables();
 
     app.listen(PORT, () => {
       console.log(`Server is running on http://localhost:${PORT}`);
