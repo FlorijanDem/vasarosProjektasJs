@@ -1,0 +1,2 @@
+const {  } = require("../models/toursModel");
+

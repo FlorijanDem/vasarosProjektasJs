@@ -1,5 +1,7 @@
 const express = require('express');
 const authRoutes = require('./routes/authRoutes');
+const toursRoutes = require('./routes/toursRoutes')
+
 
 const app = express();
 
@@ -10,8 +12,8 @@ app.get('/', (req, res) => {
   res.send('Server ok');
 });
 
-// Example API routes
 app.use('/api/v1', authRoutes);
+app.use('/api/v1/tours', toursRoutes);
 
 
 module.exports = app;
