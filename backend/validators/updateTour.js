@@ -1,6 +1,6 @@
 const { body } = require("express-validator");
 
-const validateNewTour = [
+const validateUpdatedTour = [
   body().notEmpty().withMessage("Request body must contain data"),
 
   body("title")
@@ -57,4 +57,4 @@ const validateNewTour = [
     .toFloat(),
 ];
 
-module.exports = { validateNewTour };
+module.exports = { validateUpdatedTour };

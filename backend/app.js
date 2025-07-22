@@ -1,11 +1,13 @@
 const express = require('express');
 const authRoutes = require('./routes/authRoutes');
 const toursRoutes = require('./routes/toursRoutes')
+const cookieParser = require('cookie-parser');
 
 
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 
 
 app.get('/', (req, res) => {
@@ -13,7 +15,6 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/v1', authRoutes);
-app.use('/api/v1/tours', toursRoutes);
-
+app.use('/api/v1/excursions', toursRoutes);
 
 module.exports = app;

@@ -9,7 +9,9 @@ exports.createTour = async (newTour) => {
         "duration",
         "dates",
         "price",
-        "category_id"
+        "category_id",
+        "description",
+        "location"
       )}
          RETURNING *;
       `;

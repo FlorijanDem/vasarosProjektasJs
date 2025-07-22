@@ -31,3 +31,10 @@
 -`POST /api/v1/signup` - Signup
    -Body: `{ "email: "Example email", "password": "Example password", "passwordconfirm": "Example passwordconfirm"}`
 -`GET /api/v1/logout` - Logout
+
+Tour Managment
+-`POST /api/v1/excursions` - add a Tour
+   -body: `{ "title": "example title", "photo_url": "example photo_url", "duration": "example duration", "dates": "example date", "price": "example price", "category_id": "example category_id", "description": "example description", "location": "example location" }`
+-`PUT /api/v1/excursions/:id` - edit Tour
+   -body: `{ "title": "example title", "photo_url": "example photo_url", "duration": "example duration", "dates": "example date", "price": "example price", "category_id": "example category_id", "description": "example description", "location": "example location" }`
+-`DELETE /api/v1/excursions/:id` - delete a Tour by id
