@@ -111,10 +111,8 @@ async function createTables() {
     `;
 
     console.log('✅ All tables created successfully!');
-    process.exit(0);
   } catch (error) {
     console.error('❌ Error while creating tables:', error);
-    process.exit(1);
   }
 }
 
