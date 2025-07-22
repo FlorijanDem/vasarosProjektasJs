@@ -1,4 +1,4 @@
-const { createTour } = require("../models/toursModel");
+const { createTour, deleteTour } = require("../models/toursModel");
 const { validationResult } = require("express-validator");
 
 exports.createTour = async (req, res, next) => {
@@ -21,3 +21,21 @@ exports.createTour = async (req, res, next) => {
     }
   };
 
+  exports.deleteTour = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+  
+      const tour = await deleteTour(id);
+  
+      if (!tour) {
+        throw new AppError('tour not found', 404);
+      }
+  
+      res.status(200).json({
+        status: 'success',
+        data: tour,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };

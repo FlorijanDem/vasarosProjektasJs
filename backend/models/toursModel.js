@@ -16,3 +16,11 @@ exports.createTour = async (newTour) => {
   return tour[0];
 };
 
+exports.deleteTour = async (id) => {
+  const tour = await sql`
+   DELETE FROM tours
+   WHERE tours.id = ${id}
+   returning *
+    `;
+  return tour;
+};
