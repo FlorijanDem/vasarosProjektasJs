@@ -39,6 +39,8 @@
 
 -`POST /api/v1/login` - Login
    -Body: `{ "email": "Example email", "password": "Example password"}`
+   
 -`POST /api/v1/signup` - Signup
    -Body: `{ "email: "Example email", "password": "Example password", "passwordconfirm": "Example passwordconfirm"}`
+   
 -`GET /api/v1/logout` - Logout
