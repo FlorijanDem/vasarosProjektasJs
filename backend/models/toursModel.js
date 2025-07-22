@@ -15,3 +15,4 @@ exports.createTour = async (newTour) => {
       `;
   return tour[0];
 };
+
