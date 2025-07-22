@@ -1,15 +1,15 @@
-const {sql} = require('../utils/postgres')
+const { sql } = require("../utils/postgres");
 
 exports.createTour = async (newTour) => {
   const tour = await sql`
       INSERT INTO tours ${sql(
         newTour,
-        'title',
-        'photo_url',
-        'duration',
-        'dates',
-        'price',
-        'category_id'
+        "title",
+        "photo_url",
+        "duration",
+        "dates",
+        "price",
+        "category_id"
       )}
          RETURNING *;
       `;
@@ -23,4 +23,21 @@ exports.deleteTour = async (id) => {
    returning *
     `;
   return tour;
+};
+
+exports.updateTour = async (id, updatedTour) => {
+  const tour = await sql`
+    update tours set ${sql(
+      updatedTour,
+      "title",
+      "photo_url",
+      "duration",
+      "dates",
+      "price",
+      "category_id"
+    )}
+    where id = ${id}
+    returning *;
+  `;
+  return tour[0];
 };

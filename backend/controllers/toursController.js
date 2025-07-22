@@ -1,4 +1,4 @@
-const { createTour, deleteTour } = require("../models/toursModel");
+const { createTour, deleteTour, updateTour } = require("../models/toursModel");
 const { validationResult } = require("express-validator");
 
 exports.createTour = async (req, res, next) => {
@@ -34,6 +34,36 @@ exports.createTour = async (req, res, next) => {
       res.status(200).json({
         status: 'success',
         data: tour,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  exports.updateTour = async (req, res, next) => {
+    try {
+      const id = req.params.id;
+  
+      const newTour = req.body;
+  
+      if (!newTour || !newTour.title || !newTour.duration || !newTour.dates || !newTour.price || !newTour.category_id) {
+  
+        throw new AppError(
+          'Missing required fields: title, duration, dates, price, category_id',
+          400
+        );
+      }
+  
+      const updatedTour = await updateTour(id, newTour);
+  
+      if (!updatedTour) {
+  
+        throw new AppError('Invalid id, tour not found and not updated', 404);
+      }
+  
+      res.status(200).json({
+        status: 'success',
+        data: updatedTour,
       });
     } catch (error) {
       next(error);
