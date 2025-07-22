@@ -1,60 +1,53 @@
-const { body } = require('express-validator');
+const { body } = require("express-validator");
 
 const validateNewTour = [
-  body().notEmpty().withMessage('Request body must contain data'),
+  body().notEmpty().withMessage("Request body must contain data"),
 
-  body('title')
+  body("title")
     .isString()
-    .withMessage('Title must be a string')
+    .withMessage("Title must be a string")
     .isLength({ min: 3, max: 100 })
-    .withMessage('Name must be between 3 and 100 characters')
+    .withMessage("Name must be between 3 and 100 characters")
     .notEmpty()
-    .withMessage('Name is required'),
+    .withMessage("Name is required"),
 
+  body("photo_url")
+    .isLength({ min: 3, max: 1000 })
+    .withMessage("photo_url must not be longer than 1000 characters"),
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-  body('price')
+  body("duration")
     .isInt({ min: 1 })
-    .withMessage('price must be a positive integer')
+    .withMessage("duration must be a positive integer")
     .notEmpty()
-    .withMessage('price is required')
+    .withMessage("duration is required")
     .toFloat(),
 
-  body('description')
-    .isString()
-    .withMessage('description must be a string')
-    .isLength({ min: 3, max: 100 })
-    .withMessage('Name must be between 3 and 100 characters')
+  body("dates")
     .notEmpty()
-    .withMessage('description is required'),
+    .withMessage("Date is required")
+    .isISO8601()
+    .withMessage("Date must be a valid ISO 8601 date")
+    .custom((value) => {
+      const inputDate = new Date(value);
+      const now = new Date();
+      if (inputDate < now) {
+        throw new Error("Date cannot be in the past");
+      }
+      return true;
+    }),
 
-  body('category_id')
+  body("price")
     .isInt({ min: 1 })
-    .withMessage('category_id must be a positive integer')
+    .withMessage("price must be a positive integer")
     .notEmpty()
-    .withMessage('category_id is required')
+    .withMessage("price is required")
+    .toFloat(),
+
+  body("category_id")
+    .isInt({ min: 1 })
+    .withMessage("category_id must be a positive integer")
+    .notEmpty()
+    .withMessage("category_id is required")
     .toFloat(),
 ];
 
