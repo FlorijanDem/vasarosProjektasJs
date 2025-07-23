@@ -8,49 +8,37 @@
 // make the same functionallity with JavaScript and HTML
 // also posible
 
-import { useForm } from "react-hook-form";
-import { Link } from "react-router";
-import axios from "axios";
+import { useForm} from "react-hook-form";
+import axios from 'axios';
 import { useState } from "react";
-import RegisterModal from "../Register/RegisterModal";
 
-const LoginModal = ({ isOpen, onClose }) => {
-  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+const RegisterModal = ({ isOpen, onClose }) => {
+  const [errorMessage, setErrorMessage] = useState('');
   const {
     register,
     handleSubmit,
+    // getValues,
     formState: { errors },
   } = useForm();
-  if (isRegisterOpen) {
-    return (
-      <RegisterModal
-        isOpen={true}
-        onClose={() => setIsRegisterOpen(false)}
-      />
-    );
-  }
-
-  if (!isOpen && !isRegisterOpen) return null;
+  if (!isOpen) return null;
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/v1/login",
-        {
-          email: data.email,
-          password: data.password,
-        },
-        {
-          withCredentials: true,
-        }
-      );
-      console.log(response.data);
-      if (response.data.status === "success") {
+      const response = await axios.post('http://localhost:3000/api/v1/signup', {
+        email: data.email,
+        password: data.password,
+        passwordconfirm: data.passwordconfirm,
+      },
+    {
+      withCredentials: true,
+    }
+    );
+      console.log(response.data)
+      if(response.data.status === "success"){
         onClose();
       }
     } catch (error) {
-      console.error("Login failed:", error.response?.data || error.message);
-      setErrorMessage(error.response?.data?.message || "Login failed");
+      console.error('Registration failed:', error.response?.data || error.message);
+      setErrorMessage(error.response?.data?.message || 'Registration failed.');
     }
   };
   return (
@@ -59,13 +47,13 @@ const LoginModal = ({ isOpen, onClose }) => {
         <button onClick={onClose} className="text-[3rem] self-end px-8">
           x
         </button>
-        <h2 className="text-3xl font-semibold text-center">Log in</h2>
+        <h2 className="text-3xl font-semibold text-center">Registration</h2>
         <div className="flex w-full h-4/5 justify-center items-center">
           <form
             className="flex flex-col h-1/2 w-full justify-center items-center gap-12"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <p className="text-3xl text-red-400">{errorMessage}</p>
+             <p className="text-3xl text-red-400">{errorMessage}</p>
             <input
               className="border-2 rounded-2xl h-4/16 w-6/10 p-8 text-[2rem] max-lg:w-8/10 "
               type="email"
@@ -88,32 +76,27 @@ const LoginModal = ({ isOpen, onClose }) => {
                 Password is required
               </p>
             )}
-
-            <Link>
-              <p className="text-[1.25rem]">Forgot password</p>
-            </Link>
-            <div className="flex gap-2 text-[1.25rem]">
-              <p>Don't have an account?</p>
-              <button
-                onClick={() => {
-                  setIsRegisterOpen(true);
-                  onClose();
-                }}
-                className="text-gray-900"
-              >
-                Register here
-              </button>
-            </div>
+            <input
+              className="border-2 rounded-2xl p-8 h-4/16 w-6/10 text-[2rem] max-lg:w-8/10"
+              type="password"
+              {...register("passwordconfirm", { required: true})}
+              placeholder="Confirm Password"
+            />
+            {errors.password && (
+              <p className="text-red-700 font-semibold text-2xl">
+                Confirm Password is required
+              </p>
+            )}
             <input
               type="submit"
-              value="Log in"
+              value="Register"
               className=" bg-white rounded-2xl border-2 h-2/16 w-2/16 text-[1.75rem]"
             />
           </form>
         </div>
       </div>
     </div>
-  );  
+  );
 };
 
-export default LoginModal;
+export default RegisterModal;
