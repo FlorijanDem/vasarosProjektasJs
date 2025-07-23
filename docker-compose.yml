@@ -26,6 +26,9 @@ services:
       - DB_USER=student
       - DB_PASSWORD=goodPassword
       - DB_NAME=summer
+      - JWT_SECRET=goodPassword
+      - JWT_EXPIRES_IN=90d
+      - JWT_COOKIE_EXPIRES_IN=90
     depends_on:
       - db
 
