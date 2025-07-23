@@ -12,26 +12,16 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router";
 import axios from "axios";
 import { useState } from "react";
-import RegisterModal from "../Register/RegisterModal";
+
 
 const LoginModal = ({ isOpen, onClose }) => {
-  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  if (isRegisterOpen) {
-    return (
-      <RegisterModal
-        isOpen={true}
-        onClose={() => setIsRegisterOpen(false)}
-      />
-    );
-  }
-
-  if (!isOpen && !isRegisterOpen) return null;
+  if (!isOpen) return null;
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
@@ -94,12 +84,7 @@ const LoginModal = ({ isOpen, onClose }) => {
             </Link>
             <div className="flex gap-2 text-[1.25rem]">
               <p>Don't have an account?</p>
-              <button
-                onClick={() => {
-                  setIsRegisterOpen(true);
-                  onClose();
-                }}
-                className="text-gray-900"
+              <button className="text-gray-900"
               >
                 Register here
               </button>
