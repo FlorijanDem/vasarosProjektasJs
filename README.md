@@ -19,7 +19,7 @@ Make sure Docker and Docker Compose are installed on your system:
 
 ```bash
 docker --version
-docker-compose --version
+docker compose version
 ```
 
 ---
