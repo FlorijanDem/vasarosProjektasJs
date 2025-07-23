@@ -16,11 +16,17 @@ This project includes:
 #### 1. **Install Docker and Docker Compose**
 
 Make sure Docker and Docker Compose are installed on your system:
-
+On unix
 ```bash
 docker --version
 docker compose version
 ```
+On windows 
+```bash
+docker --version
+docker-compose version
+```
+
 
 ---
 
@@ -47,8 +53,14 @@ project-root/
 
 From the root directory:
 
+On unix
 ```bash
 docker compose up --build
+```
+
+On windows
+```bash
+docker-compose up --build
 ```
 
 This will:
@@ -62,15 +74,26 @@ This will:
 #### 4. **Stop the Services**
 
 To stop all services:
-
+On unix
 ```bash
 docker compose down
 ```
+On windows
+```bash
+docker-compose down
+```
+
+
 
 To remove volumes too (i.e., reset the database):
-
+On unix
 ```bash
 docker compose down -v
+```
+
+On windows
+```bash
+docker-compose down -v
 ```
 
 ---
