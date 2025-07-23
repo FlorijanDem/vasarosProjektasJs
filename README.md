@@ -48,7 +48,7 @@ project-root/
 From the root directory:
 
 ```bash
-docker-compose up --build
+docker compose up --build
 ```
 
 This will:
@@ -64,13 +64,13 @@ This will:
 To stop all services:
 
 ```bash
-docker-compose down
+docker compose down
 ```
 
 To remove volumes too (i.e., reset the database):
 
 ```bash
-docker-compose down -v
+docker compose down -v
 ```
 
 ---
