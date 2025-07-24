@@ -85,7 +85,7 @@ const LoginModal = ({ isOpen, onClose, onSwitchRegister }) => {
             </Link>
             <div className="flex gap-2 text-[1.25rem]">
               <p>Don't have an account?</p>
-              <button onClick={() => {
+              <button type="button" onClick={() => {
                 onClose();
                 onSwitchRegister();
               }}className="text-gray-900"
