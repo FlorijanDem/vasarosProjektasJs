@@ -4,6 +4,26 @@ import ModalController from "../../pages/Login/ModalController";
 
 const Nav = () => {
   const [showAuth, setShowAuth] = useState(false);
+  const [showLogin, setShowLogin] = useState(true);
+  const [showRegister, setShowRegister] = useState(false);
+
+  const openAuth = (type) => {
+    setShowAuth(true);
+    setShowLogin(type === "login");
+    setShowRegister(type === "register");
+  };
+
+  const closeLogin = () => {
+    setShowLogin(false);
+  };
+  const closeRegister = () => {
+    setShowRegister(false);
+    setShowAuth(false);
+  };
+  const openRegister = () => {
+    setShowRegister(true);
+    setShowLogin(false);
+  };
 
   return (
     <nav className="w-full flex-row flex h-[8rem] bg-white sticky shadow-[0rem_0.125rem_0.25rem_0rem_rgba(0,0,0,0.0562)] items-center px-8 max-md:px-4 max-lg:px-12 top-0">
@@ -16,7 +36,7 @@ const Nav = () => {
         <div className="flex gap-2 w-1/3 ">
           <img src={moon} alt="Sign up icon" className="max-md:hidden" />
           <button
-            onClick={() => setShowAuth(true)}
+            onClick={() => openAuth("register")}
             className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer"
           >
             Sign up
@@ -25,7 +45,7 @@ const Nav = () => {
         <div className="flex gap-2 w-1/3">
           <img src={moon} alt="Log in icon" className="max-md:hidden" />
           <button
-            onClick={() => setShowAuth(true)}
+            onClick={() => openAuth("login")}
             className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer"
           >
             Log in
@@ -40,7 +60,11 @@ const Nav = () => {
       </div>
       {showAuth && (
         <ModalController
-          onCloseAll={() => setShowAuth(false)}
+          showLogin={showLogin}
+          showRegister={showRegister}
+          openRegister={openRegister}
+          closeLogin={closeLogin}
+          closeRegister={closeRegister}
         />
       )}
     </nav>
