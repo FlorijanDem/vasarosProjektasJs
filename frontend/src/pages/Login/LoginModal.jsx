@@ -14,7 +14,7 @@ import axios from "axios";
 import { useState } from "react";
 
 
-const LoginModal = ({ isOpen, onClose }) => {
+const LoginModal = ({ isOpen, onClose, onSwitchRegister }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const {
     register,
@@ -46,6 +46,7 @@ const LoginModal = ({ isOpen, onClose }) => {
   return (
     <div className="fixed inset-0 z-10 flex items-center justify-center max-lg:p-4 bg- bg-[#D9D9D9]/[var(--bg-opacity)] [--bg-opacity:40%] backdrop-blur-xs">
       <div className="rounded-[1.25rem] bg-white relative w-1/3 h-2/3 flex flex-col items-center max-lg:w-full shadow-2xl  ">
+
         <button onClick={onClose} className="text-[3rem] self-end px-8">
           x
         </button>
@@ -84,7 +85,10 @@ const LoginModal = ({ isOpen, onClose }) => {
             </Link>
             <div className="flex gap-2 text-[1.25rem]">
               <p>Don't have an account?</p>
-              <button className="text-gray-900"
+              <button onClick={() => {
+                onClose();
+                onSwitchRegister();
+              }}className="text-gray-900"
               >
                 Register here
               </button>
