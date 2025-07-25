@@ -11,7 +11,7 @@ exports.createUser = async (newUser) => {
     )}
     RETURNING *
     `;
-    return user;
+    return user[0];
 };
 
 exports.getUserByEmail = async (email) => {
