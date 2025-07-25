@@ -24,9 +24,8 @@ async function createTables() {
     await sql`
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
-        name VARCHAR(100) NOT NULL,
         email VARCHAR(100) NOT NULL UNIQUE,
-        password_hash TEXT NOT NULL,
+        password TEXT NOT NULL,
         role_id INTEGER,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         CONSTRAINT users_role_id_fkey FOREIGN KEY (role_id)
@@ -111,10 +110,8 @@ async function createTables() {
     `;
 
     console.log('✅ All tables created successfully!');
-    process.exit(0);
   } catch (error) {
     console.error('❌ Error while creating tables:', error);
-    process.exit(1);
   }
 }
 
