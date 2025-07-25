@@ -3,12 +3,16 @@ const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const argon2 = require("argon2");
 
-const signToken = (id) => {
-  const token = jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN,
-  });
-  return token;
+const signToken = (user) => {
+  return jwt.sign(
+    { id: user.id, role: user.role },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: process.env.JWT_EXPIRES_IN,
+    }
+  );
 };
+
 
 const sendTokenCookie = (token, res) => {
   const cookieOptions = {
@@ -38,7 +42,7 @@ exports.signup = async (req, res, next) => {
       throw new AppError("User not created", 400);
     }
 
-    const token = signToken(createdUser.id);
+    const token = signToken(createdUser);
 
     sendTokenCookie(token, res);
 
@@ -70,12 +74,12 @@ exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const user = await getUserByEmail(email);
+    console.log('User from DB:', user);
 
-    const token = signToken(user.id);
+    const token = signToken(user);
     sendTokenCookie(token, res);
 
     user.password = undefined;
-    user.id = undefined;
 
     res.status(200).json({
       status: "success",

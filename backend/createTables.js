@@ -19,14 +19,13 @@ async function createTables() {
         name VARCHAR(100) NOT NULL
       );
     `;
-
+    
     // Table users
     await sql`
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
-        name VARCHAR(100) NOT NULL,
         email VARCHAR(100) NOT NULL UNIQUE,
-        password_hash TEXT NOT NULL,
+        password TEXT NOT NULL,
         role_id INTEGER,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         CONSTRAINT users_role_id_fkey FOREIGN KEY (role_id)
@@ -46,6 +45,8 @@ async function createTables() {
         dates TEXT,
         price NUMERIC(10, 2) NOT NULL,
         category_id INTEGER,
+        description VARCHAR(200),
+        location VARCHAR(200),
         view_count INTEGER DEFAULT 0,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         CONSTRAINT tours_category_id_fkey FOREIGN KEY (category_id)
