@@ -20,8 +20,10 @@
     "test": "jest"
   },
   "dependencies": {
+    "@types/jest": "^30.0.0",
     "argon2": "^0.43.1",
     "bcryptjs": "^3.0.2",
+    "body-parser": "^2.2.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.0",
