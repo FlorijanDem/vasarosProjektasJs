@@ -2,6 +2,8 @@ const { createUser, getUserByEmail } = require("../models/authModel");
 const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const argon2 = require("argon2");
+const { logAuthEvent } = require('../utils/logger');
+
 
 const signToken = (id) => {
   const token = jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -42,6 +44,13 @@ exports.signup = async (req, res, next) => {
 
     sendTokenCookie(token, res);
 
+    //registration logger
+     await logAuthEvent({
+      userId: createdUser.id,
+      email: createdUser.email,
+      eventType: "registration",
+    });
+
     createdUser.password = undefined;
     createdUser.id = undefined;
 
@@ -54,11 +63,27 @@ exports.signup = async (req, res, next) => {
   }
 };
 
-exports.logout = (req, res) => {
-  return res
-    .clearCookie("jwt")
-    .status(200)
-    .json({ message: "You're now logged out." });
+exports.logout = async (req, res) => {
+  try {
+    // logout logger
+    const token = req.cookies.jwt;
+    if (token) {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      await logAuthEvent({
+        userId: decoded.id,
+        email: null,
+        eventType: "logout",
+      });
+    }
+
+    return res
+      .clearCookie("jwt")
+      .status(200)
+      .json({ message: "You're now logged out." });
+  } catch (err) {
+    console.error('Logout error;', err);
+    return res.status(400).json({ message: "Logout failed." });
+  }
 };
 
 exports.login = async (req, res, next) => {
@@ -73,6 +98,13 @@ exports.login = async (req, res, next) => {
 
     const token = signToken(user.id);
     sendTokenCookie(token, res);
+
+    //login logger
+    await logAuthEvent({
+      userId: user.id,
+      email: user.email,
+      eventType: "login",
+    });
 
     user.password = undefined;
     user.id = undefined;
