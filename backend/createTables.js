@@ -45,6 +45,8 @@ async function createTables() {
         dates TEXT,
         price NUMERIC(10, 2) NOT NULL,
         category_id INTEGER,
+        description VARCHAR(200),
+        location VARCHAR(200),
         view_count INTEGER DEFAULT 0,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         CONSTRAINT tours_category_id_fkey FOREIGN KEY (category_id)
