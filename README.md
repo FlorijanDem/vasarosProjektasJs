@@ -16,11 +16,13 @@ This project includes:
 #### 1. **Install Docker and Docker Compose**
 
 Make sure Docker and Docker Compose are installed on your system:
+
 On unix
 ```bash
 docker --version
 docker compose version
 ```
+
 On windows 
 ```bash
 docker --version
@@ -69,15 +71,21 @@ This will:
 * Start the Vite dev server at [http://localhost:5173](http://localhost:5173)
 * Create a PostgreSQL database (host: `db`, user: `student`, password: `goodPassword`, db: `summer`)
 
+Start with pgadmin:
+
+If you want to start with preconfigured pgadmin you must uncomment it in docker-compose.yml
+
 ---
 
 #### 4. **Stop the Services**
 
 To stop all services:
+
 On unix
 ```bash
 docker compose down
 ```
+
 On windows
 ```bash
 docker-compose down
