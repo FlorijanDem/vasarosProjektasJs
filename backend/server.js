@@ -5,8 +5,8 @@ const { createTables } = require('./createTables');
 
 const PORT = process.env.PORT || 3000;
 
-const MAX_RETRIES = 10;
-const RETRY_DELAY_MS = 3000;
+const MAX_RETRIES = process.env.MAX_RETRIES || 10;
+const RETRY_DELAY_MS = process.env.RETRY_DELAY_MS || 3000;
 
 async function waitForDatabaseConnection(retries = MAX_RETRIES) {
   for (let attempt = 1; attempt <= retries; attempt++) {
