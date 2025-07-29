@@ -60,7 +60,7 @@ const Nav = () => {
       <div className="flex w-1/4 max-2xl:w-1/2 justify-between ">
         <div className="flex gap-2 w-1/3 ">
           <button className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer">
-            Email
+            My Dashboard
           </button>
         </div>
         <div className="flex gap-2 w-1/3">
