@@ -10,15 +10,6 @@
 
 2. Create a `.env` file (see `.env.example` for reference):
 
-   ```env
-   PORT=3000
-   DB_HOST=localhost
-   DB_PORT=5432
-   DB_NAME=summer
-   DB_USER=student
-   DB_PASSWORD=goodPassword
-   ```
-
 3. Start the server:
    ```bash
    npm run dev
