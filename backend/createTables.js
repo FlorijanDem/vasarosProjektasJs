@@ -2,16 +2,6 @@ const { sql, testConnection } = require('./utils/postgres');
 
 async function createTables() {
   try {
-    await testConnection();
-
-    // Table roles
-    await sql`
-      CREATE TABLE IF NOT EXISTS roles (
-        id SERIAL PRIMARY KEY,
-        name VARCHAR(50) NOT NULL
-      );
-    `;
-
     // Table categories
     await sql`
       CREATE TABLE IF NOT EXISTS categories (
@@ -24,15 +14,10 @@ async function createTables() {
     await sql`
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
-        name VARCHAR(100) NOT NULL,
         email VARCHAR(100) NOT NULL UNIQUE,
-        password_hash TEXT NOT NULL,
-        role_id INTEGER,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        CONSTRAINT users_role_id_fkey FOREIGN KEY (role_id)
-          REFERENCES roles(id)
-          ON UPDATE NO ACTION
-          ON DELETE NO ACTION
+        password TEXT NOT NULL,
+        role VARCHAR(50) DEFAULT 'user',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `;
 
