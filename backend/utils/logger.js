@@ -1,17 +1,17 @@
-const { sql } = require('./postgres');
+const { sql } = require("./postgres");
 
 async function logAuthEvent({ userId, email, eventType }) {
   try {
-    let description = '';
+    let description = "";
 
     switch (eventType) {
-      case 'registration':
+      case "registration":
         description = `User with ID ${userId} registered`;
         break;
-      case 'login':
+      case "login":
         description = `User with ID ${userId} logged in`;
         break;
-      case 'logout':
+      case "logout":
         description = `User with ID ${userId} logged out`;
         break;
       default:
@@ -19,11 +19,11 @@ async function logAuthEvent({ userId, email, eventType }) {
     }
 
     await sql`
-      INSERT INTO logs (user_id, email, event_type, description)
-      VALUES (${userId}, ${email}, ${eventType}, ${description});
+      INSERT INTO logs (user_id, action, description)
+      VALUES (${userId}, ${eventType}, ${description});
     `;
   } catch (error) {
-    console.error('Logging failed:', error);
+    console.error("Logging failed:", error);
   }
 }
 
