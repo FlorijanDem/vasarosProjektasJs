@@ -3,7 +3,7 @@
 services:
   db:
     image: postgres:latest
-    # You need do not extra if you do it
+    # Do not run with extra if you do it
     # Uncomment if you want to connect to db outside of docker
     # ports:
     #   - "5432:5432"
