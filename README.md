@@ -85,7 +85,18 @@ docker-compose -f docker-compose.yml -f docker-compose.extra.yml up --build
 
 ---
 
-#### 4. **Stop the Services**
+### 4. **Passwords**
+
+Pgadmin:
+
+login=`admin@admin.com`
+password=`admin`
+
+DB_PASSWORD:
+
+password=`goodPassword`
+
+#### 5. **Stop the Services**
 
 To stop all services:
 
@@ -114,13 +125,13 @@ docker-compose down -v
 
 ---
 
-#### 5. **Debugging Tips**
+#### 6. **Debugging Tips**
 
 * If the frontend is not accessible, make sure Vite is configured to use `--host`.
 * If things run slowly, avoid mounting `node_modules`, or use Docker's `host` networking mode on Linux.
 
 
-#### 6. **Posible problems**
+#### 7. **Posible problems**
 
 * If you get `Error response from daemon: failed to set up container networking: network`
 you must 
