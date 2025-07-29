@@ -20,7 +20,8 @@ services:
     ports:
       - "3000:3000"
     restart: always
-    command: ["./wait-for-postgres.sh", "db", "npm", "run", "start"]
+    # command: ["./wait-for-postgres.sh", "db", "npm", "run", "start"]
+    command: ["npm", "run", "start"]
 
     environment:
       - DB_HOST=db
