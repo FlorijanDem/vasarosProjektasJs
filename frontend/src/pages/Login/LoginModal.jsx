@@ -9,7 +9,6 @@
 // also posible
 
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
 import axios from "axios";
 import { useState } from "react";
 
@@ -94,7 +93,6 @@ const LoginModal = ({ isOpen, onClose, onSwitchRegister }) => {
                 Password is required
               </p>
             )}
-
 
             <div className="flex gap-2 text-[1.25rem]">
               <p>Don't have an account?</p>
