@@ -13,7 +13,6 @@ import { Link } from "react-router";
 import axios from "axios";
 import { useState } from "react";
 
-
 const LoginModal = ({ isOpen, onClose, onSwitchRegister }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const {
@@ -40,17 +39,27 @@ const LoginModal = ({ isOpen, onClose, onSwitchRegister }) => {
       }
     } catch (error) {
       const errors = error.response?.data?.errors;
-  setErrorMessage(
-    error.response?.data?.message ||
-    (Array.isArray(errors) ? errors.map(e => e.msg).join("\n") : "Registration failed")
-  );
-  console.error('Registration failed:', error.response?.data || error.message);
+      setErrorMessage(
+        error.response?.data?.message ||
+          (Array.isArray(errors)
+            ? errors.map((e) => e.msg).join("\n")
+            : "Registration failed")
+      );
+      console.error(
+        "Registration failed:",
+        error.response?.data || error.message
+      );
     }
   };
   return (
-    <div className="fixed inset-0 z-10 flex items-center justify-center max-lg:p-4 bg- bg-[#D9D9D9]/[var(--bg-opacity)] [--bg-opacity:40%] backdrop-blur-xs">
-      <div className="rounded-[1.25rem] bg-white relative w-1/3 h-2/3 flex flex-col items-center max-lg:w-full shadow-2xl max-lg:h-9/10 ">
-
+    <div
+      className="fixed inset-0 z-10 flex items-center justify-center max-lg:p-4 bg- bg-[#D9D9D9]/[var(--bg-opacity)] [--bg-opacity:40%] backdrop-blur-xs"
+      onClick={onClose}
+    >
+      <div
+        className="rounded-[1.25rem] bg-white relative w-1/3 h-2/3 flex flex-col items-center max-xl:w-full shadow-2xl max-xl:h-full "
+        onClick={(e) => e.stopPropagation()}
+      >
         <button onClick={onClose} className="text-[3rem] self-end px-8">
           x
         </button>
@@ -59,8 +68,10 @@ const LoginModal = ({ isOpen, onClose, onSwitchRegister }) => {
             className="flex flex-col h-1/2 w-full justify-center items-center gap-12"
             onSubmit={handleSubmit(onSubmit)}
           >
-             <h2 className="text-3xl font-semibold text-center">Log in</h2>
-            <pre className="text-2xl text-red-400 font-light max-xl:text-xl">{errorMessage}</pre>
+            <h2 className="text-3xl font-semibold text-center">Log in</h2>
+            <pre className="text-2xl text-red-400 font-light max-xl:text-xl">
+              {errorMessage}
+            </pre>
             <input
               className="border-2 rounded-2xl h-4/16 w-6/10 p-8 text-[2rem] max-lg:w-8/10 "
               type="email"
@@ -84,15 +95,16 @@ const LoginModal = ({ isOpen, onClose, onSwitchRegister }) => {
               </p>
             )}
 
-            <Link>
-              <p className="text-[1.25rem]">Forgot password</p>
-            </Link>
+
             <div className="flex gap-2 text-[1.25rem]">
               <p>Don't have an account?</p>
-              <button type="button" onClick={() => {
-                onClose();
-                onSwitchRegister();
-              }}className="text-gray-900"
+              <button
+                type="button"
+                onClick={() => {
+                  onClose();
+                  onSwitchRegister();
+                }}
+                className="text-gray-900"
               >
                 Register here
               </button>
@@ -100,13 +112,13 @@ const LoginModal = ({ isOpen, onClose, onSwitchRegister }) => {
             <input
               type="submit"
               value="Log in"
-              className=" bg-white rounded-2xl border-2 h-2/16 w-2/16 text-[1.75rem] justify-center max-xl:text-[1.25rem]"
+              className=" bg-white rounded-2xl border-2 h-2/16 w-2/16 text-[1.75rem] justify-center max-xl:text-[1.25rem] max-xl:h-2/16"
             />
           </form>
         </div>
       </div>
     </div>
-  );  
+  );
 };
 
 export default LoginModal;
