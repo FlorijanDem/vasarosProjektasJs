@@ -96,7 +96,7 @@ const LoginModal = ({ isOpen, onClose, onSwitchRegister }) => {
             <input
               type="submit"
               value="Log in"
-              className=" bg-white rounded-2xl border-2 h-2/16 w-2/16 text-[1.75rem]"
+              className=" bg-white rounded-2xl border-2 h-2/16 w-2/16 text-[1.75rem] justify-center max-xl:text-[1.25rem]"
             />
           </form>
         </div>

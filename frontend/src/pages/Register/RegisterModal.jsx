@@ -90,7 +90,7 @@ const RegisterModal = ({ isOpen, onClose }) => {
             <input
               type="submit"
               value="Register"
-              className=" bg-white rounded-2xl border-2 h-2/16 w-2/16 text-[1.75rem]"
+              className=" bg-white rounded-2xl border-2 h-2/16 w-2/16 text-[1.75rem] max-xl:text-[1.25rem] max-xl:h-3/16 max-xl:w-3/16"
             />
           </form>
         </div>
