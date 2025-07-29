@@ -37,36 +37,41 @@ const RegisterModal = ({ isOpen, onClose }) => {
         onClose();
       }
     } catch (error) {
-      console.error('Registration failed:', error.response?.data || error.message);
-      setErrorMessage(error.response?.data?.message || 'Registration failed.');
+  const errors = error.response?.data?.errors;
+  setErrorMessage(
+    error.response?.data?.message ||
+    (Array.isArray(errors) ? errors.map(e => e.msg).join("\n") : "Registration failed")
+  );
+  console.error('Registration failed:', error.response?.data || error.message);
     }
   };
   return (
     <div className="fixed inset-0 z-10 flex items-center justify-center max-lg:p-4 bg- bg-[#D9D9D9]/[var(--bg-opacity)] [--bg-opacity:40%] backdrop-blur-xs">
-      <div className="rounded-[1.25rem] bg-white relative w-1/3 h-2/3 flex flex-col items-center max-lg:w-full shadow-2xl  ">
+      <div className="rounded-[1.25rem] bg-white relative w-1/3 h-4/5 flex flex-col items-center max-lg:w-full shadow-2xl max-xl:h-full ">
         <button onClick={onClose} className="text-[3rem] self-end px-8">
           x
         </button>
         <h2 className="text-3xl font-semibold text-center">Registration</h2>
         <div className="flex w-full h-4/5 justify-center items-center">
           <form
-            className="flex flex-col h-1/2 w-full justify-center items-center gap-12"
+            className="flex flex-col h-2/3 w-full justify-center items-center gap-12"
             onSubmit={handleSubmit(onSubmit)}
           >
-             <p className="text-3xl text-red-400">{errorMessage}</p>
+            <pre className="text-xl text-red-400 text-center max-xl:text-[0.95rem]">{errorMessage}</pre>
             <input
-              className="border-2 rounded-2xl h-4/16 w-6/10 p-8 text-[2rem] max-lg:w-8/10 "
+              className="border-2 rounded-2xl h-3/16 w-7/10 p-8 text-[2rem] max-xl:w-8/10 max-xl:h-2/16 "
               type="email"
-              {...register("email", { required: true })}
+              {...register("email", { required: true, maxLength:50 })}
               placeholder="Email"
             />
-            {errors.email && (
-              <p className="text-red-700 font-semibold text-2xl">
-                Email is required
-              </p>
-            )}
+            {errors.email && errors.email.type === "required" && (
+        <p className="text-red-700 font-semibold text-2xl">Email is required</p>
+      )}
+            {errors.email && errors.email.type === "maxLength" && (
+        <p className="text-red-700 font-semibold text-2xl">Email is allowed up to 50 characters</p>
+      )}
             <input
-              className="border-2 rounded-2xl p-8 h-4/16 w-6/10 text-[2rem] max-lg:w-8/10"
+              className="border-2 rounded-2xl h-3/16 w-7/10 p-8 text-[2rem] max-xl:w-8/10 max-xl:h-2/16 "
               type="password"
               {...register("password", { required: true })}
               placeholder="Password"
@@ -77,12 +82,12 @@ const RegisterModal = ({ isOpen, onClose }) => {
               </p>
             )}
             <input
-              className="border-2 rounded-2xl p-8 h-4/16 w-6/10 text-[2rem] max-lg:w-8/10"
+              className="border-2 rounded-2xl h-3/16 w-7/10 p-8 text-[2rem] max-xl:w-8/10 max-xl:h-2/16 "
               type="password"
               {...register("passwordconfirm", { required: true})}
               placeholder="Confirm Password"
             />
-            {errors.password && (
+            {errors.passwordconfirm && (
               <p className="text-red-700 font-semibold text-2xl">
                 Confirm Password is required
               </p>
@@ -90,7 +95,7 @@ const RegisterModal = ({ isOpen, onClose }) => {
             <input
               type="submit"
               value="Register"
-              className=" bg-white rounded-2xl border-2 h-2/16 w-2/16 text-[1.75rem] max-xl:text-[1.25rem] max-xl:h-3/16 max-xl:w-3/16"
+              className=" bg-white rounded-2xl border-2 h-2/16 w-3/16 text-[1.75rem] max-xl:text-[1.25rem] max-xl:h-3/16 max-xl:w-3/16"
             />
           </form>
         </div>

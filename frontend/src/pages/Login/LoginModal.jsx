@@ -39,24 +39,28 @@ const LoginModal = ({ isOpen, onClose, onSwitchRegister }) => {
         onClose();
       }
     } catch (error) {
-      console.error("Login failed:", error.response?.data || error.message);
-      setErrorMessage(error.response?.data?.message || "Login failed");
+      const errors = error.response?.data?.errors;
+  setErrorMessage(
+    error.response?.data?.message ||
+    (Array.isArray(errors) ? errors.map(e => e.msg).join("\n") : "Registration failed")
+  );
+  console.error('Registration failed:', error.response?.data || error.message);
     }
   };
   return (
     <div className="fixed inset-0 z-10 flex items-center justify-center max-lg:p-4 bg- bg-[#D9D9D9]/[var(--bg-opacity)] [--bg-opacity:40%] backdrop-blur-xs">
-      <div className="rounded-[1.25rem] bg-white relative w-1/3 h-2/3 flex flex-col items-center max-lg:w-full shadow-2xl  ">
+      <div className="rounded-[1.25rem] bg-white relative w-1/3 h-2/3 flex flex-col items-center max-lg:w-full shadow-2xl max-lg:h-9/10 ">
 
         <button onClick={onClose} className="text-[3rem] self-end px-8">
           x
         </button>
-        <h2 className="text-3xl font-semibold text-center">Log in</h2>
         <div className="flex w-full h-4/5 justify-center items-center">
           <form
             className="flex flex-col h-1/2 w-full justify-center items-center gap-12"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <p className="text-3xl text-red-400">{errorMessage}</p>
+             <h2 className="text-3xl font-semibold text-center">Log in</h2>
+            <pre className="text-2xl text-red-400 font-light max-xl:text-xl">{errorMessage}</pre>
             <input
               className="border-2 rounded-2xl h-4/16 w-6/10 p-8 text-[2rem] max-lg:w-8/10 "
               type="email"
