@@ -6,7 +6,7 @@ const { validateSignup } = require("../validators/signup");
 const { validateLogin } = require("../validators/login");
 
 router.route("/signup").post(validateSignup, signup);
-router.route("/logout").get(logout);
 router.route("/login").post(validateLogin, login);
+router.route("/logout").get(logout);
 
 module.exports = router;
