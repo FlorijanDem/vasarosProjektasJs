@@ -71,9 +71,17 @@ This will:
 * Start the Vite dev server at [http://localhost:5173](http://localhost:5173)
 * Create a PostgreSQL database (host: `db`, user: `student`, password: `goodPassword`, db: `summer`)
 
-Start with pgadmin:
+Start with extras (pgadmin):
 
-If you want to start with preconfigured pgadmin you must uncomment it in docker-compose.yml
+On unix
+```bash
+docker compose -f docker-compose.yml -f docker-compose.extra.yml up --build
+```
+
+On windows
+```bash
+docker-compose -f docker-compose.yml -f docker-compose.extra.yml up --build
+```
 
 ---
 
@@ -111,3 +119,18 @@ docker-compose down -v
 * If the frontend is not accessible, make sure Vite is configured to use `--host`.
 * If things run slowly, avoid mounting `node_modules`, or use Docker's `host` networking mode on Linux.
 
+
+#### 6. **Posible problems**
+
+* If you get `Error response from daemon: failed to set up container networking: network`
+you must 
+
+On unix
+```bash
+docker compose -f docker-compose.yml -f docker-compose.extra.yml down --volumes --remove-orphans
+```
+
+On windows
+```bash
+docker-compose -f docker-compose.yml -f docker-compose.extra.yml down --volumes --remove-orphans
+```
