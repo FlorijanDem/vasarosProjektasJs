@@ -13,10 +13,10 @@ const protect = require("../middleware/protect");
 
 router
   .route("/")
-  .post(/*protect ,restrictToAdmin, */ validateNewTour, createTour);
+  .post(protect ,restrictToAdmin, validateNewTour, createTour);
 router
   .route("/:id")
-  .delete(/*protect ,restrictToAdmin, */ deleteTour)
-  .put(/*protect ,restrictToAdmin, */ validateUpdatedTour, updateTour);
+  .delete(protect ,restrictToAdmin, deleteTour)
+  .put(protect ,restrictToAdmin, validateUpdatedTour, updateTour);
 
 module.exports = router;
