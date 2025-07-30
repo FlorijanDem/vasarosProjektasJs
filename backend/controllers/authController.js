@@ -43,6 +43,12 @@ exports.signup = async (req, res, next) => {
 
     sendTokenCookie(token, res);
 
+    //registration logger
+    await logAuthEvent({
+      userId: createdUser.id,
+      eventType: "registration",
+    });
+
     createdUser.password = undefined;
     createdUser.id = undefined;
 
@@ -96,6 +102,12 @@ exports.login = async (req, res, next) => {
 
     const token = signToken(user);
     sendTokenCookie(token, res);
+
+    //login logger
+    await logAuthEvent({
+      userId: user.id,
+      eventType: "login",
+    });
 
     user.password = undefined;
 
