@@ -1,19 +1,22 @@
 const express = require('express');
 const authRoutes = require('./routes/authRoutes');
-// const exampleRoutes = require('./routes/exampleRoutes');
+
+const toursRoutes = require('./routes/toursRoutes')
+const cookieParser = require('cookie-parser');
+
 
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 
 
 app.get('/', (req, res) => {
   res.send('Server ok');
 });
 
-// Example API routes
-// app.use('/api/v1', exampleRoutes);
-app.use('/api/v1', authRoutes);
 
+app.use('/api/v1', authRoutes);
+app.use('/api/v1/excursions', toursRoutes);
 
 module.exports = app;
