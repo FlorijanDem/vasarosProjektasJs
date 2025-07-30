@@ -63,23 +63,17 @@ exports.logout = async (req, res) => {
   }
 
   try {
-    // Patikrinam tokeną
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Gauti tokeno galiojimo laiką
     const expiresAt = new Date(decoded.exp * 1000);
 
-    // Įrašom į blacklist lentelę
     await db.query(
       "INSERT INTO blacklisted_tokens (token, expires_at) VALUES ($1, $2)",
       [token, expiresAt]
     );
 
-    // Ištrinam cookie
     res.clearCookie("jwt", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // naudok pagal poreikį
-      sameSite: "Strict",
     });
 
     res.status(200).json({ message: "Successfully logged out" });

@@ -1,4 +1,4 @@
-const { sql, testConnection } = require('./utils/postgres');
+const { sql, testConnection } = require("./utils/postgres");
 
 async function createTables() {
   try {
@@ -9,7 +9,7 @@ async function createTables() {
         name VARCHAR(100) NOT NULL
       );
     `;
-    
+
     // Table users
     await sql`
       CREATE TABLE IF NOT EXISTS users (
@@ -97,12 +97,20 @@ async function createTables() {
       );
     `;
 
-    console.log('✅ All tables created successfully!');
+    // Blaclisted token
+    await sql`
+    CREATE TABLE IF NOT EXISTS logs (
+        id SERIAL PRIMARY KEY,
+        token TEXT,
+        expires_at TIMESTAMP
+         ON UPDATE NO ACTION
+         ON DELETE NO ACTION
+       );
+    `;
+    console.log("✅ All tables created successfully!");
   } catch (error) {
-    console.error('❌ Error while creating tables:', error);
+    console.error("❌ Error while creating tables:", error);
   }
 }
 
 module.exports = { createTables };
-
-

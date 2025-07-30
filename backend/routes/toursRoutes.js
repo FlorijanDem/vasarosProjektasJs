@@ -10,13 +10,14 @@ const { validateNewTour } = require("../validators/newTour");
 const { validateUpdatedTour } = require("../validators/updateTour");
 const restrictToAdmin = require("../middleware/restrictToAdmin");
 const protect = require("../middleware/protect");
+const authMiddleware = require("../middleware/authMiddleware")
 
 router
   .route("/")
-  .post(protect ,restrictToAdmin, validateNewTour, createTour);
+  .post(authMiddleware, protect ,restrictToAdmin, validateNewTour, createTour);
 router
   .route("/:id")
-  .delete(protect ,restrictToAdmin, deleteTour)
-  .put(protect ,restrictToAdmin, validateUpdatedTour, updateTour);
+  .delete(authMiddleware, protect ,restrictToAdmin, deleteTour)
+  .put(authMiddleware, protect ,restrictToAdmin, validateUpdatedTour, updateTour);
 
 module.exports = router;
