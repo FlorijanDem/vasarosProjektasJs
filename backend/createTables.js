@@ -99,10 +99,10 @@ async function createTables() {
 
     // Blaclisted token
     await sql`
-    CREATE TABLE IF NOT EXISTS logs (
+    CREATE TABLE IF NOT EXISTS blacklisted_tokens (
         id SERIAL PRIMARY KEY,
         token TEXT,
-        expires_at TIMESTAMP
+        expires_at TIMESTAMP WITHOUT TIMEZONE
          ON UPDATE NO ACTION
          ON DELETE NO ACTION
        );
