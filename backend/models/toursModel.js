@@ -1,5 +1,19 @@
 const { sql } = require("../utils/postgres");
 
+exports.getAllToursM = async () => {
+  const toursList = await sql`
+    SELECT 
+    tours.*, 
+    categories.name AS category_name
+    FROM tours
+    JOIN categories 
+    ON tours.category_id = categories.id;
+    `;
+
+  return toursList;
+};
+
+
 exports.createTour = async (newTour) => {
   const tour = await sql`
       INSERT INTO tours ${sql(

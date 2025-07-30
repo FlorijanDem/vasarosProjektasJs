@@ -5,6 +5,7 @@ const {
   createTour,
   deleteTour,
   updateTour,
+  getAllTours,
 } = require("../controllers/toursController");
 const { validateNewTour } = require("../validators/newTour");
 const { validateUpdatedTour } = require("../validators/updateTour");
@@ -13,10 +14,11 @@ const protect = require("../middleware/protect");
 
 router
   .route("/")
-  .post(protect ,restrictToAdmin, validateNewTour, createTour);
+  .get(getAllTours)
+  .post(protect, restrictToAdmin, validateNewTour, createTour);
 router
   .route("/:id")
-  .delete(protect ,restrictToAdmin, deleteTour)
-  .put(protect ,restrictToAdmin, validateUpdatedTour, updateTour);
+  .delete(protect, restrictToAdmin, deleteTour)
+  .put(protect, restrictToAdmin, validateUpdatedTour, updateTour);
 
 module.exports = router;
