@@ -37,17 +37,10 @@ exports.signup = async (req, res, next) => {
     if (!createdUser) {
       throw new AppError("User not created", 400);
     }
-    // console.log("JWT_SECRET (login/signup):", `"${process.env.JWT_SECRET}"`);
 
     const token = signToken(createdUser);
 
     sendTokenCookie(token, res);
-
-    //registration logger
-    await logAuthEvent({
-      userId: createdUser.id,
-      eventType: "registration",
-    });
 
     createdUser.password = undefined;
     createdUser.id = undefined;
@@ -80,6 +73,8 @@ exports.logout = async (req, res) => {
 
     res.clearCookie("jwt", {
       httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Strict",
     });
 
     res.status(200).json({ message: "Successfully logged out" });
@@ -102,12 +97,6 @@ exports.login = async (req, res, next) => {
 
     const token = signToken(user);
     sendTokenCookie(token, res);
-
-    //login logger
-    await logAuthEvent({
-      userId: user.id,
-      eventType: "login",
-    });
 
     user.password = undefined;
 
