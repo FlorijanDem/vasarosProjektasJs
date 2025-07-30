@@ -1,6 +1,6 @@
 const express = require("express");
 const authRoutes = require("./routes/authRoutes");
-const tourRoutes = require("./routes/excursionRoutes");
+const excursionRoutes = require("./routes/excursionRoutes");
 // const exampleRoutes = require('./routes/exampleRoutes');
 
 const app = express();
@@ -14,6 +14,6 @@ app.get("/", (req, res) => {
 // Example API routes
 // app.use('/api/v1', exampleRoutes);
 app.use("/api/v1", authRoutes);
-app.use("/api/v1", tourRoutes);
+app.use("/api/v1", excursionRoutes);
 
 module.exports = app;
