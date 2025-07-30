@@ -2,13 +2,18 @@ const { createUser, getUserByEmail } = require("../models/authModel");
 const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const argon2 = require("argon2");
+const { logAuthEvent } = require("../utils/logger");
 
-const signToken = (id) => {
-  const token = jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN,
-  });
-  return token;
+const signToken = (user) => {
+  return jwt.sign(
+    { id: user.id, role: user.role },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: process.env.JWT_EXPIRES_IN,
+    }
+  );
 };
+
 
 const sendTokenCookie = (token, res) => {
   const cookieOptions = {
@@ -38,9 +43,15 @@ exports.signup = async (req, res, next) => {
       throw new AppError("User not created", 400);
     }
 
-    const token = signToken(createdUser.id);
+    const token = signToken(createdUser);
 
     sendTokenCookie(token, res);
+
+    //registration logger
+    await logAuthEvent({
+      userId: createdUser.id,
+      eventType: "registration",
+    });
 
     createdUser.password = undefined;
     createdUser.id = undefined;
@@ -54,11 +65,26 @@ exports.signup = async (req, res, next) => {
   }
 };
 
-exports.logout = (req, res) => {
-  return res
-    .clearCookie("jwt")
-    .status(200)
-    .json({ message: "You're now logged out." });
+exports.logout = async (req, res) => {
+  try {
+    // logout logger
+    const token = req.cookies.jwt;
+    if (token) {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      await logAuthEvent({
+        userId: decoded.id,
+        eventType: "logout",
+      });
+    }
+
+    return res
+      .clearCookie("jwt")
+      .status(200)
+      .json({ message: "You're now logged out." });
+  } catch (err) {
+    console.error("Logout error;", err);
+    return res.status(400).json({ message: "Logout failed." });
+  }
 };
 
 exports.login = async (req, res, next) => {
@@ -70,12 +96,18 @@ exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const user = await getUserByEmail(email);
+    console.log('User from DB:', user);
 
-    const token = signToken(user.id);
+    const token = signToken(user);
     sendTokenCookie(token, res);
 
+    //login logger
+    await logAuthEvent({
+      userId: user.id,
+      eventType: "login",
+    });
+
     user.password = undefined;
-    user.id = undefined;
 
     res.status(200).json({
       status: "success",
