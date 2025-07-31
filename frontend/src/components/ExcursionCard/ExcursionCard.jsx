@@ -5,7 +5,7 @@ import {
   formatInterval,
 } from "../../utils/dateTimeManipulations";
 
-const ExcursionCard = ({ excursion }) => {
+const ExcursionCard = ({ excursion, onOpen }) => {
   return (
     <article className={styles.card}>
       <figure className={styles.figure}>
@@ -32,7 +32,9 @@ const ExcursionCard = ({ excursion }) => {
             <p>{`${excursion.price} €`}</p>
           </div>
           <div className={styles.btnContainer}>
-            <button className={styles.moreInfoBtn}>More info</button>
+            <button className={styles.moreInfoBtn} onClick={onOpen}>
+              More info
+            </button>
           </div>
         </div>
       </figure>
