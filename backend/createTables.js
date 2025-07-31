@@ -102,7 +102,7 @@ async function createTables() {
     CREATE TABLE IF NOT EXISTS blacklisted_tokens (
         id SERIAL PRIMARY KEY,
         token TEXT,
-        expires_at TIMESTAMP WITHOUT TIMEZONE
+        expires_at TIMESTAMP
          ON UPDATE NO ACTION
          ON DELETE NO ACTION
        );
