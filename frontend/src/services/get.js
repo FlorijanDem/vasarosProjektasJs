@@ -1,7 +1,8 @@
 import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL;
 
-export const getData = async () => {
-  const response = await axios.get(`http://localhost:3000/api/v1/excursions`, {
+export const getData = async (endpoint) => {
+  const response = await axios.get(`${API_URL}/${endpoint}`, {
     withCredentials: true,
   });
 

@@ -2,6 +2,7 @@
   width: 100%;
   display: grid;
   gap: 6rem;
+  margin-top: 3rem;
 
   grid-template-columns: repeat(4, minmax(30rem, 1fr));
 
@@ -17,4 +18,19 @@
     grid-template-columns: repeat(1, minmax(26.4rem, 1fr));
     gap: 4rem;
   }
+}
+
+.noExcursions {
+  font-size: 1.4rem;
+  color: #808080;
+  text-align: center;
+  grid-column: 1 / -1;
+  justify-self: center;
+}
+
+.loaderContainer {
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
