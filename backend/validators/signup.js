@@ -32,7 +32,7 @@ const validateSignup = [
     .withMessage("Password must be at least 8 characters")
     .matches(/^(?=.*\d).+$/)
     .withMessage("Password must contain at least one number")
-    .matches(/^(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).+$/)
+    .matches(/^(?=.*[~!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).+$/)
     .withMessage("Password must contain at least one special character")
     .not()
     .matches(/\s/)
