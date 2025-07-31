@@ -14,9 +14,17 @@
 .modal {
   background: white;
   padding: 2rem;
-  max-width: 600px;
+  max-width: fit-content;
   border-radius: 10px;
   position: relative;
+  width: 45rem;
+  min-width: 20rem;
+  margin-inline: 2rem;
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .closeBtn {
@@ -27,4 +35,45 @@
   background: none;
   border: none;
   cursor: pointer;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: 800;
+}
+
+.desc {
+  font-size: 1.4rem;
+  color: #808080;
+  text-align: justify;
+}
+
+.additionalText {
+  font-size: 1.4rem;
+  color: #808080;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.highlight {
+  background-color: #36d7b7;
+  color: white;
+}
+
+.wrapper {
+  display: flex;
+  width: 100%;
+
+  justify-content: space-around;
+  align-items: center;
+  border-top: #808080 1px solid;
+  padding-top: 1rem;
+}
+
+.calendarWrapper {
+  width: 100%;
+  max-width: 320px;
+  box-sizing: border-box;
+  overflow-x: auto;
 }
