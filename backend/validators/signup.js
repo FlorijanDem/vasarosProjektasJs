@@ -30,13 +30,13 @@ const validateSignup = [
     .withMessage("Password is required")
     .isLength({ min: 8 })
     .withMessage("Password must be at least 8 characters")
-    .matches(/^(?=.*\d).+$/)
+    .matches(/\d/)
     .withMessage("Password must contain at least one number")
-    .matches(/^(?=.*[~!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).+$/)
+    .matches(/[^A-Za-z0-9]/)
     .withMessage("Password must contain at least one special character")
     .not()
     .matches(/\s/)
-    .withMessage("Password must not contain spaces")
+    .withMessage("Password must not contain spaces or line breaks")
     .custom((value) => {
       const zalgoChars = value.match(/[\u0300-\u036f]/g);
       if (zalgoChars && zalgoChars.length > 3) {
