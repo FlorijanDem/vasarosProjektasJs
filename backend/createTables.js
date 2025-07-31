@@ -1,4 +1,4 @@
-const { sql, testConnection } = require('./utils/postgres');
+const { sql, testConnection } = require("./utils/postgres");
 
 async function createTables() {
   try {
@@ -9,7 +9,7 @@ async function createTables() {
         name VARCHAR(100) NOT NULL
       );
     `;
-    
+
     // Table users
     await sql`
       CREATE TABLE IF NOT EXISTS users (
@@ -28,7 +28,6 @@ async function createTables() {
         title VARCHAR(200) NOT NULL,
         photo_url TEXT,
         duration INTERVAL,
-        dates TEXT,
         price NUMERIC(10, 2) NOT NULL,
         category_id INTEGER,
         description VARCHAR(200),
@@ -40,6 +39,19 @@ async function createTables() {
           ON UPDATE NO ACTION
           ON DELETE NO ACTION
       );
+    `;
+
+    // Tour dates
+    await sql`
+      CREATE TABLE IF NOT EXISTS tours_dates (
+      id SERIAL PRIMARY KEY,
+      tour_id INTEGER NOT NULL,
+      date DATE NOT NULL,
+      CONSTRAINT tours_dates_tour_id_fkey FOREIGN KEY (tour_id)
+        REFERENCES tours(id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+    );
     `;
 
     // Table registrations
@@ -97,12 +109,10 @@ async function createTables() {
       );
     `;
 
-    console.log('✅ All tables created successfully!');
+    console.log("✅ All tables created successfully!");
   } catch (error) {
-    console.error('❌ Error while creating tables:', error);
+    console.error("❌ Error while creating tables:", error);
   }
 }
 
 module.exports = { createTables };
-
-

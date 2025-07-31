@@ -13,9 +13,8 @@ app.use(express.json());
 
 setupSwagger(app);
 
-
-app.get('/', (req, res) => {
-  res.send('Server ok');
+app.get("/", (req, res) => {
+  res.send("Server ok");
 });
 
 
