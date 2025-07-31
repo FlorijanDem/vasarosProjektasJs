@@ -3,11 +3,15 @@
 import styles from "./mainPage.module.css";
 import CardsGrid from "../../components/CardsGrid/CardsGrid";
 
+
 const MainPage = () => {
   // Must be showing list with excursions
+
+
+
+
   return (
     <div className={styles.mainPage}>
-      <h1>Main Page</h1>
       <CardsGrid />
     </div>
   );

@@ -18,7 +18,7 @@ const ExcursionCard = ({ excursion }) => {
           </div>
           <div className={styles.dateSection}>
             <p>Closest date: </p>
-            <p>{excursion.closestDate}</p>
+            <p>{excursion.dates}</p>
           </div>
           <div className={styles.durationPriceSection}>
             <p>{`${excursion.duration} hours`}</p>
