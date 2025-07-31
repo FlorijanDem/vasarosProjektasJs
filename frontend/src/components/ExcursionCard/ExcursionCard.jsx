@@ -1,5 +1,9 @@
 import styles from "./excursionCard.module.css";
 import { renderStars } from "../../utils/renderStars";
+import {
+  getClosestDate,
+  formatInterval,
+} from "../../utils/dateTimeManipulations";
 
 const ExcursionCard = ({ excursion }) => {
   return (
@@ -7,21 +11,24 @@ const ExcursionCard = ({ excursion }) => {
       <figure className={styles.figure}>
         <img
           className={styles.cardImg}
-          src={excursion.image}
+          src={excursion.photo_url}
           alt={excursion.title}
         />
         <div className={styles.textContainer}>
           <h2 className={styles.cardTitle}>{excursion.title}</h2>
           <div className={styles.ratingSection}>
-            <div className={styles.stars}>{renderStars(excursion.rating)}</div>
-            <p className={styles.rating}>{excursion.rating}</p>
+            <div className={styles.stars}>
+              {renderStars(excursion.average_rating)}
+            </div>
+            <p className={styles.rating}>{excursion.average_rating}</p>
           </div>
+          <p className={styles.dateSection}>{excursion.location}</p>
           <div className={styles.dateSection}>
             <p>Closest date: </p>
-            <p>{excursion.dates}</p>
+            <p>{getClosestDate(excursion.tour_dates)?.toLocaleDateString()}</p>
           </div>
           <div className={styles.durationPriceSection}>
-            <p>{`${excursion.duration} hours`}</p>
+            <p>{formatInterval(excursion.duration)}</p>
             <p>{`${excursion.price} €`}</p>
           </div>
           <div className={styles.btnContainer}>
