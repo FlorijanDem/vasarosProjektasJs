@@ -3,6 +3,9 @@ const authRoutes = require('./routes/authRoutes');
 // const exampleRoutes = require('./routes/exampleRoutes');
 const setupSwagger = require('./utils/swagger');
 const cookieParser = require('cookie-parser');
+
+const toursRoutes = require('./routes/toursRoutes')
+
 const app = express();
 
 app.use(cookieParser())
@@ -15,9 +18,8 @@ app.get('/', (req, res) => {
   res.send('Server ok');
 });
 
-// Example API routes
-// app.use('/api/v1', exampleRoutes);
-app.use('/api/v1', authRoutes);
 
+app.use('/api/v1', authRoutes);
+app.use('/api/v1/excursions', toursRoutes);
 
 module.exports = app;
