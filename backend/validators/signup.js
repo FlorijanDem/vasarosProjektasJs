@@ -34,9 +34,20 @@ const validateSignup = [
     .withMessage("Password must contain at least one number")
     .matches(/[^A-Za-z0-9]/)
     .withMessage("Password must contain at least one special character")
-    .not()
-    .matches(/\s/)
-    .withMessage("Password must not contain spaces or line breaks")
+    .custom((value) => {
+      const allowedControlChars = ["\n", "\r", "\t", "\b"];
+      for (let char of value) {
+        const code = char.charCodeAt(0);
+        const isAllowed =
+          allowedControlChars.includes(char) || (code > 0x1f && code !== 0x20);
+        if (!isAllowed) {
+          throw new Error(
+            "Password contains invalid whitespace or control characters"
+          );
+        }
+      }
+      return true;
+    })
     .custom((value) => {
       const zalgoChars = value.match(/[\u0300-\u036f]/g);
       if (zalgoChars && zalgoChars.length > 3) {
