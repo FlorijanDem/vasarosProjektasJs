@@ -70,7 +70,7 @@ const RegisterModal = ({ isOpen, onClose, onSwitchLogin }) => {
       onClick={handleClose}
     >
       <div
-        className="rounded-[1.25rem] bg-white relative w-1/3 h-4/5 flex flex-col items-center max-xl:w-1/2 max-md:w-full max-lg:w-3/4 shadow-2xl"
+        className="rounded-[1.25rem] bg-white relative w-1/3 h-4/5 flex flex-col items-center max-xl:w-1/2 max-md:w-full max-md:h-full max-lg:w-3/4 shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <button onClick={handleClose} className="text-[3rem] self-end px-8">
@@ -82,7 +82,7 @@ const RegisterModal = ({ isOpen, onClose, onSwitchLogin }) => {
             className="flex flex-col h-2/3 w-full justify-center items-center gap-12"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <pre className="text-xl text-red-400 text-center max-xl:text-[0.95rem]">
+            <pre className="text-[1.15rem] text-red-400 text-center max-md:text-[0.95rem]">
               {errorMessage}
             </pre>
             <input
