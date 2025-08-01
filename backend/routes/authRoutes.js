@@ -14,7 +14,7 @@ const { validateLogin } = require("../validators/login");
 
 /**
  * @swagger
- * /api/v1/login:
+ * /api/v1/auth/login:
  *   post:
  *     summary: User login
  *     tags: [Auth]
@@ -36,7 +36,7 @@ const { validateLogin } = require("../validators/login");
 
 /**
  * @swagger
- * /api/v1/signup:
+ * /api/v1/auth/signup:
  *   post:
  *     summary: User signup
  *     tags: [Auth]
@@ -60,7 +60,7 @@ const { validateLogin } = require("../validators/login");
 
 /**
  * @swagger
- * /api/v1/logout:
+ * /api/v1/auth/logout:
  *   get:
  *     summary: User logout
  *     tags: [Auth]

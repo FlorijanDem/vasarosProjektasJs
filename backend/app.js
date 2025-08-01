@@ -1,6 +1,5 @@
 const express = require('express');
 const authRoutes = require('./routes/authRoutes');
-// const exampleRoutes = require('./routes/exampleRoutes');
 const setupSwagger = require('./utils/swagger');
 const cookieParser = require('cookie-parser');
 
