@@ -10,16 +10,29 @@
 
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const LoginModal = ({ isOpen, onClose, onSwitchRegister }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
-  if (!isOpen) return null;
+  useEffect(() => {
+    if (!isOpen) {
+      reset();
+      setErrorMessage("");
+    }
+  }, [isOpen, reset])
+
+  const handleClose = () => {
+    reset();
+    setErrorMessage("");
+    onClose();
+  };
+if(!isOpen) return null;
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
@@ -34,7 +47,7 @@ const LoginModal = ({ isOpen, onClose, onSwitchRegister }) => {
       );
       console.log(response.data);
       if (response.data.status === "success") {
-        onClose();
+        handleClose();
       }
     } catch (error) {
       const errors = error.response?.data?.errors;
@@ -53,13 +66,13 @@ const LoginModal = ({ isOpen, onClose, onSwitchRegister }) => {
   return (
     <div
       className="fixed inset-0 z-10 flex items-center justify-center max-lg:p-4 bg- bg-[#D9D9D9]/[var(--bg-opacity)] [--bg-opacity:40%] backdrop-blur-xs"
-      onClick={onClose}
+      onClick={handleClose}
     >
       <div
-        className="rounded-[1.25rem] bg-white relative w-1/3 h-2/3 flex flex-col items-center max-xl:w-full shadow-2xl max-xl:h-full "
+        className="rounded-[1.25rem] bg-white relative w-1/3 h-2/3 flex flex-col items-center max-xl:w-1/2 max-md:w-full max-lg:w-3/4 shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <button onClick={onClose} className="text-[3rem] self-end px-8">
+        <button onClick={handleClose} className="text-[3rem] self-end px-8">
           x
         </button>
         <div className="flex w-full h-4/5 justify-center items-center">
@@ -72,7 +85,7 @@ const LoginModal = ({ isOpen, onClose, onSwitchRegister }) => {
               {errorMessage}
             </pre>
             <input
-              className="border-2 rounded-2xl h-4/16 w-6/10 p-8 text-[2rem] max-lg:w-8/10 "
+              className="border-2 rounded-2xl h-4/16 w-6/10 p-8 text-[2rem] "
               type="email"
               {...register("email", { required: true })}
               placeholder="Email"
@@ -83,7 +96,7 @@ const LoginModal = ({ isOpen, onClose, onSwitchRegister }) => {
               </p>
             )}
             <input
-              className="border-2 rounded-2xl p-8 h-4/16 w-6/10 text-[2rem] max-lg:w-8/10"
+              className="border-2 rounded-2xl p-8 h-4/16 w-6/10 text-[2rem]"
               type="password"
               {...register("password", { required: true })}
               placeholder="Password"
@@ -99,10 +112,10 @@ const LoginModal = ({ isOpen, onClose, onSwitchRegister }) => {
               <button
                 type="button"
                 onClick={() => {
-                  onClose();
+                  handleClose();
                   onSwitchRegister();
                 }}
-                className="text-gray-900"
+                className="text-gray-900 cursor-pointer"
               >
                 Register here
               </button>
@@ -110,7 +123,7 @@ const LoginModal = ({ isOpen, onClose, onSwitchRegister }) => {
             <input
               type="submit"
               value="Log in"
-              className=" bg-white rounded-2xl border-2 h-2/16 w-2/16 text-[1.75rem] justify-center max-xl:text-[1.25rem] max-xl:h-2/16"
+              className=" bg-white rounded-2xl border-2 h-3/16/16 w-3/16 text-[1.75rem] justify-center max-xl:text-[1.25rem] max-xl:h-2/16"
             />
           </form>
         </div>
