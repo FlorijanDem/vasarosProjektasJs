@@ -6,6 +6,7 @@ const {
   deleteTour,
   updateTour,
   getAllTours,
+  searchTours,
 } = require("../controllers/toursController");
 const { validateNewTour } = require("../validators/newTour");
 const { validateUpdatedTour } = require("../validators/updateTour");
@@ -132,6 +133,76 @@ const authMiddleware = require("../middleware/authMiddleware");
  *         description: Excursion updated successfully
  */
 
+/**
+ * @swagger
+ * /api/v1/excursions/search:
+ *   get:
+ *     summary: Search and Filter Excursions
+ *     tags: [Excursions]
+ *     parameters:
+ *       - in: query
+ *         name: title
+ *         schema:
+ *           type: string
+ *         description: Search by title
+ *       - in: query
+ *         name: category_id
+ *         schema:
+ *           type: integer
+ *         description: Category ID
+ *       - in: query
+ *         name: sortBy
+ *         schema:
+ *           type: string
+ *         enum: [title, price]
+ *         description: SORT (title, price)
+ *       - in: query
+ *         name: order
+ *         schema:
+ *           type: string
+ *         enum: [asc, dsc]
+ *         description: SORT (asc, desc)
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *         description: Page
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *         description: Result limit to page
+ *     responses:
+ *       200:
+ *         description: Search results
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               status:
+ *                 type: string
+ *               example: success
+ *               results:
+ *                 type: integer
+ *               description: Found
+ *               data:
+ *                 type: array
+ *               items:
+ *                 type: object
+ *               properties:
+ *               id:
+ *                 type: integer
+ *               title:
+ *                 type: string
+ *               price:
+ *                 type: number
+ *               category:
+ *                 type: string
+ */
+
+router.route("/search").get(searchTours);
+
 router
   .route("/")
   .get(getAllTours)
@@ -147,5 +218,6 @@ router
     validateUpdatedTour,
     updateTour
   );
+
 
 module.exports = router;
