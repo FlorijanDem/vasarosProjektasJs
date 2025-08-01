@@ -3,7 +3,7 @@ require('dotenv').config()
 const { sql, testConnection} = require('./utils/postgres')
 // const { createTables } = require('./createTables');
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 
 (async () => {
   try {
