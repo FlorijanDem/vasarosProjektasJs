@@ -49,6 +49,8 @@ services:
 
     restart: always
     command: npm run host
+    enviroment:
+      - VITE_API_URL=http://localhost:3000/api/v1
     depends_on:
       - backend
 
