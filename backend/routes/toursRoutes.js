@@ -5,6 +5,7 @@ const {
   createTour,
   deleteTour,
   updateTour,
+  getAllTours,
 } = require("../controllers/toursController");
 const { validateNewTour } = require("../validators/newTour");
 const { validateUpdatedTour } = require("../validators/updateTour");
@@ -14,10 +15,11 @@ const authMiddleware = require("../middleware/authMiddleware")
 
 router
   .route("/")
-  .post(authMiddleware, protect ,restrictToAdmin, validateNewTour, createTour);
+  .get(getAllTours)
+  .post(authMiddleware, protect, restrictToAdmin, validateNewTour, createTour);
 router
   .route("/:id")
-  .delete(authMiddleware, protect ,restrictToAdmin, deleteTour)
-  .put(authMiddleware, protect ,restrictToAdmin, validateUpdatedTour, updateTour);
+  .delete(authMiddleware, protect, restrictToAdmin, deleteTour)
+  .put(authMiddleware, protect, restrictToAdmin, validateUpdatedTour, updateTour);
 
 module.exports = router;

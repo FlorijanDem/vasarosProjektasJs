@@ -26,6 +26,13 @@
 
 ## Endpoints
 
+- `GET /` - Returns a welcome message.
+
+### Too see documentation go to
+
+`http://localhost:3000/api-docs/`
+
+
 Tour Managment
 -`POST /api/v1/excursions` - add a Tour
    -body: `{ "title": "example title", "photo_url": "example photo_url", "duration": "example duration", "dates": "example date", "price": "example price", "category_id": "example category_id", "description": "example description", "location": "example location" }`
