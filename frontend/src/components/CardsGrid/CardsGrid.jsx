@@ -3,7 +3,6 @@ import ExcursionCard from "../ExcursionCard/ExcursionCard";
 import { getData } from "../../services/get";
 import { useState, useEffect } from "react";
 import { ClipLoader } from "react-spinners";
-import DetailsModal from "../ExcursionCard/DetailsModal";
 
 const CardsGrid = () => {
   const [excursions, setExcursions] = useState([]);
@@ -36,7 +35,10 @@ const CardsGrid = () => {
   return (
     <section className={styles.grid}>
       {excursions.length === 0 ? (
-        <p className={styles.noExcursions}>No excursions available.</p>
+        <p className={styles.noExcursions}>
+          We couldn’t find any available excursions right now. Please check back
+          later.
+        </p>
       ) : (
         excursions.map((exc) => (
           <ExcursionCard
