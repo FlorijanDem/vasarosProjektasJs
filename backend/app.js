@@ -4,6 +4,8 @@ const authRoutes = require("./routes/authRoutes");
 const setupSwagger = require("./utils/swagger");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const loggerMiddleware = require("./middleware/logger");
+const rateLimitMiddleware = require("./middleware/rateLimits");
 
 const toursRoutes = require("./routes/toursRoutes");
 
@@ -17,10 +19,18 @@ app.use(cors({
 app.use(cookieParser());
 app.use(express.json());
 
+app.use(loggerMiddleware);
+
+app.use("/api/v1", rateLimitMiddleware);
+
 setupSwagger(app);
 
 app.get("/", (req, res) => {
   res.send("Server ok");
+});
+
+app.get('/api/v1/test', (req, res) => {
+  res.status(200).send('OK');
 });
 
 app.use("/api/v1", authRoutes);
