@@ -60,7 +60,7 @@ describe("Auth Controller", () => {
     })
 
     test("Logout should clear cookie", async () => {
-        const res = await request(app).get("/logout").expect(200);
+        const res = await request(app).post("/logout").expect(200);
 
         expect(res.headers["set-cookie"][0]).toContain("jwt=;");
     })
