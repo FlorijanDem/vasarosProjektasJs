@@ -1,0 +1,10 @@
+.mainPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-inline: 2rem;
+
+  @media (max-width: 640px) {
+    margin-inline: 1rem;
+  }
+}
