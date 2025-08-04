@@ -12,7 +12,7 @@ app.use(cookieParser());
 
 app.post("/signup", authController.signup);
 app.post("/login", authController.login);
-app.post("/logout", authController.logout);
+app.get("/logout", authController.logout);
 
 process.env.JWT_SECRET = "testsecret";
 process.env.JWT_EXPIRES_IN = "1d";
