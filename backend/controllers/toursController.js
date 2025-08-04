@@ -95,12 +95,10 @@ exports.updateTour = async (req, res, next) => {
 
 exports.searchTours = async (req, res, next) => {
   try {
-    // Pakeičiame 'query' į 'title', kad atitiktų modelį ir kriterijus
     const { title, category_id, sortBy, order, page, limit } = req.query;
 
     const tours = await searchAndFilterTours({
       title,
-      // Konvertuojame category_id į skaičių, jei jis egzistuoja
       category_id: category_id ? parseInt(category_id) : undefined,
       sortBy,
       order,

@@ -1,8 +1,8 @@
 require("dotenv").config();
 
-const { Pool } = require("pg");
+const postgres = require("postgres");
 
-const pool = new Pool({
+const sql = postgres({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
   database: process.env.DB_NAME,
@@ -11,5 +11,5 @@ const pool = new Pool({
 });
 
 module.exports = {
-  query: (text, params) => pool.query(text, params),
+  query: (text, params) => sql.unsafe(text, params),
 };
