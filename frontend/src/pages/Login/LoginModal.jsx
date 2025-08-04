@@ -11,7 +11,7 @@
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useState, useEffect } from "react";
-
+const API_URL = import.meta.env.VITE_API_URL;
 const LoginModal = ({ isOpen, onClose, onSwitchRegister }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const {
@@ -36,7 +36,7 @@ if(!isOpen) return null;
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/v1/login",
+        `${API_URL}/login`,
         {
           email: data.email,
           password: data.password,

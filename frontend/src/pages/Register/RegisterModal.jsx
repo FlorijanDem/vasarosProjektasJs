@@ -11,6 +11,7 @@
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useEffect, useState } from "react";
+const API_URL = import.meta.env.VITE_API_URL;
 const RegisterModal = ({ isOpen, onClose, onSwitchLogin }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const {
@@ -36,7 +37,7 @@ const RegisterModal = ({ isOpen, onClose, onSwitchLogin }) => {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/v1/signup",
+        `${API_URL}/signup`,
         {
           email: data.email,
           password: data.password,

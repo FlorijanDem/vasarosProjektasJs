@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import ModalController from "../../pages/Login/ModalController";
 import { Link } from "react-router";
 import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Nav = () => {
   const [showAuth, setShowAuth] = useState(false);
@@ -11,7 +12,7 @@ const Nav = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const logout = async () => {
-    await axios.get("http://localhost:3000/api/v1/logout", {
+    await axios.get(`${API_URL}/logout`, {
       withCredentials: true,
     });
     setIsLoggedIn(false);
