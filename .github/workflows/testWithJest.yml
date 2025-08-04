@@ -40,7 +40,7 @@ jobs:
           echo "DB_HOST=postgres" >> .env
           echo "DB_NAME=testdb" >> .env
           echo "DB_PORT=5432" >> .env
-          echo "JWT_SECRET=testsecret" >> .env
+          echo "JWT_SECRET=supersecretpasword" >> .env
         working-directory: ./backend
 
       - name: Run tests
