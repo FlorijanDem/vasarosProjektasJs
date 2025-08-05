@@ -1,12 +1,7 @@
 const app = require('./app');
 require('dotenv').config()
-<<<<<<< HEAD
 const { sql, testConnection} = require('./utils/postgres')
 // const { createTables } = require('./createTables');
-=======
-const { sql, testConnection } = require('./utils/postgres')
-const { createTables } = require('./createTables');
->>>>>>> d20467931d5272186d3a6c5e27185aaeb7d79873
 
 const PORT = process.env.PORT || 3000;
 
@@ -33,13 +28,8 @@ async function waitForDatabaseConnection(retries = MAX_RETRIES) {
 
 (async () => {
   try {
-<<<<<<< HEAD
     await testConnection();
     // await createTables();
-=======
-    await waitForDatabaseConnection();
-    await createTables();
->>>>>>> d20467931d5272186d3a6c5e27185aaeb7d79873
 
     app.listen(PORT, () => {
       console.log(`Server is running on http://localhost:${PORT}`);

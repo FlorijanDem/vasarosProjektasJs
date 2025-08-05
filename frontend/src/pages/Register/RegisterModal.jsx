@@ -77,12 +77,12 @@ const RegisterModal = ({ isOpen, onClose, onSwitchLogin }) => {
         <button onClick={handleClose} className="text-[3rem] self-end px-8">
           x
         </button>
-        <h2 className="text-3xl font-semibold text-center">Registration</h2>
         <div className="flex w-full h-9/10 justify-center items-center">
           <form
             className="flex flex-col h-2/3 w-full justify-center items-center gap-12"
             onSubmit={handleSubmit(onSubmit)}
           >
+            <h2 className="text-3xl font-semibold text-center">Registration</h2>
             <pre className="text-[1.15rem] text-red-400 text-center max-md:text-[0.95rem]">
               {errorMessage}
             </pre>
@@ -132,7 +132,7 @@ const RegisterModal = ({ isOpen, onClose, onSwitchLogin }) => {
                   handleClose();
                   onSwitchLogin();
                 }}
-                className="text-gray-900 cursor-pointer"
+                className="text-gray-900 cursor-pointer underline-offset-3 underline"
               >
                 Login here
               </button>
@@ -140,7 +140,7 @@ const RegisterModal = ({ isOpen, onClose, onSwitchLogin }) => {
             <input
               type="submit"
               value="Register"
-              className=" bg-white rounded-2xl border-2 h-2/16 w-3/16 text-[1.75rem] justify-center max-xl:text-[1.25rem] max-xl:h-2/16 "
+              className=" bg-white rounded-2xl border-2 h-2/32 w-3/16 text-[1.75rem] justify-center max-xl:text-[1.25rem] "
             />
           </form>
         </div>
