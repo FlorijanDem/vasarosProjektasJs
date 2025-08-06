@@ -3,6 +3,7 @@ const {
   deleteTour,
   updateTour,
   getAllToursM,
+  searchAndFilterTours,
 } = require("../models/toursModel");
 const { validationResult } = require("express-validator");
 
@@ -86,6 +87,29 @@ exports.updateTour = async (req, res, next) => {
     res.status(200).json({
       status: "success",
       data: updatedTour,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.searchTours = async (req, res, next) => {
+  try {
+    const { title, category_id, sortBy, order, page, limit } = req.query;
+
+    const tours = await searchAndFilterTours({
+      title,
+      category_id: category_id ? parseInt(category_id) : undefined,
+      sortBy,
+      order,
+      page: parseInt(page) || 1,
+      limit: parseInt(limit) || 10,
+    });
+
+    res.status(200).json({
+      status: "success",
+      results: tours.length,
+      data: tours,
     });
   } catch (error) {
     next(error);

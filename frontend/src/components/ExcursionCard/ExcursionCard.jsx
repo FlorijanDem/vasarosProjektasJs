@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { ClipLoader } from "react-spinners";
 import styles from "./excursionCard.module.css";
 import { renderStars } from "../../utils/renderStars";
 import {
@@ -7,13 +9,21 @@ import {
 import DefaultExcursionImg from "../../assets/default-tour-img.avif";
 
 const ExcursionCard = ({ excursion }) => {
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+
   return (
     <article className={styles.card}>
       <figure className={styles.figure}>
+        {!isImageLoaded && (
+          <div className={styles.loader}>
+            <ClipLoader color="#808080" size={20} />
+          </div>
+        )}
         <img
-          className={styles.cardImg}
+          className={`${styles.cardImg} ${!isImageLoaded ? styles.hidden : ""}`}
           src={excursion.photo_url || DefaultExcursionImg}
           alt={excursion.title}
+          onLoad={() => setIsImageLoaded(true)}
           onError={(e) => {
             e.target.onerror = null;
             e.target.src = DefaultExcursionImg;
