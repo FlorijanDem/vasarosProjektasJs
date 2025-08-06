@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useState, useEffect } from "react";
 const API_URL = import.meta.env.VITE_API_URL;
-const LoginModal = ({ isOpen, onClose, onSwitchRegister }) => {
+const LoginModal = ({ isOpen, onClose, onSwitchRegister, onLoginSuccess }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const {
     register,
@@ -36,7 +36,7 @@ if(!isOpen) return null;
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
-        `${API_URL}/login`,
+        `${API_URL}/auth/login`,
         {
           email: data.email,
           password: data.password,
@@ -47,6 +47,7 @@ if(!isOpen) return null;
       );
       console.log(response.data);
       if (response.data.status === "success") {
+        onLoginSuccess();
         handleClose();
       }
     } catch (error) {

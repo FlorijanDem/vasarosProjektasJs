@@ -37,7 +37,7 @@ const RegisterModal = ({ isOpen, onClose, onSwitchLogin }) => {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
-        `${API_URL}/signup`,
+        `${API_URL}/auth/signup`,
         {
           email: data.email,
           password: data.password,
