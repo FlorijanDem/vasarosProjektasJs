@@ -1,4 +1,4 @@
-const { createUser, getUserByEmail } = require("../models/authModel");
+const { createUser, getUserByEmail, getUserById } = require("../models/authModel");
 const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const argon2 = require("argon2");
@@ -104,6 +104,52 @@ exports.login = async (req, res, next) => {
       status: "success",
       data: user,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getAuthenticatedUser = async (req, res) => {
+  try {
+    req.user.password = undefined;
+    req.user.id = undefined;
+    req.user.created_at = undefined;
+    res.status(200).json(req.user);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+exports.protect = async (req, res, next) => {
+  try {
+    // console.log(req);
+
+    //you need to istall cookie-parser and write middleware to use req.cookies
+    let token = req.cookies?.jwt;
+
+    if (!token) {
+      throw new AppError(
+        'You are not logged in! Please log in to get access.',
+        401
+      );
+    }
+
+    // 2) Verification token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log(decoded);
+
+    // 3) Check if user still exists
+    const currentUser = await getUserById(decoded.id);
+    if (!currentUser) {
+      throw new AppError(
+        'The user belonging to this token does no longer exist.',
+        401
+      );
+    }
+
+    // GRANT ACCESS TO PROTECTED ROUTE, add user to req object
+    req.user = currentUser;
+    next();
   } catch (error) {
     next(error);
   }
