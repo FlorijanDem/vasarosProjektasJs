@@ -1,4 +1,3 @@
-
 const express = require('express');
 const authRoutes = require('./routes/authRoutes');
 // const exampleRoutes = require('./routes/exampleRoutes');
