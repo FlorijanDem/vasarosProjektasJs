@@ -1,0 +1,16 @@
+.loaderContainer {
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.noExcursionText {
+  font-size: 1.4rem;
+  color: #808080;
+  text-align: center;
+  grid-column: 1 / -1;
+  justify-self: center;
+  margin-inline: 2rem;
+  margin-block: 3rem;
+}

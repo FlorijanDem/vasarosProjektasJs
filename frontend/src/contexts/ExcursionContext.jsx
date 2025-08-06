@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { ExcursionContext } from "./contexts";
 import { getData } from "../services/get";
-const API_URL = import.meta.env.VITE_API_URL;
 
 export const ExcursionContextProvider = ({ children }) => {
   const [excursions, setExcursions] = useState([]);
