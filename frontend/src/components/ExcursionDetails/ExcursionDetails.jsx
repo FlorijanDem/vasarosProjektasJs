@@ -1,12 +1,14 @@
 import styles from "./excursionDetails.module.css";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import { useContext } from "react";
 import { ExcursionContext } from "../../contexts/contexts";
 import { ClipLoader } from "react-spinners";
+import LeftArrow from "../../assets/left-arrow.png";
 
 const ExcursionDetails = () => {
   const { id } = useParams();
   const { excursions, loading } = useContext(ExcursionContext);
+  const navigate = useNavigate();
 
   if (loading)
     return (
@@ -20,14 +22,15 @@ const ExcursionDetails = () => {
   console.log(excursion);
 
   if (!excursion)
-    return (
-      <p className={styles.noExcursionText}>
-        Excursion not found blabababa hello.
-      </p>
-    );
+    return <p className={styles.noExcursionText}>Excursion not found.</p>;
 
   return (
     <div>
+      <button className={styles.backButton} onClick={() => navigate(`/`)}>
+        <img src={LeftArrow} alt="Back" className={styles.arrowIcon} />
+        Back
+      </button>
+
       <h1>{excursion.title}</h1>
       <p>{excursion.location}</p>
       <p>{excursion.price} €</p>
