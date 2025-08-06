@@ -56,10 +56,10 @@ if(!isOpen) return null;
         error.response?.data?.message ||
           (Array.isArray(errors)
             ? errors.map((e) => e.msg).join("\n")
-            : "Registration failed")
+            : "Login failed")
       );
       console.error(
-        "Registration failed:",
+        "Login failed:",
         error.response?.data || error.message
       );
     }
