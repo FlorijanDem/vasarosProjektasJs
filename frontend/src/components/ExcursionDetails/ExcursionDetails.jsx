@@ -1,7 +1,7 @@
 import styles from "./excursionDetails.module.css";
 import "react-day-picker/dist/style.css";
 import { useParams, useNavigate } from "react-router";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { ExcursionContext } from "../../contexts/contexts";
 import { ClipLoader } from "react-spinners";
 import LeftArrow from "../../assets/left-arrow.png";
@@ -12,12 +12,31 @@ import {
 } from "../../utils/dateTimeManipulations";
 import DefaultExcursionImg from "../../assets/default-tour-img.avif";
 import { DayPicker } from "react-day-picker";
+import { getData } from "../../services/get";
+import Review from "./Review";
 
 const ExcursionDetails = ({ openAuth }) => {
   const { id } = useParams();
   const { excursions, loading } = useContext(ExcursionContext);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [, setIsReviewsLoaded] = useState(false);
+  const [reviews, setReviews] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const data = await getData("reviews");
+        setReviews(data.reviews);
+      } catch (error) {
+        console.error("Error fetching reviews:", error);
+      } finally {
+        setIsReviewsLoaded(false);
+      }
+    };
+
+    fetchReviews();
+  }, []);
 
   if (loading)
     return (
@@ -28,6 +47,9 @@ const ExcursionDetails = ({ openAuth }) => {
 
   const excursion = excursions.find((excursion) => excursion.id === Number(id));
   const availableDates = excursion.tour_dates.map((date) => new Date(date));
+  const excursionReviews = reviews.filter(
+    (review) => review.tour_id === Number(id)
+  );
 
   if (!excursion)
     return <p className={styles.noExcursionText}>Excursion not found.</p>;
@@ -62,7 +84,9 @@ const ExcursionDetails = ({ openAuth }) => {
               Average rating: &nbsp;
               <span className={styles.stars}>
                 {renderStars(excursion.average_rating)}
-              </span>
+              </span>{" "}
+              &nbsp;
+              <span>{excursion.average_rating}</span>
             </p>
             <p className={styles.greyText}>
               Closest date:{" "}
@@ -109,10 +133,17 @@ const ExcursionDetails = ({ openAuth }) => {
         </section>
         <section className={styles.reviewsSection}>
           <h2 className={styles.subtitle}>Reviews</h2>
-          <div className={styles.commentCard}></div>
-          <div className={styles.commentCard}></div>
-          <div className={styles.commentCard}></div>
-          <div className={styles.commentCard}></div>
+          <section className={styles.reviews}>
+            {excursionReviews.length === 0 ? (
+              <p className={styles.greyText}>
+                Be the first to share your thoughts! No reviews yet.
+              </p>
+            ) : (
+              excursionReviews.map((review) => (
+                <Review key={review.id} review={review} />
+              ))
+            )}
+          </section>
         </section>
       </div>
     </div>
