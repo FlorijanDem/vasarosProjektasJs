@@ -11,6 +11,19 @@ const Nav = () => {
   const [showRegister, setShowRegister] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  useEffect(() => {
+    const saved = localStorage.getItem("theme") || "light";
+    document.documentElement.setAttribute("data-theme", saved);
+  }, []);
+
+  const toggleTheme = () => {
+    console.log("theme toggled");
+    const current = document.documentElement.getAttribute("data-theme");
+    const next = current === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", next);
+    localStorage.setItem("theme", next);
+  };
+
   const logout = async () => {
     await axios.get(`${API_URL}/logout`, {
       withCredentials: true,
@@ -120,7 +133,10 @@ const Nav = () => {
         </div>
         <div className="flex gap-2 w-1/3">
           <img src={moon} alt="Dark mode icon" className="max-md:hidden" />
-          <button className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer">
+          <button
+            className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer"
+            onClick={toggleTheme}
+          >
             Dark Mode
           </button>
         </div>

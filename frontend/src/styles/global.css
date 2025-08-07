@@ -2,18 +2,31 @@
 @import "tailwindcss";
 :root {
   font-size: 62.5%;
-  background-color: #fcfcfc;
+  background-color: var(--background-color);
   font-family: "Nunito Sans", sans-serif;
+  color: var(--text-color);
+
+  --background-color: #ffffff;
+  --lighter-background-color: #ffffff;
+  --text-color: #000000;
+  --primary-color: #007bff;
 }
 
-@layer base{
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+[data-theme="dark"] {
+  --background-color: #121212;
+  --text-color: #ffffff;
+  --primary-color: #1e90ff;
+  --lighter-background-color: #343434;
 }
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 }
 
 #root {
