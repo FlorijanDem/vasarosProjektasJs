@@ -8,13 +8,9 @@ const loggerMiddleware = require("./middleware/logger");
 const rateLimitMiddleware = require("./middleware/rateLimits");
 
 const toursRoutes = require("./routes/toursRoutes");
+const reviewsRoutes = require("./routes/reviewRoutes");
 
 const app = express();
-
-app.use(cors({
-  origin: "http://localhost:5173", 
-  credentials: true,              
-}));
 
 app.use(cookieParser());
 app.use(express.json());
@@ -23,6 +19,13 @@ app.use(loggerMiddleware);
 
 app.use("/api/v1", rateLimitMiddleware);
 
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true,
+  })
+);
 setupSwagger(app);
 
 app.get("/", (req, res) => {
@@ -35,5 +38,6 @@ app.get('/api/v1/test', (req, res) => {
 
 app.use("/api/v1", authRoutes);
 app.use("/api/v1/excursions", toursRoutes);
+app.use("/api/v1/reviews", reviewsRoutes);
 
 module.exports = app;
