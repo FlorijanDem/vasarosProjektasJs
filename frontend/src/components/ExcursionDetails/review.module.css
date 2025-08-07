@@ -29,6 +29,10 @@
 .layoutWrapper {
   display: flex;
   justify-content: space-between;
+
+  @media (max-width: 430px) {
+    flex-direction: column;
+  }
 }
 
 .reviewerName {
