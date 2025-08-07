@@ -1,12 +1,17 @@
 import moon from "../../../src/assets/moon.svg";
 import { useState, useEffect } from "react";
 import ModalController from "../../pages/Login/ModalController";
-import { Link } from "react-router";
+import { Link } from "react-router"
 import axios from "axios";
+import './nav.css'
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 const Nav = () => {
   const [showAuth, setShowAuth] = useState(false);
+  const [darkMode,setDarkMode] = useState(() => {
+    return localStorage.getItem('theme') === 'dark';
+  })
   const [showLogin, setShowLogin] = useState(true);
   const [showRegister, setShowRegister] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -34,6 +39,18 @@ const Nav = () => {
       setIsLoggedIn(false);
     }
   };
+
+useEffect(() => {
+  if(darkMode){
+    document.documentElement.classList.add('dark');
+    localStorage.setItem('theme','dark');
+  }
+  else{
+    document.documentElement.classList.remove('dark');
+    document.documentElement.classList.add('light')
+    localStorage.setItem('theme','light');
+  }
+}, [darkMode]);
 
   useEffect(() => {
     fetchUser();
@@ -65,7 +82,7 @@ const Nav = () => {
   return isLoggedIn ? (
   userRole === "admin" ? (
     <nav className="w-full flex-row max-md:flex-col flex h-[8rem] bg-white sticky shadow-[0rem_0.125rem_0.25rem_0rem_rgba(0,0,0,0.0562)] items-center px-12 max-md:px-4 max-lg:px-12 top-0">
-      <div className="flex w-13/20  max-2xl:w-1/4 max-md:w-full max-md:h-1/2">
+      <div className="flex w-13/20  max-2xl:w-1/4 max-md:w-full max-md:h-1/2 ">
         <Link to="/" className="flex max-md:h-full max-md:w-full max-md:justify-center max-md:items-center">
           <h2 className="font-['Nunito_Sans',sans-serif] font-extrabold text-[2.4rem] max-md:text-[1.4rem] ">
             Ekskursijos
@@ -96,7 +113,9 @@ const Nav = () => {
         </div>
         <div className="flex w-max gap-2 justify-center items-center">
           <img src={moon} alt="Dark mode icon" className="max-md:hidden" />
-          <button className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer">
+          <button onClick={() => {
+            setDarkMode(!darkMode)
+          }} className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer">
             Dark Mode
           </button>
         </div>
@@ -113,7 +132,7 @@ const Nav = () => {
       )}
     </nav>
   ) : userRole === "user" ? (
-    <nav className="w-full flex-row flex h-[8rem] bg-white sticky shadow-[0rem_0.125rem_0.25rem_0rem_rgba(0,0,0,0.0562)] items-center px-12 max-md:px-4 max-lg:px-12 top-0">
+    <nav className="w-full flex-row flex h-[8rem] sticky shadow-[0rem_0.125rem_0.25rem_0rem_rgba(0,0,0,0.0562)] items-center px-12 max-md:px-4 max-lg:px-12 top-0">
       <div className="flex w-13/20  max-2xl:w-1/4 max-md:w-1/4">
         <Link to="/">
           <h2 className="font-['Nunito_Sans',sans-serif] font-extrabold text-[2.4rem] max-md:text-[1.4rem]">
@@ -121,7 +140,7 @@ const Nav = () => {
           </h2>
         </Link>
       </div>
-      <div className="flex w-7/20 max-2xl:w-4/5 max-md:w-3/4 justify-between ">
+      <div className="flex w-7/20 max-2xl:w-4/5 max-md:w-3/4 justify-between">
         <div className="flex w-max gap-2 justify-center items-center">
           <img src={moon} alt="Email icon" className="max-md:hidden" />
           <button className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer">
@@ -139,7 +158,9 @@ const Nav = () => {
         </div>
         <div className="flex w-max gap-2 justify-center items-center">
           <img src={moon} alt="Dark mode icon" className="max-md:hidden" />
-          <button className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer">
+          <button onClick={() => {
+            setDarkMode(!darkMode)
+          }} className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer">
             Dark Mode
           </button>
         </div>
@@ -157,15 +178,15 @@ const Nav = () => {
     </nav>
   ) : null
 ) : (
-  <nav className="w-full flex-row flex h-[8rem] bg-white sticky shadow-[0rem_0.125rem_0.25rem_0rem_rgba(0,0,0,0.0562)] items-center px-12 max-md:px-4 max-lg:px-12 top-0">
-      <div className="flex w-3/4  max-2xl:w-1/2">
+  <nav className="w-full flex-row flex h-[8rem] sticky shadow-[0rem_0.125rem_0.25rem_0rem_rgba(0,0,0,0.0562)] items-center px-12 max-md:px-4 max-lg:px-12 top-0">
+      <div className="flex w-3/4  max-2xl:w-1/2 ">
         <Link to="/">
           <h2 className="font-['Nunito_Sans',sans-serif] font-extrabold text-[2.4rem] max-md:text-[1.4rem]  ">
             Ekskursijos
           </h2>
         </Link>
       </div>
-      <div className="flex w-1/4 max-2xl:w-1/2 justify-between ">
+      <div className="flex w-1/4 max-2xl:w-1/2 justify-between">
         <div className="flex gap-2 w-max justify-center">
           <img src={moon} alt="Sign up icon" className="max-md:hidden" />
           <button
@@ -175,7 +196,7 @@ const Nav = () => {
             Sign up
           </button>
         </div>
-        <div className="flex gap-2 w-max justify-center">
+        <div className="flex gap-2 w-max justify-center ">
           <img src={moon} alt="Log in icon" className="max-md:hidden" />
           <button
             onClick={() => openAuth("login")}
@@ -184,9 +205,11 @@ const Nav = () => {
             Log in
           </button>
         </div>
-        <div className="flex gap-2 w-max justify-center">
+        <div className="flex gap-2 w-max justify-center ">
           <img src={moon} alt="Dark mode icon" className="max-md:hidden" />
-          <button className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer">
+          <button onClick={() => {
+            setDarkMode(!darkMode)
+          }} className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer">
             Dark Mode
           </button>
         </div>
