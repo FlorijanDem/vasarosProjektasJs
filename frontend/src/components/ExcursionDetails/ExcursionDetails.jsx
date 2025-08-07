@@ -1,4 +1,5 @@
 import styles from "./excursionDetails.module.css";
+import "react-day-picker/dist/style.css";
 import { useParams, useNavigate } from "react-router";
 import { useContext, useState } from "react";
 import { ExcursionContext } from "../../contexts/contexts";
@@ -10,12 +11,12 @@ import {
   getClosestDate,
 } from "../../utils/dateTimeManipulations";
 import DefaultExcursionImg from "../../assets/default-tour-img.avif";
+import { DayPicker } from "react-day-picker";
 
-const ExcursionDetails = () => {
+const ExcursionDetails = ({ openAuth }) => {
   const { id } = useParams();
   const { excursions, loading } = useContext(ExcursionContext);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
-
   const navigate = useNavigate();
 
   if (loading)
@@ -26,8 +27,7 @@ const ExcursionDetails = () => {
     );
 
   const excursion = excursions.find((excursion) => excursion.id === Number(id));
-
-  console.log(excursion);
+  const availableDates = excursion.tour_dates.map((date) => new Date(date));
 
   if (!excursion)
     return <p className={styles.noExcursionText}>Excursion not found.</p>;
@@ -78,8 +78,36 @@ const ExcursionDetails = () => {
       </section>
 
       {/* Later */}
-      <section className={styles.calendarSection}></section>
-      <section className={styles.reviewsSection}></section>
+      <div className={styles.sectionWrapper}>
+        <section className={styles.calendarSection}>
+          <h2 className={styles.subtitle}>Available dates</h2>
+          <div className={styles.calendarWrapper}>
+            <DayPicker
+              mode="single"
+              selected={undefined}
+              modifiers={{ available: availableDates }}
+              modifiersClassNames={{ available: styles.highlight }}
+            />
+          </div>
+          <div className={styles.signupText}>
+            <p className={styles.greyText}>
+              Create an account to book your spot on this excursion.&nbsp;
+            </p>
+            <span
+              className={`${styles.signupBtn} ${styles.greyText}`}
+              onClick={() => openAuth("register")}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") openAuth("register");
+              }}
+            >
+              Sign up
+            </span>
+          </div>
+        </section>
+        <section className={styles.reviewsSection}></section>
+      </div>
     </div>
   );
 };
