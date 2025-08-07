@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import ModalController from "../../pages/Login/ModalController";
 import { Link } from "react-router"
 import axios from "axios";
-import './nav.css'
 
 const API_URL = import.meta.env.VITE_API_URL;
 
