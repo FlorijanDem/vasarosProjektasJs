@@ -3,6 +3,7 @@
   flex-direction: column;
   align-items: center;
   margin-inline: 2rem;
+  width: 100%;
 
   @media (max-width: 640px) {
     margin-inline: 1rem;
