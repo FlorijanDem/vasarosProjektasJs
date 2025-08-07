@@ -3,6 +3,7 @@ const {
   createUser,
   updateUser,
   deleteUser,
+  searchUsers
 } = require("../models/adminModel");
 const argon2 = require("argon2");
 
@@ -88,5 +89,16 @@ exports.deleteUser = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+  }
+};
+
+exports.searchUsers = async (req, res) => {
+  try {
+    const { email } = req.query;
+    const users = await searchUsers({ email });
+    res.json(users);
+  } catch (err) {
+    console.error('error', err);
+    res.status(500).json({ error: 'server error' });
   }
 };
