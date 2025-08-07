@@ -122,9 +122,6 @@ exports.getAuthenticatedUser = async (req, res) => {
 
 exports.protect = async (req, res, next) => {
   try {
-    // console.log(req);
-
-    //you need to istall cookie-parser and write middleware to use req.cookies
     let token = req.cookies?.jwt;
 
     if (!token) {
@@ -134,11 +131,9 @@ exports.protect = async (req, res, next) => {
       );
     }
 
-    // 2) Verification token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     console.log(decoded);
 
-    // 3) Check if user still exists
     const currentUser = await getUserById(decoded.id);
     if (!currentUser) {
       throw new AppError(
@@ -146,8 +141,6 @@ exports.protect = async (req, res, next) => {
         401
       );
     }
-
-    // GRANT ACCESS TO PROTECTED ROUTE, add user to req object
     req.user = currentUser;
     next();
   } catch (error) {

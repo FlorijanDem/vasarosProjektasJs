@@ -3,8 +3,8 @@ const authRoutes = require('./routes/authRoutes');
 const setupSwagger = require('./utils/swagger');
 const cookieParser = require('cookie-parser');
 const cors = require("cors");
-const adminRoutes = require("./routes/adminRoutes");
 const toursRoutes = require("./routes/toursRoutes");
+const adminRoutes = require("./routes/adminRoutes")
 
 const app = express();
 
