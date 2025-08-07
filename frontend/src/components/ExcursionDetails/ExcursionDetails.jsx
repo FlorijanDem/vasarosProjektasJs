@@ -60,9 +60,9 @@ const ExcursionDetails = () => {
           <div className={styles.additionalInfo}>
             <p className={styles.greyText}>
               Average rating: &nbsp;
-              <div className={styles.stars}>
+              <span className={styles.stars}>
                 {renderStars(excursion.average_rating)}
-              </div>
+              </span>
             </p>
             <p className={styles.greyText}>
               Closest date:{" "}
