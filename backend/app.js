@@ -3,7 +3,7 @@ const authRoutes = require('./routes/authRoutes');
 const setupSwagger = require('./utils/swagger');
 const cookieParser = require('cookie-parser');
 const cors = require("cors");
-
+const adminRoutes = require("./routes/adminRoutes");
 const toursRoutes = require("./routes/toursRoutes");
 
 const app = express();
@@ -25,5 +25,6 @@ app.get("/", (req, res) => {
 
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/excursions', toursRoutes);
+app.use('/api/v1/admin', adminRoutes);
 
 module.exports = app;
