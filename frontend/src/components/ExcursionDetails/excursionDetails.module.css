@@ -31,7 +31,7 @@
 
 .infoSection {
   display: grid;
-  grid-template-columns: repeat(2, minmax(26.4rem, 60rem));
+  grid-template-columns: repeat(2, minmax(26.4rem, 50rem));
   gap: 5rem;
   justify-content: center;
   max-width: fit-content;
@@ -67,11 +67,6 @@
 .title {
   font-size: 1.8rem;
   font-weight: 800;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
 
   @media (max-width: 880px) {
     display: flex;
@@ -104,13 +99,13 @@
 
 .sectionWrapper {
   display: grid;
-  grid-template-columns: repeat(2, minmax(26.4rem, 60rem));
+  grid-template-columns: repeat(2, minmax(26.4rem, 50rem));
   gap: 5rem;
   justify-content: center;
   max-width: fit-content;
 
   @media (max-width: 880px) {
-    grid-template-columns: repeat(1, minmax(26.4rem, 1fr));
+    grid-template-columns: repeat(1, minmax(26.4rem, 50rem));
   }
 }
 
@@ -176,3 +171,20 @@
 }
 
 /* Reviews */
+.reviewsSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.commentCard {
+  width: 100%;
+  height: 100px;
+  background: var(--colors-white, #fff);
+  box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.1);
+  padding-block: 1.5rem;
+  padding-inline: 2rem;
+  border-radius: 1rem;
+}

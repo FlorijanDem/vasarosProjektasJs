@@ -85,6 +85,7 @@ const ExcursionDetails = ({ openAuth }) => {
             <DayPicker
               mode="single"
               selected={undefined}
+              disabled={() => true}
               modifiers={{ available: availableDates }}
               modifiersClassNames={{ available: styles.highlight }}
             />
@@ -106,7 +107,13 @@ const ExcursionDetails = ({ openAuth }) => {
             </span>
           </div>
         </section>
-        <section className={styles.reviewsSection}></section>
+        <section className={styles.reviewsSection}>
+          <h2 className={styles.subtitle}>Reviews</h2>
+          <div className={styles.commentCard}></div>
+          <div className={styles.commentCard}></div>
+          <div className={styles.commentCard}></div>
+          <div className={styles.commentCard}></div>
+        </section>
       </div>
     </div>
   );
