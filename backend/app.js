@@ -4,7 +4,7 @@ const setupSwagger = require('./utils/swagger');
 const cookieParser = require('cookie-parser');
 const cors = require("cors");
 const toursRoutes = require("./routes/toursRoutes");
-const adminRoutes = require("./routes/adminRoutes")
+const userRoutes = require("./routes/userRoutes")
 const reviewsRoutes = require("./routes/reviewRoutes");
 const reservationRoutes = require("./routes/reservationRoutes");
 
@@ -28,7 +28,7 @@ app.get("/", (req, res) => {
 
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/excursions', toursRoutes);
-app.use('/api/v1/admin', adminRoutes);
+app.use('/api/v1/admin', userRoutes);
 app.use("/api/v1/reviews", reviewsRoutes);
 app.use('/api/v1/reservations', reservationRoutes)
 

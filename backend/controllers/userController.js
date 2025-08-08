@@ -4,7 +4,7 @@ const {
   updateUser,
   deleteUser,
   searchUsers
-} = require("../models/adminModel");
+} = require("../models/userModel");
 const argon2 = require("argon2");
 
 exports.getAllUsers = async (req, res, next) => {

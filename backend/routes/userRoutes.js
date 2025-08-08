@@ -6,10 +6,11 @@ const {
   updateUser,
   deleteUser,
   searchUsers
-} = require("../controllers/adminController");
+} = require("../controllers/userController");
 const restrictToAdmin = require("../middleware/restrictToAdmin");
 const protect = require("../middleware/protect");
 const authMiddleware = require("../middleware/authMiddleware");
+const { validateSignup } = require("../validators/signup");
 
 /**
  * @swagger
@@ -150,10 +151,10 @@ const authMiddleware = require("../middleware/authMiddleware");
 router
   .route("/users")
   .get(authMiddleware, protect, restrictToAdmin, getAllUsers)
-  .post(authMiddleware, protect, restrictToAdmin, createUser);
+  .post(authMiddleware, protect, restrictToAdmin, validateSignup, createUser);
 router
   .route("/user/:id")
-  .put(authMiddleware, protect, restrictToAdmin, updateUser)
+  .put(authMiddleware, protect, restrictToAdmin, validateSignup, updateUser)
   .delete(authMiddleware, protect, restrictToAdmin, deleteUser);
 router.route("/users/search").get(authMiddleware, protect, restrictToAdmin, searchUsers);
 

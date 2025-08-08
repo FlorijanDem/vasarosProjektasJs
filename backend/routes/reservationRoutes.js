@@ -6,6 +6,9 @@ const {
   updateReservation,
   deleteReservation,
 } = require("../controllers/reservationController");
+const restrictToAdmin = require("../middleware/restrictToAdmin");
+const protect = require("../middleware/protect");
+const authMiddleware = require("../middleware/authMiddleware");
 
 /**
  * @swagger
@@ -104,7 +107,13 @@ const {
  *         description: Reservation updated successfully
  */
 
-router.route("/").get(getAllReservations).post(createReservation);
-router.route("/:id").put(updateReservation).delete(deleteReservation);
+router
+  .route("/")
+  .get(authMiddleware, protect, restrictToAdmin, getAllReservations)
+  .post(authMiddleware, protect, restrictToAdmin, createReservation);
+router
+  .route("/:id")
+  .put(authMiddleware, protect, restrictToAdmin, updateReservation)
+  .delete(authMiddleware, protect, restrictToAdmin, deleteReservation);
 
 module.exports = router;
