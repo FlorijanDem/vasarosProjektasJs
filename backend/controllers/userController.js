@@ -6,6 +6,7 @@ const {
   searchUsers
 } = require("../models/userModel");
 const argon2 = require("argon2");
+const AppError = require('../utils/appError');
 
 exports.getAllUsers = async (req, res, next) => {
   try {

@@ -3,6 +3,7 @@ const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const argon2 = require("argon2");
 const db = require("../db");
+const AppError = require('../utils/appError');
 
 const signToken = (user) => {
   return jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, {

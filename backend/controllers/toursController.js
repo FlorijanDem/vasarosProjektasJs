@@ -6,6 +6,7 @@ const {
   searchAndFilterTours,
 } = require("../models/toursModel");
 const { validationResult } = require("express-validator");
+const AppError = require('../utils/appError');
 
 exports.getAllTours = async (req, res, next) => {
   try {

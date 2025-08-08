@@ -5,6 +5,7 @@ const {
   deleteReservation,
 } = require("../models/reservationModel");
 const { validationResult } = require("express-validator");
+const AppError = require('../utils/appError');
 
 exports.getAllReservations = async (req, res, next) => {
   try {
