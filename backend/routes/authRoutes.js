@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const { signup, logout, login } = require("../controllers/authController");
+const { signup, logout, login, protect, getAuthenticatedUser } = require("../controllers/authController");
 const { validateSignup } = require("../validators/signup");
 const { validateLogin } = require("../validators/login");
 
@@ -14,7 +14,7 @@ const { validateLogin } = require("../validators/login");
 
 /**
  * @swagger
- * /api/v1/login:
+ * /api/v1/auth/login:
  *   post:
  *     summary: User login
  *     tags: [Auth]
@@ -36,7 +36,7 @@ const { validateLogin } = require("../validators/login");
 
 /**
  * @swagger
- * /api/v1/signup:
+ * /api/v1/auth/signup:
  *   post:
  *     summary: User signup
  *     tags: [Auth]
@@ -60,7 +60,7 @@ const { validateLogin } = require("../validators/login");
 
 /**
  * @swagger
- * /api/v1/logout:
+ * /api/v1/auth/logout:
  *   get:
  *     summary: User logout
  *     tags: [Auth]
@@ -72,7 +72,8 @@ const { validateLogin } = require("../validators/login");
  */
 
 router.route("/signup").post(validateSignup, signup);
-router.route("/logout").get(logout);
 router.route("/login").post(validateLogin, login);
+router.route("/logout").get(logout);
+router.route("/me").get(protect, getAuthenticatedUser);
 
 module.exports = router;

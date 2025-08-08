@@ -109,6 +109,14 @@ async function createTables() {
       );
     `;
 
+    // Blaclisted token
+    await sql`
+    CREATE TABLE IF NOT EXISTS blacklisted_tokens (
+        id SERIAL PRIMARY KEY,
+        token TEXT,
+        expires_at TIMESTAMP DEFAULT NOW()
+       );
+    `;
     console.log("✅ All tables created successfully!");
   } catch (error) {
     console.error("❌ Error while creating tables:", error);

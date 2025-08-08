@@ -7,7 +7,8 @@ const ModalController = ({
   openRegister,
   closeLogin,
   closeRegister,
-  openLogin
+  openLogin,
+  onAuthSuccess,
 }) => {
   return (
     <>
@@ -15,11 +16,13 @@ const ModalController = ({
         isOpen={showLogin}
         onClose={closeLogin}
         onSwitchRegister={openRegister}
+        onLoginSuccess={onAuthSuccess}
       />
       <RegisterModal
         isOpen={showRegister}
         onClose={closeRegister}
         onSwitchLogin={openLogin}
+        onRegisterSuccess={onAuthSuccess}
       />
     </>
   );
