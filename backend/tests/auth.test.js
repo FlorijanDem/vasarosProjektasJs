@@ -20,7 +20,7 @@ process.env.JWT_COOKIE_EXPIRES_IN = "90";
 
 jest.mock("../models/authModel");
 
-describe.skip("Auth Controller", () => {   /*added skip for now, to merge with main */
+describe("Auth Controller", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });

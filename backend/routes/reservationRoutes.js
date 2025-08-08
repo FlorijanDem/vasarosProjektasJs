@@ -73,7 +73,7 @@ const {
  *       200:
  *         description: Reservation deleted successfully
  *   put:
- *     summary: Update a User by ID
+ *     summary: Update a Reservation by ID
  *     tags: [Reservations]
  *     security:
  *       - CookieAuth: []
@@ -92,16 +92,16 @@ const {
  *             type: object
  *             properties:
  *               user_id:
- *                 type: numeric
+ *                 type: integer
  *               tour_id:
- *                 type: numeric
+ *                 type: integer
  *               selected_date:
  *                 type: string
  *               status:
  *                 type: string
  *     responses:
  *       200:
- *         description: User updated successfully
+ *         description: Reservation updated successfully
  */
 
 router.route("/").get(getAllReservations).post(createReservation);
