@@ -13,6 +13,7 @@
   --primary-color: #007bff;
   --secondary-text-color: #808080;
   --accent-text-color: #111517;
+  --error-text-color: #b91c1c;
 }
 
 [data-theme="dark"] {
@@ -22,6 +23,7 @@
   --lighter-background-color: #2b3844;
   --secondary-text-color: #ffffff;
   --accent-text-color: #ffffff;
+  --error-text-color: #fb3a3a;
 }
 
 @layer base {
