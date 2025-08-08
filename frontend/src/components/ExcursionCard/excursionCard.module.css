@@ -42,12 +42,12 @@
 
 .rating {
   font-size: 1.4rem;
-  color: #808080;
+  color: var(--secondary-text-color);
 }
 
 .dateSection {
   font-size: 1.4rem;
-  color: #808080;
+  color: var(--secondary-text-color);
   display: flex;
   gap: 0.5rem;
 }
@@ -55,7 +55,7 @@
 .durationPriceSection {
   display: flex;
   justify-content: space-between;
-  color: #111517;
+  color: var(--accent-text-color);
   font-weight: 700;
   font-size: 1.4rem;
   padding-block: 1rem;
@@ -68,9 +68,9 @@
 
 .moreInfoBtn {
   border-radius: 10px;
-  border: 1px solid #808080;
-  color: #808080;
-  background: #fff;
+  border: 1px solid var(--secondary-text-color);
+  color: var(--secondary-text-color);
+  background: var(--lighter-background-color);
   padding: 0.5rem 1rem;
   width: fit-content;
 }
