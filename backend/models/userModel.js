@@ -20,8 +20,8 @@ exports.createUser = async (newUser) => {
 
 exports.updateUser = async (id, updatedUser) => {
   const users = await sql`
-  update users set ${sql(updatedUser, "email", "password", "role")}
-  where id = ${id}
+  UPDATE users SET ${sql(updatedUser, "email", "password", "role")}
+  WHERE id = ${id}
   returning *;
 `;
   return users[0];
