@@ -6,7 +6,7 @@ const router = express.Router();
  * @swagger
  * tags:
  *   name: Reviews
- *   description: Endpoints for excursion reviews
+ *   description: Endpoints for tour reviews
  */
 
 /**
@@ -19,24 +19,24 @@ const router = express.Router();
  *       - in: path
  *         name: id
  *         required: true
- *         description: Tour ID
+ *         description: ID of the tour
  *         schema:
  *           type: integer
  *       - in: query
  *         name: page
  *         required: false
- *         description: Page number (default: 1)
+ *         description: Page number (defaults to 1)
  *         schema:
  *           type: integer
  *       - in: query
  *         name: limit
  *         required: false
- *         description: Number of reviews per page (default: 4)
+ *         description: Number of reviews per page (defaults to 4)
  *         schema:
  *           type: integer
  *     responses:
  *       200:
- *         description: Paginated list of reviews for the specified tour
+ *         description: Paginated list of reviews
  *         content:
  *           application/json:
  *             schema:
@@ -55,16 +55,20 @@ const router = express.Router();
  *                         properties:
  *                           id:
  *                             type: integer
- *                           comment:
- *                             type: string
- *                           rating:
- *                             type: number
  *                           user_id:
  *                             type: integer
  *                           tour_id:
  *                             type: integer
+ *                           rating:
+ *                             type: integer
+ *                           comment:
+ *                             type: string
+ *                           created_at:
+ *                             type: string
+ *                             format: date-time
  *                           email:
  *                             type: string
+ *                             format: email
  *                     pagination:
  *                       type: object
  *                       properties:
@@ -76,29 +80,9 @@ const router = express.Router();
  *                           type: integer
  *                         totalPages:
  *                           type: integer
- *             example:
- *               status: success
- *               data:
- *                 reviews:
- *                   - id: 1
- *                     comment: "Amazing views and well-organized tour!"
- *                     rating: 5
- *                     user_id: 2
- *                     tour_id: 1
- *                     email: user@example.com
- *                   - id: 2
- *                     comment: "Pretty average, but good value."
- *                     rating: 3
- *                     user_id: 5
- *                     tour_id: 1
- *                     email: another@example.com
- *                 pagination:
- *                   total: 10
- *                   page: 1
- *                   limit: 4
- *                   totalPages: 3
+ *       404:
+ *         description: Tour or reviews not found
  */
-
 router.route("/:id").get(getReviewsById);
 
 module.exports = router;
