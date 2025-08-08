@@ -20,17 +20,6 @@ const Nav = () => {
     document.documentElement.setAttribute("data-theme", saved);
   }, []);
 
-  /*useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      document.documentElement.classList.add("light");
-      localStorage.setItem("theme", "light");
-    }
-  }, [darkMode]);*/
-
   const toggleTheme = () => {
     console.log("theme toggled");
     const current = document.documentElement.getAttribute("data-theme");
