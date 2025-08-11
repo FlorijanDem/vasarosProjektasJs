@@ -1,4 +1,11 @@
-import moon from "../../../src/assets/moon.svg";
+import moon from "../../../src/assets/moon-icon.png";
+import sun from "../../../src/assets/sun-icon.png";
+import registerIconDark from "../../../src/assets/sign-up-icon-dark.png";
+import registerIconLight from "../../../src/assets/sign-up-icon-light.png";
+import loginIconDark from "../../../src/assets/login-icon-dark.png";
+import loginIconLight from "../../../src/assets/login-icon-light.png";
+import logoutIconDark from "../../../src/assets/logout-icon-dark.png";
+import logoutIconLight from "../../../src/assets/logout-icon-light.png";
 import { useState, useEffect } from "react";
 import ModalController from "../../pages/Login/ModalController";
 import { Link } from "react-router";
@@ -82,7 +89,11 @@ const Nav = () => {
           </button>
         </div>
         <div className="flex gap-2 w-1/3">
-          <img src={moon} alt="Log in icon" className="max-md:hidden" />
+          <img
+            src={darkMode ? logoutIconDark : logoutIconLight}
+            alt="Log out icon"
+            className="max-md:hidden"
+          />
           <button
             onClick={logout}
             className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer"
@@ -91,8 +102,18 @@ const Nav = () => {
           </button>
         </div>
         <div className="flex gap-2 w-1/3">
-          <img src={moon} alt="Dark mode icon" className="max-md:hidden" />
-          <button className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer">
+          <img
+            src={darkMode ? sun : moon}
+            alt={darkMode ? "Light mode icon" : "Dark mode icon"}
+            className="max-md:hidden"
+          />
+          <button
+            className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer"
+            onClick={() => {
+              toggleTheme();
+              setDarkMode(!darkMode);
+            }}
+          >
             Dark Mode
           </button>
         </div>
@@ -118,7 +139,11 @@ const Nav = () => {
       </div>
       <div className="flex w-1/4 max-2xl:w-1/2 justify-between ">
         <div className="flex gap-2 w-1/3 ">
-          <img src={moon} alt="Sign up icon" className="max-md:hidden" />
+          <img
+            src={darkMode ? registerIconDark : registerIconLight}
+            alt="Sign up icon"
+            className="max-md:hidden"
+          />
           <button
             onClick={() => openAuth("register")}
             className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer"
@@ -127,7 +152,11 @@ const Nav = () => {
           </button>
         </div>
         <div className="flex gap-2 w-1/3">
-          <img src={moon} alt="Log in icon" className="max-md:hidden" />
+          <img
+            src={darkMode ? loginIconDark : loginIconLight}
+            alt="Log in icon"
+            className="max-md:hidden"
+          />
           <button
             onClick={() => openAuth("login")}
             className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer"
@@ -136,7 +165,11 @@ const Nav = () => {
           </button>
         </div>
         <div className="flex gap-2 w-1/3">
-          <img src={moon} alt="Dark mode icon" className="max-md:hidden" />
+          <img
+            src={darkMode ? sun : moon}
+            alt={darkMode ? "Light mode icon" : "Dark mode icon"}
+            className="max-md:hidden"
+          />
           <button
             className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer"
             onClick={() => {
