@@ -19,6 +19,7 @@ process.env.JWT_EXPIRES_IN = "90d";
 process.env.JWT_COOKIE_EXPIRES_IN = "90";
 
 jest.mock("../models/authModel");
+jest.mock("../models/blacklistedTokensModel")
 
 describe("Auth Controller", () => {
   beforeEach(() => {

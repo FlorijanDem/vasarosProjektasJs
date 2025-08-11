@@ -2,7 +2,8 @@ const { createUser, getUserByEmail, getUserById } = require("../models/authModel
 const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const argon2 = require("argon2");
-const db = require("../db");
+// const db = require("../db");
+const { addToBlacklistedTokens } = require("../models/blacklistedTokensModel")
 
 const signToken = (user) => {
   return jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, {
@@ -66,10 +67,12 @@ exports.logout = async (req, res) => {
 
     const expiresAt = new Date(decoded.exp * 1000);
 
-    await db.query(
-      "INSERT INTO blacklisted_tokens (token, expires_at) VALUES ($1, $2)",
-      [token, expiresAt]
-    );
+    // await db.query(
+    //   "INSERT INTO blacklisted_tokens (token, expires_at) VALUES ($1, $2)",
+    //   [token, expiresAt]
+    // );
+    const toDB = { token, expiresAt };
+    await addToBlacklistedTokens(toDB);
 
     res.clearCookie("jwt", {
       httpOnly: true,
