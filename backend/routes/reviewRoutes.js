@@ -1,5 +1,5 @@
 const express = require("express");
-const { getAllReviews } = require("../controllers/reviewController");
+const { getReviewsById } = require("../controllers/reviewController");
 const router = express.Router();
 
 /**
@@ -11,43 +11,78 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/v1/reviews:
+ * /api/v1/reviews/{id}:
  *   get:
- *     summary: Get all reviews
+ *     summary: Get paginated reviews for a specific tour
  *     tags: [Reviews]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID of the tour
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: page
+ *         required: false
+ *         description: Page number (defaults to 1)
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: limit
+ *         required: false
+ *         description: Number of reviews per page (defaults to 4)
+ *         schema:
+ *           type: integer
  *     responses:
  *       200:
- *         description: List of reviews
+ *         description: Paginated list of reviews
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: integer
- *                   review:
- *                     type: string
- *                   rating:
- *                     type: number
- *                   user_id:
- *                     type: integer
- *                   tour_id:
- *                     type: integer
- *             example:
- *               - id: 1
- *                 review: "Amazing tour!"
- *                 rating: 5
- *                 user_id: 2
- *                 tour_id: 3
- *               - id: 2
- *                 review: "It was okay."
- *                 rating: 3
- *                 user_id: 5
- *                 tour_id: 1
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: success
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     reviews:
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: integer
+ *                           user_id:
+ *                             type: integer
+ *                           tour_id:
+ *                             type: integer
+ *                           rating:
+ *                             type: integer
+ *                           comment:
+ *                             type: string
+ *                           created_at:
+ *                             type: string
+ *                             format: date-time
+ *                           email:
+ *                             type: string
+ *                             format: email
+ *                     pagination:
+ *                       type: object
+ *                       properties:
+ *                         total:
+ *                           type: integer
+ *                         page:
+ *                           type: integer
+ *                         limit:
+ *                           type: integer
+ *                         totalPages:
+ *                           type: integer
+ *       404:
+ *         description: Tour or reviews not found
  */
-
-router.route("/").get(getAllReviews);
+router.route("/:id").get(getReviewsById);
 
 module.exports = router;
