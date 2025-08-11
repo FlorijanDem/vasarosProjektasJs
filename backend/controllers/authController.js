@@ -66,13 +66,9 @@ exports.logout = async (req, res) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    const expiresAt = new Date(decoded.exp * 1000);
+    const expires_at = new Date(decoded.exp * 1000);
 
-    // await db.query(
-    //   "INSERT INTO blacklisted_tokens (token, expires_at) VALUES ($1, $2)",
-    //   [token, expiresAt]
-    // );
-    const toDB = { token, expiresAt };
+    const toDB = { token, expires_at };
     await addToBlacklistedTokens(toDB);
 
     res.clearCookie("jwt", {
