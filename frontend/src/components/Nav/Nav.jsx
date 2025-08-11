@@ -1,19 +1,39 @@
-import moon from "../../../src/assets/moon.svg";
+import moon from "../../../src/assets/moon-icon.png";
+import sun from "../../../src/assets/sun-icon.png";
+import registerIconDark from "../../../src/assets/sign-up-icon-dark.png";
+import registerIconLight from "../../../src/assets/sign-up-icon-light.png";
+import loginIconDark from "../../../src/assets/login-icon-dark.png";
+import loginIconLight from "../../../src/assets/login-icon-light.png";
+import logoutIconDark from "../../../src/assets/logout-icon-dark.png";
+import logoutIconLight from "../../../src/assets/logout-icon-light.png";
 import { useState, useEffect } from "react";
 import ModalController from "../../pages/Login/ModalController";
 import { Link } from "react-router"
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL;
+import "../../styles/global.css";
 
 const Nav = () => {
   const [showAuth, setShowAuth] = useState(false);
-  const [darkMode,setDarkMode] = useState(() => {
-    return localStorage.getItem('theme') === 'dark';
-  })
   const [showLogin, setShowLogin] = useState(true);
   const [showRegister, setShowRegister] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem("theme") === "dark";
+  });
+
+  useEffect(() => {
+    const saved = localStorage.getItem("theme") || "light";
+    document.documentElement.setAttribute("data-theme", saved);
+  }, []);
+
+  const toggleTheme = () => {
+    const current = document.documentElement.getAttribute("data-theme");
+    const next = current === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", next);
+    localStorage.setItem("theme", next);
+  };
   const [userRole, setUserRole] = useState(null);
   const [userEmail, setUserEmail] = useState(null);
   const logout = async () => {
@@ -80,7 +100,7 @@ useEffect(() => {
 
   return isLoggedIn ? (
   userRole === "admin" ? (
-    <nav className="w-full flex-row max-md:flex-col flex h-[8rem] bg-white sticky shadow-[0rem_0.125rem_0.25rem_0rem_rgba(0,0,0,0.0562)] items-center px-12 max-md:px-4 max-lg:px-12 top-0">
+    <nav className="w-full flex-row max-md:flex-col flex h-[8rem]  bg-[var(--lighter-background-color)]  sticky shadow-[0rem_0.125rem_0.25rem_0rem_rgba(0,0,0,0.0562)] items-center px-12 max-md:px-4 max-lg:px-12 top-0">
       <div className="flex w-13/20  max-2xl:w-1/4 max-md:w-full max-md:h-1/2 ">
         <Link to="/" className="flex max-md:h-full max-md:w-full max-md:justify-center max-md:items-center">
           <h2 className="font-['Nunito_Sans',sans-serif] font-extrabold text-[2.4rem] max-md:text-[1.4rem] ">
@@ -101,8 +121,12 @@ useEffect(() => {
             {userEmail}
           </button>
         </div>
-        <div className="flex w-max gap-2 justify-center items-center">
-          <img src={moon} alt="Logout icon" className="max-md:hidden" />
+        <div className="flex gap-2 w-1/3">
+          <img
+            src={darkMode ? logoutIconDark : logoutIconLight}
+            alt="Log out icon"
+            className="max-md:hidden"
+          />
           <button
             onClick={logout}
             className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer"
@@ -111,10 +135,14 @@ useEffect(() => {
           </button>
         </div>
         <div className="flex w-max gap-2 justify-center items-center">
-          <img src={moon} alt="Dark mode icon" className="max-md:hidden" />
-          <button onClick={() => {
-            setDarkMode(!darkMode)
-          }} className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer">
+          <img             
+          src={darkMode ? sun : moon}
+            alt={darkMode ? "Light mode icon" : "Dark mode icon"} className="max-md:hidden" />
+          <button          
+             onClick={() => {
+              toggleTheme();
+              setDarkMode(!darkMode);
+            }} className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer">
             Dark Mode
           </button>
         </div>
@@ -147,7 +175,10 @@ useEffect(() => {
           </button>
         </div>
         <div className="flex w-max gap-2 justify-center items-center">
-          <img src={moon} alt="Logout icon" className="max-md:hidden" />
+          <img  
+            src={darkMode ? logoutIconDark : logoutIconLight}
+            alt="Log out icon"
+            className="max-md:hidden" />
           <button
             onClick={logout}
             className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer"
@@ -157,9 +188,12 @@ useEffect(() => {
         </div>
         <div className="flex w-max gap-2 justify-center items-center">
           <img src={moon} alt="Dark mode icon" className="max-md:hidden" />
-          <button onClick={() => {
-            setDarkMode(!darkMode)
-          }} className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer">
+          <button            
+           onClick={() => {
+              toggleTheme();
+              setDarkMode(!darkMode);
+            }}
+          className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer">
             Dark Mode
           </button>
         </div>
@@ -177,7 +211,7 @@ useEffect(() => {
     </nav>
   ) : null
 ) : (
-  <nav className="w-full flex-row flex h-[8rem] sticky shadow-[0rem_0.125rem_0.25rem_0rem_rgba(0,0,0,0.0562)] items-center px-12 max-md:px-4 max-lg:px-12 top-0">
+  <nav className="w-full flex-row flex h-[8rem] bg-[var(--lighter-background-color)] sticky shadow-[0rem_0.125rem_0.25rem_0rem_rgba(0,0,0,0.0562)] items-center px-12 max-md:px-4 max-lg:px-12 top-0">
       <div className="flex w-3/4  max-2xl:w-1/2 ">
         <Link to="/">
           <h2 className="font-['Nunito_Sans',sans-serif] font-extrabold text-[2.4rem] max-md:text-[1.4rem]  ">
@@ -187,7 +221,11 @@ useEffect(() => {
       </div>
       <div className="flex w-1/4 max-2xl:w-1/2 justify-between">
         <div className="flex gap-2 w-max justify-center">
-          <img src={moon} alt="Sign up icon" className="max-md:hidden" />
+          <img
+            src={darkMode ? registerIconDark : registerIconLight}
+            alt="Sign up icon"
+            className="max-md:hidden"
+          />
           <button
             onClick={() => openAuth("register")}
             className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer"
@@ -196,7 +234,11 @@ useEffect(() => {
           </button>
         </div>
         <div className="flex gap-2 w-max justify-center ">
-          <img src={moon} alt="Log in icon" className="max-md:hidden" />
+          <img
+            src={darkMode ? loginIconDark : loginIconLight}
+            alt="Log in icon"
+            className="max-md:hidden"
+          />
           <button
             onClick={() => openAuth("login")}
             className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer"
@@ -205,10 +247,18 @@ useEffect(() => {
           </button>
         </div>
         <div className="flex gap-2 w-max justify-center ">
-          <img src={moon} alt="Dark mode icon" className="max-md:hidden" />
-          <button onClick={() => {
-            setDarkMode(!darkMode)
-          }} className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer">
+          <img
+            src={darkMode ? sun : moon}
+            alt={darkMode ? "Light mode icon" : "Dark mode icon"}
+            className="max-md:hidden"
+          />
+          <button
+            className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer"
+            onClick={() => {
+              toggleTheme();
+              setDarkMode(!darkMode);
+            }}
+          >
             Dark Mode
           </button>
         </div>
