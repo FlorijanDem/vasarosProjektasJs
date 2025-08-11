@@ -45,9 +45,9 @@ const authMiddleware = require("../middleware/authMiddleware");
  *             type: object
  *             properties:
  *               user_id:
- *                 type: numeric
+ *                 type: integer
  *               tour_id:
- *                 type: numeric
+ *                 type: integer
  *               selected_date:
  *                 type: string
  *               status:
