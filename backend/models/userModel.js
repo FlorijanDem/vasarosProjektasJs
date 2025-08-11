@@ -53,7 +53,8 @@ exports.searchUsers = async ({ email }) => {
     SELECT * FROM users
     ${whereSQL}
   `;
-
   const result = await db.query(query, values);
-  return result.rows;
+
+  return result;
 };
+
