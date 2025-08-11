@@ -6,6 +6,10 @@ import loginIconDark from "../../../src/assets/login-icon-dark.png";
 import loginIconLight from "../../../src/assets/login-icon-light.png";
 import logoutIconDark from "../../../src/assets/logout-icon-dark.png";
 import logoutIconLight from "../../../src/assets/logout-icon-light.png";
+import userIconLight from "../../../src/assets/user-icon-light.png";
+import userIconDark from "../../../src/assets/user-icon-dark.png";
+import adminIconDark from "../../../src/assets/admin-icon-dark.png";
+import adminIconLight from "../../../src/assets/admin-icon-light.png";
 import { useState, useEffect } from "react";
 import ModalController from "../../pages/Login/ModalController";
 import { Link } from "react-router"
@@ -100,28 +104,28 @@ useEffect(() => {
 
   return isLoggedIn ? (
   userRole === "admin" ? (
-    <nav className="w-full flex-row max-md:flex-col flex h-[8rem]  bg-[var(--lighter-background-color)]  sticky shadow-[0rem_0.125rem_0.25rem_0rem_rgba(0,0,0,0.0562)] items-center px-12 max-md:px-4 max-lg:px-12 top-0">
-      <div className="flex w-13/20  max-2xl:w-1/4 max-md:w-full max-md:h-1/2 ">
+    <nav className="w-full flex-row max-md:flex-col flex h-[8rem]  bg-[var(--lighter-background-color)] justify-between sticky shadow-[0rem_0.125rem_0.25rem_0rem_rgba(0,0,0,0.0562)] items-center px-12 max-md:px-4 max-lg:px-12 top-0">
+      <div className="flex w-10/20 max-2xl:w-1/4 max-md:w-full max-md:h-1/2 ">
         <Link to="/" className="flex max-md:h-full max-md:w-full max-md:justify-center max-md:items-center">
           <h2 className="font-['Nunito_Sans',sans-serif] font-extrabold text-[2.4rem] max-md:text-[1.4rem] ">
             Ekskursijos
           </h2>
         </Link>
       </div>
-      <div className="flex w-7/20 max-2xl:w-4/5 max-md:w-full max-md:h-1/2 justify-between ">
+      <div className="flex w-10/20 max-2xl:w-4/5 max-md:w-full max-md:h-1/2 justify-between ">
           <div className="flex gap-2 w-max justify-center items-center">
-            <img src={moon} alt="Admin Panel icon" className="max-md:hidden" />
+            <img src={darkMode ? adminIconDark : adminIconLight} alt="Admin Panel icon" className="max-md:hidden" />
             <Link className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer">
               Admin Panel
             </Link>
           </div>
         <div className="flex w-max gap-2 justify-center items-center">
-          <img src={moon} alt="Email icon" className="max-md:hidden" />
+          <img  src={darkMode ? userIconDark : userIconLight} alt="Email icon" className="max-md:hidden" />
           <button className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer">
             {userEmail}
           </button>
         </div>
-        <div className="flex gap-2 w-1/3">
+        <div className="flex gap-2 ">
           <img
             src={darkMode ? logoutIconDark : logoutIconLight}
             alt="Log out icon"
@@ -169,7 +173,8 @@ useEffect(() => {
       </div>
       <div className="flex w-7/20 max-2xl:w-4/5 max-md:w-3/4 justify-between">
         <div className="flex w-max gap-2 justify-center items-center">
-          <img src={moon} alt="Email icon" className="max-md:hidden" />
+          <img 
+                      src={darkMode ? userIconDark : userIconLight} alt="Email icon" className="max-md:hidden" />
           <button className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer">
             {userEmail}
           </button>
@@ -187,7 +192,9 @@ useEffect(() => {
           </button>
         </div>
         <div className="flex w-max gap-2 justify-center items-center">
-          <img src={moon} alt="Dark mode icon" className="max-md:hidden" />
+          <img            
+           src={darkMode ? sun : moon}
+            alt={darkMode ? "Light mode icon" : "Dark mode icon"} className="max-md:hidden" />
           <button            
            onClick={() => {
               toggleTheme();
@@ -212,19 +219,19 @@ useEffect(() => {
   ) : null
 ) : (
   <nav className="w-full flex-row flex h-[8rem] bg-[var(--lighter-background-color)] sticky shadow-[0rem_0.125rem_0.25rem_0rem_rgba(0,0,0,0.0562)] items-center px-12 max-md:px-4 max-lg:px-12 top-0">
-      <div className="flex w-3/4  max-2xl:w-1/2 ">
+      <div className="flex w-1/2  max-2xl:w-1/2 ">
         <Link to="/">
           <h2 className="font-['Nunito_Sans',sans-serif] font-extrabold text-[2.4rem] max-md:text-[1.4rem]  ">
             Ekskursijos
           </h2>
         </Link>
       </div>
-      <div className="flex w-1/4 max-2xl:w-1/2 justify-between">
+      <div className="flex w-1/2 max-2xl:w-1/2 justify-end gap-[10rem] max-sm:gap-[50px]">
         <div className="flex gap-2 w-max justify-center">
           <img
             src={darkMode ? registerIconDark : registerIconLight}
             alt="Sign up icon"
-            className="max-md:hidden"
+            className="max-[1044px]:hidden"
           />
           <button
             onClick={() => openAuth("register")}
@@ -237,7 +244,7 @@ useEffect(() => {
           <img
             src={darkMode ? loginIconDark : loginIconLight}
             alt="Log in icon"
-            className="max-md:hidden"
+            className="max-[1044px]:hidden"
           />
           <button
             onClick={() => openAuth("login")}
@@ -250,7 +257,7 @@ useEffect(() => {
           <img
             src={darkMode ? sun : moon}
             alt={darkMode ? "Light mode icon" : "Dark mode icon"}
-            className="max-md:hidden"
+            className="max-[1044px]:hidden"
           />
           <button
             className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer"
