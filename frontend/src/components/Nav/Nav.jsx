@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import ModalController from "../../pages/Login/ModalController";
 import { Link } from "react-router";
 import axios from "axios";
+import AdminPanel from "../../pages/AdminPanel/AdminPanel";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const Nav = () => {
@@ -56,6 +57,11 @@ const Nav = () => {
           <h2 className="font-['Nunito_Sans',sans-serif] font-extrabold text-[2.4rem] max-md:text-[1.4rem]  ">
             Ekskursijos
           </h2>
+        </Link>
+        <Link to="/admin">
+        <h1>
+          Admin Panel
+        </h1>
         </Link>
       </div>
       <div className="flex w-1/4 max-2xl:w-1/2 max-md:w-2/3 justify-between ">
