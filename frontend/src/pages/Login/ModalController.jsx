@@ -9,6 +9,7 @@ const ModalController = ({
   closeRegister,
   openLogin,
   onAuthSuccess,
+  setIsLoggedIn,
 }) => {
   return (
     <>
@@ -23,6 +24,7 @@ const ModalController = ({
         onClose={closeRegister}
         onSwitchLogin={openLogin}
         onRegisterSuccess={onAuthSuccess}
+        setIsLoggedIn={setIsLoggedIn}
       />
     </>
   );
