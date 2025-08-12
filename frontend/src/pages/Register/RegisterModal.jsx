@@ -12,7 +12,12 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useEffect, useState } from "react";
 const API_URL = import.meta.env.VITE_API_URL;
-const RegisterModal = ({ isOpen, onClose, onSwitchLogin }) => {
+const RegisterModal = ({
+  isOpen,
+  onClose,
+  onSwitchLogin,
+  onRegisterSuccess,
+}) => {
   const [errorMessage, setErrorMessage] = useState("");
   const {
     register,
@@ -37,7 +42,7 @@ const RegisterModal = ({ isOpen, onClose, onSwitchLogin }) => {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
-        `${API_URL}/signup`,
+        `${API_URL}/auth/signup`,
         {
           email: data.email,
           password: data.password,
@@ -49,6 +54,7 @@ const RegisterModal = ({ isOpen, onClose, onSwitchLogin }) => {
       );
       console.log(response.data);
       if (response.data.status === "success") {
+        onRegisterSuccess();
         handleClose();
       }
     } catch (error) {
@@ -140,7 +146,7 @@ const RegisterModal = ({ isOpen, onClose, onSwitchLogin }) => {
             <input
               type="submit"
               value="Register"
-              className=" bg-[var(--background-color)] rounded-2xl border-2 h-2/32 w-3/16 text-[1.75rem] justify-center max-xl:text-[1.25rem] "
+              className=" bg-[var(--background-color)] rounded-2xl border-2 h-3/32 w-3/16 text-[1.75rem] justify-center max-xl:text-[1.25rem] "
             />
           </form>
         </div>
