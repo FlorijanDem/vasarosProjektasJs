@@ -4,7 +4,7 @@ import { getData } from "../../services/get";
 import { useState, useEffect } from "react";
 import { ClipLoader } from "react-spinners";
 
-const CardsGrid = () => {
+const CardsGrid = ({ searchTerm, sortOption, selectedCategories }) => {
   const [excursions, setExcursions] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -12,7 +12,31 @@ const CardsGrid = () => {
     const fetchData = async () => {
       try {
         const data = await getData("excursions");
-        setExcursions(data.tours);
+
+        let filteredData = data.tours;
+
+        // Filter by name
+        if (searchTerm) {
+          filteredData = filteredData.filter((excursion) =>
+            excursion.title.toLowerCase().includes(searchTerm.toLowerCase())
+          );
+        }
+
+        // filter by categories
+        if (selectedCategories.length > 0) {
+          filteredData = filteredData.filter((excursion) =>
+            selectedCategories.includes(excursion.category_id)
+          );
+        }
+
+        // Filter by price
+        if (sortOption === "priceAsc") {
+          filteredData.sort((a, b) => a.price - b.price); // filter by high price
+        } else if (sortOption === "priceDesc") {
+          filteredData.sort((a, b) => b.price - a.price); // filter by low price
+        }
+
+        setExcursions(filteredData);
       } catch (error) {
         console.error("Error fetching excursions:", error);
       } finally {
@@ -21,7 +45,7 @@ const CardsGrid = () => {
     };
 
     fetchData();
-  }, []);
+  }, [searchTerm, sortOption, selectedCategories]); // filter options and search term
 
   if (loading) {
     return (

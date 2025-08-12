@@ -71,10 +71,10 @@ exports.logout = async (req, res) => {
     const token = req.cookies.jwt;
     if (token) {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      await logAuthEvent({
-        userId: decoded.id,
-        eventType: "logout",
-      });
+      // await logAuthEvent({
+      //   userId: decoded.id,
+      //   eventType: "logout",
+      // });
     }
 
     return res
