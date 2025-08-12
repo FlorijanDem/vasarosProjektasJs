@@ -12,7 +12,12 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useEffect, useState } from "react";
 const API_URL = import.meta.env.VITE_API_URL;
-const RegisterModal = ({ isOpen, onClose, onSwitchLogin, setIsLoggedIn }) => {
+const RegisterModal = ({
+  isOpen,
+  onClose,
+  onSwitchLogin,
+  onRegisterSuccess,
+}) => {
   const [errorMessage, setErrorMessage] = useState("");
   const {
     register,
@@ -49,8 +54,8 @@ const RegisterModal = ({ isOpen, onClose, onSwitchLogin, setIsLoggedIn }) => {
       );
       console.log(response.data);
       if (response.data.status === "success") {
+        onRegisterSuccess();
         handleClose();
-        setIsLoggedIn(true);
       }
     } catch (error) {
       const errors = error.response?.data?.errors;

@@ -58,10 +58,7 @@ const LoginModal = ({ isOpen, onClose, onSwitchRegister, onLoginSuccess }) => {
             ? errors.map((e) => e.msg).join("\n")
             : "Login failed")
       );
-      console.error(
-        "Login failed:",
-        error.response?.data || error.message
-      );
+      console.error("Login failed:", error.response?.data || error.message);
     }
   };
   return (

@@ -300,7 +300,6 @@ const Nav = () => {
           closeRegister={closeRegister}
           openLogin={openLogin}
           onAuthSuccess={fetchUser}
-          setIsLoggedIn={setIsLoggedIn}
         />
       )}
     </nav>
