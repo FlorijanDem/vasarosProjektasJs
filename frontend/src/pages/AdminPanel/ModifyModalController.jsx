@@ -1,7 +1,15 @@
 import ModifyExcursionModal from "./ModifyModal";
 const API_URL = import.meta.env.VITE_API_URL;
-const ModifyModalController = ({ isOpen, onClose, excursion }) => {
+const ModifyModalController = ({
+  isOpen,
+  onClose,
+  excursion,
+}) => {
   const handleSave = async (updatedExcursion) => {
+    const HHMMSSToSeconds = (hhmmss) => {
+  const [h, m, s] = hhmmss.split(":").map(Number);
+  return h * 3600 + m * 60 + s;
+};
     try {
       const res = await fetch(`${API_URL}/excursions/${updatedExcursion.id}`, {
         method: "PUT",
@@ -9,17 +17,18 @@ const ModifyModalController = ({ isOpen, onClose, excursion }) => {
         body: JSON.stringify({
           title: updatedExcursion.title,
           photo_url: updatedExcursion.photo_url,
-          duration: updatedExcursion.duration,
+          duration: HHMMSSToSeconds(updatedExcursion.duration),
           dates: updatedExcursion.dates,
           category_id: Number(updatedExcursion.category_id),
         }),
-       credentials:"include"
+        credentials: "include",
       });
       if (!res.ok) throw new Error("Failed to update excursion");
       await res.json();
       onClose();
+      window.location.reload();
     } catch (error) {
-      console.error(error);
+      console.error("Update Failed: ", error.message);
     }
   };
 

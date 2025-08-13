@@ -15,3 +15,4 @@ export const formatInterval = (interval) => {
   if (m === 0) return `${h}h`;
   return `${h}h ${m}min`;
 };
+
