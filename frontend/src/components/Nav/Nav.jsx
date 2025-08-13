@@ -12,7 +12,7 @@ import adminIconDark from "../../../src/assets/admin-icon-dark.png";
 import adminIconLight from "../../../src/assets/admin-icon-light.png";
 import { useState, useEffect } from "react";
 import ModalController from "../../pages/Login/ModalController";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import axios from "axios";
 import AdminPanel from "../../pages/AdminPanel/AdminPanel";
 const API_URL = import.meta.env.VITE_API_URL;
@@ -26,12 +26,11 @@ const Nav = () => {
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem("theme") === "dark";
   });
-
   useEffect(() => {
     const saved = localStorage.getItem("theme") || "light";
     document.documentElement.setAttribute("data-theme", saved);
   }, []);
-
+const navigate = useNavigate();
   const toggleTheme = () => {
     const current = document.documentElement.getAttribute("data-theme");
     const next = current === "dark" ? "light" : "dark";
@@ -45,6 +44,7 @@ const Nav = () => {
       withCredentials: true,
     });
     setIsLoggedIn(false);
+    navigate("/");
   };
 
   const fetchUser = async () => {
@@ -121,7 +121,7 @@ const Nav = () => {
               alt="Admin Panel icon"
               className="max-md:hidden"
             />
-            <Link className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer">
+            <Link to="/admin" className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer">
               Admin Panel
             </Link>
           </div>
