@@ -7,45 +7,48 @@ import { ClipLoader } from "react-spinners";
 const CardsGrid = ({ searchTerm, sortOption, selectedCategories }) => {
   const [excursions, setExcursions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [filteredData, setFilteredData] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getData("excursions");
+  const fetchData = async () => {
+    try {
+      setLoading(true);
 
-        let filteredData = data.tours;
+      const data = await getData("excursions");
+      let filtered = data.tours;
 
-        // Filter by name
-        if (searchTerm) {
-          filteredData = filteredData.filter((excursion) =>
-            excursion.title.toLowerCase().includes(searchTerm.toLowerCase())
-          );
-        }
-
-        // filter by categories
-        if (selectedCategories.length > 0) {
-          filteredData = filteredData.filter((excursion) =>
-            selectedCategories.includes(excursion.category_id)
-          );
-        }
-
-        // Filter by price
-        if (sortOption === "priceAsc") {
-          filteredData.sort((a, b) => a.price - b.price); // filter by high price
-        } else if (sortOption === "priceDesc") {
-          filteredData.sort((a, b) => b.price - a.price); // filter by low price
-        }
-
-        setExcursions(filteredData);
-      } catch (error) {
-        console.error("Error fetching excursions:", error);
-      } finally {
-        setLoading(false);
+      // Filter by category
+      if (selectedCategories && selectedCategories.length > 0) {
+        filtered = filtered.filter((excursion) =>
+          selectedCategories.includes(excursion.category_id)
+        );
       }
-    };
 
-    fetchData();
-  }, [searchTerm, sortOption, selectedCategories]); // filter options and search term
+      // Filter by title
+      if (searchTerm) {
+        filtered = filtered.filter((excursion) =>
+          excursion.title.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+      }
+
+      // Sort by price
+      if (sortOption === "priceAsc") {
+        filtered.sort((a, b) => a.price - b.price);
+      } else if (sortOption === "priceDesc") {
+        filtered.sort((a, b) => b.price - a.price);
+      }
+
+      setExcursions(filtered);
+    } catch (error) {
+      console.error("Error fetching excursions:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchData();
+}, [searchTerm, sortOption, selectedCategories]);
+
 
   if (loading) {
     return (

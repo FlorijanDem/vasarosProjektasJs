@@ -9,17 +9,18 @@ function CategoryFilter({ categories, selectedCategories, onCategoryChange }) {
       onChange={(e) => {
         const val = e.target.value;
         console.log("Category selected:", val);
+
         if (val == "") {
           onCategoryChange([]);
         } else {
-          onCategoryChange([val]);
+          onCategoryChange(val);
         }
       }}
     >
       <option value="">All categories</option>
       {categories.map((category) => (
-        <option key={category} value={category}>
-          {category}
+        <option key={category.id} value={category.id}>
+          {category.name}
         </option>
       ))}
     </select>
