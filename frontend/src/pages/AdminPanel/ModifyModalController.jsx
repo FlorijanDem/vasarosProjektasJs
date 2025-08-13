@@ -18,7 +18,7 @@ const ModifyModalController = ({
           title: updatedExcursion.title,
           photo_url: updatedExcursion.photo_url,
           duration: HHMMSSToSeconds(updatedExcursion.duration),
-          dates: updatedExcursion.dates,
+          price: updatedExcursion.price,
           category_id: Number(updatedExcursion.category_id),
         }),
         credentials: "include",

@@ -65,8 +65,8 @@ const ModifyExcursionModal = ({ isOpen, onClose, excursion, onSave }) => {
             <p className="text-red-600">{errors.duration.message}</p>
           )}
           <input
-            {...register("dates", { required: "Date is required" })}
-            placeholder="Date"
+            {...register("price", { required: "Price is required" })}
+            placeholder="Price"
             className="border-2 rounded-2xl h-3/16 w-6/10 p-8 text-[2rem]"
           />
           {errors.dates && (
