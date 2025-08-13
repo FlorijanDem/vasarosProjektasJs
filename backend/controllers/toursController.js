@@ -3,8 +3,10 @@ const {
   deleteTour,
   updateTour,
   getAllToursM,
+  searchAndFilterTours,
 } = require("../models/toursModel");
 const { validationResult } = require("express-validator");
+const AppError = require("../utils/appError");
 
 exports.getAllTours = async (req, res, next) => {
   try {
@@ -60,24 +62,13 @@ exports.deleteTour = async (req, res, next) => {
 exports.updateTour = async (req, res, next) => {
   try {
     const id = req.params.id;
+    const updates = req.body;
 
-    const newTour = req.body;
-
-    if (
-      !newTour ||
-      !newTour.title ||
-      !newTour.duration ||
-      !newTour.dates ||
-      !newTour.price ||
-      !newTour.category_id
-    ) {
-      throw new AppError(
-        "Missing required fields: title, duration, dates, price, category_id",
-        400
-      );
+    if (!updates || Object.keys(updates).length === 0) {
+      throw new AppError("Please provide at least one field to update", 400);
     }
 
-    const updatedTour = await updateTour(id, newTour);
+    const updatedTour = await updateTour(id, updates);
 
     if (!updatedTour) {
       throw new AppError("Invalid id, tour not found and not updated", 404);
@@ -88,6 +79,30 @@ exports.updateTour = async (req, res, next) => {
       data: updatedTour,
     });
   } catch (error) {
+    next(error);
+  }
+};
+
+exports.searchTours = async (req, res, next) => {
+  try {
+    const { title, category_id, sortBy, order, page, limit } = req.query;
+
+    const tours = await searchAndFilterTours({
+      title,
+      category_id: category_id ? parseInt(category_id, 10) : undefined,
+      sortBy,
+      order,
+      page: parseInt(page, 10) || 1,
+      limit: parseInt(limit, 10) || 10,
+    });
+
+    res.status(200).json({
+      status: "success",
+      results: Array.isArray(tours) ? tours.length : 0,
+      data: Array.isArray(tours) ? tours : [],
+    });
+  } catch (error) {
+    console.error("Error in searchTours:", error.message);
     next(error);
   }
 };

@@ -1,26 +1,23 @@
-const { createUser, getUserByEmail } = require("../models/authModel");
+const { createUser, getUserByEmail, getUserById } = require("../models/authModel");
 const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const argon2 = require("argon2");
-const { logAuthEvent } = require("../utils/logger");
+const db = require("../db");
+const AppError = require('../utils/appError');
+const { addToBlacklistedTokens } = require("../models/blacklistedTokensModel")
 
 const signToken = (user) => {
-  return jwt.sign(
-    { id: user.id, role: user.role },
-    process.env.JWT_SECRET,
-    {
-      expiresIn: process.env.JWT_EXPIRES_IN,
-    }
-  );
+  return jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
+  });
 };
-
 
 const sendTokenCookie = (token, res) => {
   const cookieOptions = {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
-    httpOnly: false, // for developmental uses keep it false.
+    httpOnly: false,
   };
 
   res.cookie("jwt", token, cookieOptions);
@@ -47,12 +44,6 @@ exports.signup = async (req, res, next) => {
 
     sendTokenCookie(token, res);
 
-    //registration logger
-    await logAuthEvent({
-      userId: createdUser.id,
-      eventType: "registration",
-    });
-
     createdUser.password = undefined;
     createdUser.id = undefined;
 
@@ -66,24 +57,30 @@ exports.signup = async (req, res, next) => {
 };
 
 exports.logout = async (req, res) => {
-  try {
-    // logout logger
-    const token = req.cookies.jwt;
-    if (token) {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      await logAuthEvent({
-        userId: decoded.id,
-        eventType: "logout",
-      });
-    }
+  const token = req.cookies.jwt;
 
-    return res
-      .clearCookie("jwt")
-      .status(200)
-      .json({ message: "You're now logged out." });
+  if (!token) {
+    return res.status(401).json({ message: "No token provided" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    const expires_at = new Date(decoded.exp * 1000);
+
+    const toDB = { token, expires_at };
+    await addToBlacklistedTokens(toDB);
+
+    res.clearCookie("jwt", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Strict",
+    });
+
+    res.status(200).json({ message: "Successfully logged out" });
   } catch (err) {
-    console.error("Logout error;", err);
-    return res.status(400).json({ message: "Logout failed." });
+    console.error("Logout error:", err);
+    res.status(401).json({ message: "Invalid token" });
   }
 };
 
@@ -96,16 +93,10 @@ exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const user = await getUserByEmail(email);
-    console.log('User from DB:', user);
+    console.log("User from DB:", user);
 
     const token = signToken(user);
     sendTokenCookie(token, res);
-
-    //login logger
-    await logAuthEvent({
-      userId: user.id,
-      eventType: "login",
-    });
 
     user.password = undefined;
 
@@ -113,6 +104,45 @@ exports.login = async (req, res, next) => {
       status: "success",
       data: user,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getAuthenticatedUser = async (req, res) => {
+  try {
+    req.user.password = undefined;
+    req.user.id = undefined;
+    req.user.created_at = undefined;
+    res.status(200).json(req.user);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+exports.protect = async (req, res, next) => {
+  try {
+    let token = req.cookies?.jwt;
+
+    if (!token) {
+      throw new AppError(
+        'You are not logged in! Please log in to get access.',
+        401
+      );
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log(decoded);
+
+    const currentUser = await getUserById(decoded.id);
+    if (!currentUser) {
+      throw new AppError(
+        'The user belonging to this token does no longer exist.',
+        401
+      );
+    }
+    req.user = currentUser;
+    next();
   } catch (error) {
     next(error);
   }
