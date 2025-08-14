@@ -177,15 +177,15 @@ const Nav = () => {
         )}
       </nav>
     ) : userRole === "user" ? (
-      <nav className="w-full flex-row flex h-[8rem] sticky shadow-[0rem_0.125rem_0.25rem_0rem_rgba(0,0,0,0.0562)] items-center px-12 max-md:px-4 max-lg:px-12 top-0">
-        <div className="flex w-13/20  max-2xl:w-1/4 max-md:w-1/4">
+      <nav className="w-full flex-row max-2xl:flex-col flex h-[8rem] bg-[var(--lighter-background-color)] sticky shadow-[0rem_0.125rem_0.25rem_0rem_rgba(0,0,0,0.0562)] items-center px-12 max-md:px-4 max-lg:px-12 top-0">
+        <div className="flex w-13/20 max-2xl:w-1/4 max-md:w-full max-2xl:h-1/2 max-2xl:justify-center">
           <Link to="/">
             <h2 className="font-['Nunito_Sans',sans-serif] font-extrabold text-[2.4rem] max-md:text-[1.4rem]">
               Ekskursijos
             </h2>
           </Link>
         </div>
-        <div className="flex w-7/20 max-2xl:w-4/5 max-md:w-3/4 justify-between">
+         <div className="flex w-7/20 max-2xl:w-4/5 max-md:w-full max-md:h-1/2 justify-between ">
           <div className="flex w-max gap-2 justify-center items-center">
             <img
               src={darkMode ? userIconDark : userIconLight}
