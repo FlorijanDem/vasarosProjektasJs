@@ -27,7 +27,6 @@ exports.createTour = async (newTour) => {
         "title",
         "photo_url",
         "duration",
-        "dates",
         "price",
         "category_id",
         "description",
@@ -54,7 +53,6 @@ exports.updateTour = async (id, updatedTour) => {
       "title",
       "photo_url",
       "duration",
-      "dates",
       "price",
       "category_id"
     )}
@@ -75,32 +73,32 @@ exports.searchAndFilterTours = async (params) => {
   } = params;
 
   const offset = (page - 1) * limit;
-  const values = [];
-  let whereClauses = [];
-  let i = 1;
-
-  if (title) {
-    whereClauses.push(`tours.title ILIKE $${i++}`);
-    values.push(`%${title}%`);
-  }
-
-  if (category_id) {
-    whereClauses.push(`tours.category_id = $${i++}`);
-    values.push(category_id);
-  }
-
-  const whereSQL =
-    whereClauses.length > 0 ? `WHERE ${whereClauses.join(" AND ")}` : "";
 
   const sortColumns = {
-    title: "tours.title",
-    price: "tours.price::numeric",
+    title: sql`tours.title`,
+    price: sql`tours.price::numeric`,
   };
 
-  const safeSort = sortColumns[sortBy] || "tours.title";
-  const safeOrder = order.toLowerCase() === "desc" ? "DESC" : "ASC";
+  const safeSort = sortColumns[sortBy] || sql`tours.title`;
+  const safeOrder = order.toLowerCase() === "desc" ? sql`DESC` : sql`ASC`;
+  const filters = [];
+  if (title) {
+    filters.push(sql`tours.title ILIKE ${'%' + title + '%'}`);
+  }
+  if (category_id) {
+    filters.push(sql`tours.category_id = ${category_id}`);
+  }
 
-  const query = `
+  let whereSQL = sql``;
+  if (filters.length > 0) {
+    let combined = filters[0];
+    for (let i = 1; i < filters.length; i++) {
+      combined = sql`${combined} AND ${filters[i]}`;
+    }
+    whereSQL = sql`WHERE ${combined}`;
+  }
+
+  const result = await sql`
     SELECT 
       tours.*, 
       categories.name AS category_name,
@@ -113,11 +111,8 @@ exports.searchAndFilterTours = async (params) => {
     ${whereSQL}
     GROUP BY tours.id, categories.name
     ORDER BY ${safeSort} ${safeOrder}
-    LIMIT $${i++} OFFSET $${i}
+    LIMIT ${limit} OFFSET ${offset}
   `;
 
-  values.push(limit, offset);
-
-  const result = await db.query(query, values);
-  return result.rows;
+  return result || [];
 };

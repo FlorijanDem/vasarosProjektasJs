@@ -54,15 +54,10 @@ const authMiddleware = require("../middleware/authMiddleware");
  *                 type: string
  *               duration:
  *                 type: number
- *               dates:
- *                 type: array
- *                 items:
- *                   type: string
- *                   format: date
  *               price:
  *                 type: number
  *               category_id:
- *                 type: integer
+ *                 type: number
  *               description:
  *                 type: string
  *               location:
@@ -115,15 +110,10 @@ const authMiddleware = require("../middleware/authMiddleware");
  *                 type: string
  *               duration:
  *                 type: number
- *               dates:
- *                 type: array
- *                 items:
- *                   type: string
- *                   format: date
  *               price:
  *                 type: number
  *               category_id:
- *                 type: integer
+ *                 type: number
  *               description:
  *                 type: string
  *               location:

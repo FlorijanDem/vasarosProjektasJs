@@ -3,6 +3,8 @@ const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const argon2 = require("argon2");
 const db = require("../db");
+const AppError = require('../utils/appError');
+const { addToBlacklistedTokens } = require("../models/blacklistedTokensModel")
 
 const signToken = (user) => {
   return jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, {
@@ -15,7 +17,7 @@ const sendTokenCookie = (token, res) => {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
-    httpOnly: true,
+    httpOnly: false,
   };
 
   res.cookie("jwt", token, cookieOptions);
@@ -64,12 +66,10 @@ exports.logout = async (req, res) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    const expiresAt = new Date(decoded.exp * 1000);
+    const expires_at = new Date(decoded.exp * 1000);
 
-    await db.query(
-      "INSERT INTO blacklisted_tokens (token, expires_at) VALUES ($1, $2)",
-      [token, expiresAt]
-    );
+    const toDB = { token, expires_at };
+    await addToBlacklistedTokens(toDB);
 
     res.clearCookie("jwt", {
       httpOnly: true,
@@ -122,9 +122,6 @@ exports.getAuthenticatedUser = async (req, res) => {
 
 exports.protect = async (req, res, next) => {
   try {
-    // console.log(req);
-
-    //you need to istall cookie-parser and write middleware to use req.cookies
     let token = req.cookies?.jwt;
 
     if (!token) {
@@ -134,11 +131,9 @@ exports.protect = async (req, res, next) => {
       );
     }
 
-    // 2) Verification token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     console.log(decoded);
 
-    // 3) Check if user still exists
     const currentUser = await getUserById(decoded.id);
     if (!currentUser) {
       throw new AppError(
@@ -146,8 +141,6 @@ exports.protect = async (req, res, next) => {
         401
       );
     }
-
-    // GRANT ACCESS TO PROTECTED ROUTE, add user to req object
     req.user = currentUser;
     next();
   } catch (error) {
