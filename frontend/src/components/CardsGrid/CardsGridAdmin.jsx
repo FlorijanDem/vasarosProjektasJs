@@ -1,5 +1,6 @@
 import styles from "./cardsGrid.module.css";
 import ExcursionCardAdmin from "../ExcursionCard/ExcursionCardAdmin";
+import ExcursionCardAddAdmin from "../ExcursionCard/ExcursionCardAddAdmin";
 import { getData } from "../../services/get";
 import { useState, useEffect } from "react";
 import { ClipLoader } from "react-spinners";
@@ -34,13 +35,17 @@ const CardsGrid = () => {
   return (
     <section className={styles.grid}>
       {excursions.length === 0 ? (
+        <>
         <p className={styles.noExcursions}>
           We couldn’t find any available excursions right now. Please check back
           later.
         </p>
+        <ExcursionCardAddAdmin/>
+        </>
       ) : (
         excursions.map((exc) => <ExcursionCardAdmin key={exc.id} excursion={exc} />)
       )}
+       <ExcursionCardAddAdmin/>
     </section>
   );
 };
