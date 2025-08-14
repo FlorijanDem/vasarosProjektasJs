@@ -20,6 +20,8 @@ const ModifyModalController = ({
           duration: HHMMSSToSeconds(updatedExcursion.duration),
           price: updatedExcursion.price,
           category_id: Number(updatedExcursion.category_id),
+          description: updatedExcursion.description,
+          location: updatedExcursion.location
         }),
         credentials: "include",
       });

@@ -1,23 +1,11 @@
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
-const ModifyExcursionModal = ({ isOpen, onClose, excursion, onSave }) => {
+const AddExcursionModal = ({ isOpen, onClose, onSave }) => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm({
-    defaultValues: {
-      ...excursion,
-    },
   });
-
-  useEffect(() => {
-    if (isOpen)
-      reset({
-        ...excursion,
-      });
-  }, [isOpen, excursion, reset]);
 
   if (!isOpen) return null;
 
@@ -33,7 +21,7 @@ const ModifyExcursionModal = ({ isOpen, onClose, excursion, onSave }) => {
         <button onClick={onClose} className="absolute top-4 right-4 text-3xl">
           ×
         </button>
-        <h2 className="text-3xl font-semibold mb-6">Modify Excursion</h2>
+        <h2 className="text-3xl font-semibold mb-6">Add Excursion</h2>
 
         <form
           onSubmit={handleSubmit(onSave)}
@@ -58,7 +46,7 @@ const ModifyExcursionModal = ({ isOpen, onClose, excursion, onSave }) => {
           )}
           <input
             {...register("duration", { required: "Duration is required" })}
-            placeholder="Duration"
+            placeholder="Duration (HH:MM:SS)"
             className="border-2 rounded-2xl h-3/16 w-6/10 p-8 text-[2rem]"
           />
           {errors.duration && (
@@ -106,7 +94,7 @@ const ModifyExcursionModal = ({ isOpen, onClose, excursion, onSave }) => {
             type="submit"
             className="bg-[var(--lighter-background-color)] rounded-2xl border-2 h-3/16/16 w-3/16 text-[1.75rem] justify-center max-xl:text-[1.25rem] max-xl:h-3/16"
           >
-            Save
+            Submit
           </button>
         </form>
       </div>
@@ -114,4 +102,4 @@ const ModifyExcursionModal = ({ isOpen, onClose, excursion, onSave }) => {
   );
 };
 
-export default ModifyExcursionModal;
+export default AddExcursionModal;
