@@ -37,10 +37,8 @@ const CardsGrid = () => {
       {excursions.length === 0 ? (
         <>
         <p className={styles.noExcursions}>
-          We couldn’t find any available excursions right now. Please check back
-          later.
+          We couldn’t find any available excursions right now, create a new one.
         </p>
-        <ExcursionCardAddAdmin/>
         </>
       ) : (
         excursions.map((exc) => <ExcursionCardAdmin key={exc.id} excursion={exc} />)
