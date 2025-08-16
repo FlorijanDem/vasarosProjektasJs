@@ -26,8 +26,10 @@ const ExcursionDetails = ({ openAuth }) => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const data = await getData("reviews");
-        setReviews(data.reviews);
+        const data = await getData(`reviews/${id}`);
+        const { reviews } = data.data;
+        console.log(reviews);
+        setReviews(reviews);
       } catch (error) {
         console.error("Error fetching reviews:", error);
       } finally {
@@ -47,9 +49,7 @@ const ExcursionDetails = ({ openAuth }) => {
 
   const excursion = excursions.find((excursion) => excursion.id === Number(id));
   const availableDates = excursion.tour_dates.map((date) => new Date(date));
-  const excursionReviews = reviews.filter(
-    (review) => review.tour_id === Number(id)
-  );
+  const excursionReviews = reviews;
 
   if (!excursion)
     return <p className={styles.noExcursionText}>Excursion not found.</p>;

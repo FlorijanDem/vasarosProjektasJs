@@ -1,12 +1,12 @@
 .reviewCard {
   width: 100%;
-  background: var(--colors-white, #fff);
+  background: var(--lighter-background-color);
   box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.1);
   padding-block: 1.5rem;
   padding-inline: 2rem;
   border-radius: 1rem;
   font-size: 1.4rem;
-  color: #808080;
+  color: var(--secondary-text-color);
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -36,6 +36,6 @@
 }
 
 .reviewerName {
-  color: #454545;
+  color: var(--grey-accent-color);
   font-weight: 700;
 }

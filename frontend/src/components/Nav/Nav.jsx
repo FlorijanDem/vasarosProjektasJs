@@ -13,7 +13,7 @@ import adminIconLight from "../../../src/assets/admin-icon-light.png";
 import { useState, useEffect } from "react";
 import { Link } from "react-router";
 
-const API_URL = import.meta.env.VITE_API_URL;
+
 import "../../styles/global.css";
 
 const Nav = ({ isLoggedIn, logout, openAuth, userRole, userEmail }) => {

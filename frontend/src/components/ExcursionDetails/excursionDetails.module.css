@@ -81,12 +81,12 @@
 
 .desc {
   font-size: 1.4rem;
-  color: #808080;
+  color: var(--secondary-text-color);
 }
 
 .greyText {
   font-size: 1.4rem;
-  color: #808080;
+  color: var(--secondary-text-color);
   display: flex;
   align-items: center;
 }
@@ -111,16 +111,24 @@
 
 /* Calendar */
 .highlight {
-  background-color: #36d7b7;
-  color: white;
+  background-color: var(--green-accent-color);
 }
 
 .calendarWrapper {
   width: fit-content;
+  color: var(--primary-text-color);
 
   box-sizing: border-box;
   overflow-x: auto;
   font-size: 1.5rem;
+}
+
+.rdp-weekday {
+  opacity: 0 !important;
+}
+
+.rdp * {
+  color: inherit;
 }
 
 .calendarSection {
@@ -140,7 +148,7 @@
 }
 
 .signupBtn {
-  color: #36d7b7;
+  color: var(--green-accent-color);
   text-decoration: underline;
   display: inline;
   cursor: pointer;
@@ -162,7 +170,7 @@
 
 .noExcursionText {
   font-size: 1.4rem;
-  color: #808080;
+  color: var(--secondary-text-color);
   text-align: center;
   grid-column: 1 / -1;
   justify-self: center;
