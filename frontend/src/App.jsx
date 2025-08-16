@@ -13,10 +13,32 @@ function App() {
   const [showAuth, setShowAuth] = useState(false);
   const [showLogin, setShowLogin] = useState(true);
   const [showRegister, setShowRegister] = useState(false);
+  const [userRole, setUserRole] = useState(null);
+  const [userEmail, setUserEmail] = useState(null);
 
   useEffect(() => {
     setIsLoggedIn(document.cookie.includes("jwt="));
   }, [showAuth, showLogin, showRegister]);
+
+  const fetchUser = async () => {
+    try {
+      const res = await axios.get(`${API_URL}/auth/me`, {
+        withCredentials: true,
+      });
+      setUserRole(res.data.role);
+      setUserEmail(res.data.email);
+      setIsLoggedIn(true);
+    } catch (error) {
+      console.error("Not logged in:", error);
+      setUserRole(null);
+      setUserEmail(null);
+      setIsLoggedIn(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   const logout = async () => {
     try {
@@ -50,7 +72,13 @@ function App() {
 
   return (
     <>
-      <Nav isLoggedIn={isLoggedIn} logout={logout} openAuth={openAuth} />
+      <Nav
+        isLoggedIn={isLoggedIn}
+        logout={logout}
+        openAuth={openAuth}
+        userRole={userRole}
+        userEmail={userEmail}
+      />
       <Routes>
         <Route path="/" element={<MainPage openAuth={openAuth} />} />
         <Route path="/:id" element={<ExcurionDetails openAuth={openAuth} />} />
@@ -63,6 +91,7 @@ function App() {
           openLogin={openLogin}
           closeLogin={closeLogin}
           closeRegister={closeRegister}
+          onAuthSuccess={fetchUser}
         />
       )}
     </>
