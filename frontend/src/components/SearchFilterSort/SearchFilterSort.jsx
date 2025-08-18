@@ -46,7 +46,6 @@ function SearchFilterSort({
   return (
     <div className={styles.container}>
       <div className={styles.topRow}>
-        <h2 className={styles.heading}>Search and filter excursions</h2>
         <div className={styles.controls}>
           <SearchInput onSearchChange={setSearchTerm} />
           <CategoryFilter

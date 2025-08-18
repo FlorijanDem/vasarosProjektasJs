@@ -17,13 +17,6 @@
   gap: 1.5rem;
 }
 
-.heading {
-  font-size: 1.6rem;
-  font-weight: 700;
-  margin: 0;
-  white-space: nowrap;
-}
-
 .headingAndControls {
   display: flex;
   justify-content: space-between;
@@ -58,7 +51,7 @@
   }
   
   .controls {
-    justify-content: flex-start;
+    justify-content: flex-end;
     width: 100%;
   }
 
