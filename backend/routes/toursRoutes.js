@@ -7,6 +7,7 @@ const {
   updateTour,
   getAllTours,
   searchTours,
+  createTourDate
 } = require("../controllers/toursController");
 const { validateNewTour } = require("../validators/newTour");
 const { validateUpdatedTour } = require("../validators/updateTour");
@@ -208,6 +209,8 @@ router
     validateUpdatedTour,
     updateTour
   );
+
+  router.route("/date").post(createTourDate);
 
 
 module.exports = router;

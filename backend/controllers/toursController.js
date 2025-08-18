@@ -4,6 +4,7 @@ const {
   updateTour,
   getAllToursM,
   searchAndFilterTours,
+  createTourDate,
 } = require("../models/toursModel");
 const { validationResult } = require("express-validator");
 const AppError = require("../utils/appError");
@@ -103,6 +104,26 @@ exports.searchTours = async (req, res, next) => {
     });
   } catch (error) {
     console.error("Error in searchTours:", error.message);
+    next(error);
+  }
+};
+
+exports.createTourDate = async (req, res, next) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  try {
+    const newDate = req.body;
+
+    const createdDate = await createTourDate(newDate);
+
+    res.status(201).json({
+      status: "success",
+      data: createdDate,
+    });
+  } catch (error) {
     next(error);
   }
 };
