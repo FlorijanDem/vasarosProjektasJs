@@ -11,18 +11,13 @@ import userIconDark from "../../../src/assets/user-icon-dark.png";
 import adminIconDark from "../../../src/assets/admin-icon-dark.png";
 import adminIconLight from "../../../src/assets/admin-icon-light.png";
 import { useState, useEffect } from "react";
-import ModalController from "../../pages/Login/ModalController";
-import { Link, useNavigate } from "react-router";
-import axios from "axios";
-import AdminPanel from "../../pages/AdminPanel/AdminPanel";
-const API_URL = import.meta.env.VITE_API_URL;
+import { Link } from "react-router";
+
+
 import "../../styles/global.css";
 
-const Nav = () => {
-  const [showAuth, setShowAuth] = useState(false);
-  const [showLogin, setShowLogin] = useState(true);
-  const [showRegister, setShowRegister] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+const Nav = ({ isLoggedIn, logout, openAuth, userRole, userEmail }) => {
+
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem("theme") === "dark";
   });
@@ -30,37 +25,12 @@ const Nav = () => {
     const saved = localStorage.getItem("theme") || "light";
     document.documentElement.setAttribute("data-theme", saved);
   }, []);
-const navigate = useNavigate();
+
   const toggleTheme = () => {
     const current = document.documentElement.getAttribute("data-theme");
     const next = current === "dark" ? "light" : "dark";
     document.documentElement.setAttribute("data-theme", next);
     localStorage.setItem("theme", next);
-  };
-  const [userRole, setUserRole] = useState(null);
-  const [userEmail, setUserEmail] = useState(null);
-  const logout = async () => {
-    await axios.get(`${API_URL}/auth/logout`, {
-      withCredentials: true,
-    });
-    setIsLoggedIn(false);
-    navigate("/");
-  };
-
-  const fetchUser = async () => {
-    try {
-      const res = await axios.get(`${API_URL}/auth/me`, {
-        withCredentials: true,
-      });
-      setUserRole(res.data.role);
-      setUserEmail(res.data.email);
-      setIsLoggedIn(true);
-    } catch (error) {
-      console.error("Not logged in:", error);
-      setUserRole(null);
-      setUserEmail(null);
-      setIsLoggedIn(false);
-    }
   };
 
   useEffect(() => {
@@ -74,32 +44,7 @@ const navigate = useNavigate();
     }
   }, [darkMode]);
 
-  useEffect(() => {
-    fetchUser();
-  }, []);
 
-  const openAuth = (type) => {
-    setShowAuth(true);
-    setShowLogin(type === "login");
-    setShowRegister(type === "register");
-  };
-
-  const closeLogin = () => {
-    setShowLogin(false);
-  };
-  const closeRegister = () => {
-    setShowRegister(false);
-    setShowAuth(false);
-  };
-  const openRegister = () => {
-    setShowRegister(true);
-    setShowLogin(false);
-  };
-  const openLogin = () => {
-    setShowLogin(true);
-    setShowRegister(false);
-    setShowAuth(true);
-  };
 
   return isLoggedIn ? (
     userRole === "admin" ? (
@@ -165,16 +110,6 @@ const navigate = useNavigate();
             </button>
           </div>
         </div>
-        {showAuth && (
-          <ModalController
-            showLogin={showLogin}
-            showRegister={showRegister}
-            openRegister={openRegister}
-            closeLogin={closeLogin}
-            closeRegister={closeRegister}
-            onAuthSuccess={fetchUser}
-          />
-        )}
       </nav>
     ) : userRole === "user" ? (
       <nav className="w-full flex-row flex h-[8rem] sticky shadow-[0rem_0.125rem_0.25rem_0rem_rgba(0,0,0,0.0562)] items-center px-12 max-md:px-4 max-lg:px-12 top-0">
@@ -226,16 +161,6 @@ const navigate = useNavigate();
             </button>
           </div>
         </div>
-        {showAuth && (
-          <ModalController
-            showLogin={showLogin}
-            showRegister={showRegister}
-            openRegister={openRegister}
-            closeLogin={closeLogin}
-            closeRegister={closeRegister}
-            onAuthSuccess={fetchUser}
-          />
-        )}
       </nav>
     ) : null
   ) : (
@@ -291,18 +216,8 @@ const navigate = useNavigate();
           </button>
         </div>
       </div>
-      {showAuth && (
-        <ModalController
-          showLogin={showLogin}
-          showRegister={showRegister}
-          openRegister={openRegister}
-          closeLogin={closeLogin}
-          closeRegister={closeRegister}
-          openLogin={openLogin}
-          onAuthSuccess={fetchUser}
-        />
-      )}
     </nav>
   );
 };
+
 export default Nav;

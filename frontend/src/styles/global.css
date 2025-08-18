@@ -15,6 +15,10 @@
   --accent-text-color: #111517;
   --error-text-color: #b91c1c;
   --icon-filter: invert(0%);
+  --green-accent-color: #36d7b7;
+  --grey-accent-color: #454545;
+  --pagination-accent: #aef4e6;
+
 }
 
 [data-theme="dark"] {
@@ -26,6 +30,9 @@
   --accent-text-color: #ffffff;
   --error-text-color: #fb3a3a;
   --icon-filter: invert(100%);
+  --green-accent-color: #36d7b7;
+  --grey-accent-color: #9a9a9a;
+    --pagination-accent: #36d7b7;
 }
 
 @layer base {
