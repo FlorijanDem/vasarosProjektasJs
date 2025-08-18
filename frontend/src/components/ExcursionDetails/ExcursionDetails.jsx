@@ -15,6 +15,7 @@ import DefaultExcursionImg from "../../assets/default-tour-img.avif";
 import { DayPicker } from "react-day-picker";
 import { getData } from "../../services/get";
 import Review from "./Review";
+import { enUS } from "date-fns/locale";
 
 const ExcursionDetails = ({ openAuth }) => {
   const { id } = useParams();
@@ -84,8 +85,18 @@ const ExcursionDetails = ({ openAuth }) => {
   if (!excursion)
     return <p className={styles.noExcursionText}>Excursion not found.</p>;
 
-  const availableDates = excursion.tour_dates.map((date) => new Date(date));
-  const closest = getClosestDate(excursion.tour_dates);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const availableDates = excursion.tour_dates
+    .map((d) => new Date(d))
+    .filter((d) => {
+      const nd = new Date(d);
+      nd.setHours(0, 0, 0, 0);
+      return nd >= today;
+    });
+
+  const closest = availableDates.length ? getClosestDate(availableDates) : null;
 
   return (
     <div className={styles.detailsLayout}>
@@ -154,9 +165,13 @@ const ExcursionDetails = ({ openAuth }) => {
             <DayPicker
               mode="single"
               selected={undefined}
-              disabled={() => true}
+              disabled={{ before: today }}
               modifiers={{ available: availableDates }}
               modifiersClassNames={{ available: styles.highlight }}
+              locale={{
+                ...enUS,
+                options: { ...enUS.options, weekStartsOn: 1 },
+              }}
             />
           </div>
           {closest ? (
