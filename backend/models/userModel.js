@@ -57,4 +57,3 @@ exports.searchUsers = async ({ email }) => {
 
   return result;
 };
-
