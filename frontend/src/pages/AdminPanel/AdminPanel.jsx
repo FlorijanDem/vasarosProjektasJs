@@ -1,5 +1,4 @@
 import CardsGridAdmin from "../../components/CardsGrid/CardsGridAdmin"
-import Nav from "../../components/Nav/Nav"
 
 const AdminPanel = () => {
     
