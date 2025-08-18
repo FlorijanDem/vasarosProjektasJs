@@ -16,6 +16,7 @@
   --error-text-color: #b91c1c;
   --green-accent-color: #36d7b7;
   --grey-accent-color: #454545;
+  --pagination-accent: #aef4e6;
 
 }
 
@@ -29,6 +30,7 @@
   --error-text-color: #fb3a3a;
   --green-accent-color: #36d7b7;
   --grey-accent-color: #9a9a9a;
+    --pagination-accent: #36d7b7;
 }
 
 @layer base {

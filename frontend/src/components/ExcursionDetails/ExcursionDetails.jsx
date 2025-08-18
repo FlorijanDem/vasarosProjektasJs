@@ -19,27 +19,40 @@ const ExcursionDetails = ({ openAuth }) => {
   const { id } = useParams();
   const { excursions, loading } = useContext(ExcursionContext);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
-  const [, setIsReviewsLoaded] = useState(false);
   const [reviews, setReviews] = useState([]);
   const navigate = useNavigate();
+  const [page, setPage] = useState(1);
+  const [limit] = useState(4);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 4,
+    total: 0,
+    totalPages: 1,
+  });
+  const [reviewsLoading, setReviewsLoading] = useState(false);
+  const [reviewsError, setReviewsError] = useState("");
+
+  const fetchReviews = async (p = 1) => {
+    try {
+      setReviewsLoading(true);
+      setReviewsError("");
+      const data = await getData(`reviews/${id}?page=${p}&limit=${limit}`);
+      const { reviews, pagination } = data.data;
+      setReviews(reviews);
+      setPagination(pagination);
+      setPage(pagination.page);
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+      setReviewsError("Failed to load reviews.");
+    } finally {
+      setReviewsLoading(false);
+    }
+  };
+
 
   useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const data = await getData(`reviews/${id}`);
-        const { reviews } = data.data;
-        console.log(reviews);
-        setReviews(reviews);
-      } catch (error) {
-        console.error("Error fetching reviews:", error);
-      } finally {
-        setIsReviewsLoaded(false);
-      }
-    };
-
-    fetchReviews();
-  }, []);
-
+    fetchReviews(page);
+  }, [id, page]);
   if (loading)
     return (
       <div className={styles.loaderContainer}>
@@ -48,11 +61,12 @@ const ExcursionDetails = ({ openAuth }) => {
     );
 
   const excursion = excursions.find((excursion) => excursion.id === Number(id));
-  const availableDates = excursion.tour_dates.map((date) => new Date(date));
-  const excursionReviews = reviews;
 
   if (!excursion)
     return <p className={styles.noExcursionText}>Excursion not found.</p>;
+
+  const availableDates = excursion.tour_dates.map((date) => new Date(date));
+  const closest = getClosestDate(excursion.tour_dates);
 
   return (
     <div className={styles.detailsLayout}>
@@ -88,10 +102,18 @@ const ExcursionDetails = ({ openAuth }) => {
               &nbsp;
               <span>{excursion.average_rating}</span>
             </p>
-            <p className={styles.greyText}>
-              Closest date:{" "}
-              {getClosestDate(excursion.tour_dates)?.toLocaleDateString()}
-            </p>
+            {closest ? (
+              <p className={styles.greyText}>
+                Closest date:&nbsp;{closest.toLocaleDateString()}
+              </p>
+            ) : (
+              <p className={styles.greyText}>
+                Closest date:&nbsp;
+                <span className={styles.noDateAvailable}>
+                  No upcoming dates available
+                </span>
+              </p>
+            )}
             <p className={styles.greyText}>
               Duration: {formatInterval(excursion.duration)}
             </p>
@@ -100,8 +122,6 @@ const ExcursionDetails = ({ openAuth }) => {
           </div>
         </div>
       </section>
-
-      {/* Later */}
       <div className={styles.sectionWrapper}>
         <section className={styles.calendarSection}>
           <h2 className={styles.subtitle}>Available dates</h2>
@@ -114,36 +134,106 @@ const ExcursionDetails = ({ openAuth }) => {
               modifiersClassNames={{ available: styles.highlight }}
             />
           </div>
-          <div className={styles.signupText}>
-            <p className={styles.greyText}>
-              Create an account to book your spot on this excursion.&nbsp;
-            </p>
-            <span
-              className={`${styles.signupBtn} ${styles.greyText}`}
-              onClick={() => openAuth("register")}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") openAuth("register");
-              }}
-            >
-              Sign up
-            </span>
-          </div>
+          {closest ? (
+            <div className={styles.signupText}>
+              <p className={styles.greyText}>
+                Create an account to book your spot on this excursion.&nbsp;
+              </p>
+              <span
+                className={`${styles.signupBtn} ${styles.greyText}`}
+                onClick={() => openAuth("register")}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") openAuth("register");
+                }}
+              >
+                Sign up
+              </span>
+            </div>
+          ) : (
+            <>
+              <span className={styles.noDateAvailable}>
+                No upcoming dates available
+              </span>
+              <div className={styles.signupText}>
+                <p className={styles.greyText}>
+                  Create an account to book your spot on other excursions.&nbsp;
+                </p>
+                <span
+                  className={`${styles.signupBtn} ${styles.greyText}`}
+                  onClick={() => openAuth("register")}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") openAuth("register");
+                  }}
+                >
+                  Sign up
+                </span>
+              </div>
+            </>
+          )}
         </section>
         <section className={styles.reviewsSection}>
           <h2 className={styles.subtitle}>Reviews</h2>
-          <section className={styles.reviews}>
-            {excursionReviews.length === 0 ? (
-              <p className={styles.greyText}>
-                Be the first to share your thoughts! No reviews yet.
-              </p>
-            ) : (
-              excursionReviews.map((review) => (
-                <Review key={review.id} review={review} />
-              ))
-            )}
-          </section>
+          {reviewsLoading && (
+            <p className={styles.greyText}>Loading reviews…</p>
+          )}
+          {reviewsError && <p className={styles.errorText}>{reviewsError}</p>}
+
+          {!reviewsLoading && !reviewsError && (
+            <>
+              <section className={styles.reviews}>
+                {reviews.length === 0 ? (
+                  <p className={styles.greyText}>
+                    Be the first to share your thoughts! No reviews yet.
+                  </p>
+                ) : (
+                  reviews.map((review) => (
+                    <Review key={review.id} review={review} />
+                  ))
+                )}
+              </section>
+              {pagination.totalPages > 1 && (
+                <nav className={styles.pagination}>
+                  <button
+                    className={styles.pageBtn}
+                    disabled={page <= 1}
+                    onClick={() => setPage((p) => Math.max(1, p - 1))}
+                  >
+                    Prev
+                  </button>
+
+                  {Array.from(
+                    { length: pagination.totalPages },
+                    (_, i) => i + 1
+                  ).map((p) => (
+                    <button
+                      key={p}
+                      className={`${styles.pageBtn} ${
+                        p === page ? styles.pageBtnActive : ""
+                      }`}
+                      onClick={() => setPage(p)}
+                      aria-current={p === page ? "page" : undefined}
+                    >
+                      {p}
+                    </button>
+                  ))}
+
+                  <button
+                    className={styles.pageBtn}
+                    disabled={page >= pagination.totalPages}
+                    onClick={() =>
+                      setPage((p) => Math.min(pagination.totalPages, p + 1))
+                    }
+                  >
+                    Next
+                  </button>
+                </nav>
+              )}
+            </>
+          )}
         </section>
       </div>
     </div>

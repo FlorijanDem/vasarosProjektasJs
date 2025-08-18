@@ -13,7 +13,7 @@
   font-weight: 300;
   grid-column: span 2;
   gap: 1rem;
-  background: var(--colors-white, #fff);
+  background: var(--lighter-background-color);
   box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.1);
   padding-block: 1.5rem;
   padding-inline: 2rem;
@@ -25,6 +25,10 @@
 
 .arrowIcon {
   width: 20px;
+}
+
+[data-theme="dark"] .arrowIcon {
+  filter: invert(1); /* turns black → white */
 }
 
 /* Styles for info section*/
@@ -123,14 +127,6 @@
   font-size: 1.5rem;
 }
 
-.rdp-weekday {
-  opacity: 0 !important;
-}
-
-.rdp * {
-  color: inherit;
-}
-
 .calendarSection {
   display: flex;
   flex-direction: column;
@@ -178,6 +174,10 @@
   margin-block: 3rem;
 }
 
+.noDateAvailable {
+  color: var(--error-text-color);
+}
+
 /* Reviews */
 .reviewsSection {
   display: flex;
@@ -193,4 +193,33 @@
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  margin-top: 1.2rem;
+  color: var(--secondary-text-color);
+}
+
+.pageBtn {
+  font-size: 1.4rem;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--secondary-text-color);
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.pageBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pageBtnActive {
+  font-weight: 700;
+  text-decoration: underline;
+  background-color: var(--pagination-accent);
 }

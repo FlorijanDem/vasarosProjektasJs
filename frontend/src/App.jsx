@@ -82,7 +82,9 @@ function App() {
       <Routes>
         <Route path="/" element={<MainPage openAuth={openAuth} />} />
         <Route path="/:id" element={<ExcurionDetails openAuth={openAuth} />} />
+        <Route path="/*" element={<MainPage openAuth={openAuth} />} />
       </Routes>
+
       {showAuth && (
         <ModalController
           showLogin={showLogin}
