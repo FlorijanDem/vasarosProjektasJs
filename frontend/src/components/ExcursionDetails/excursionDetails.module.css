@@ -27,10 +27,6 @@
   width: 20px;
 }
 
-[data-theme="dark"] .arrowIcon {
-  filter: invert(1); /* turns black → white */
-}
-
 /* Styles for info section*/
 
 .infoSection {
@@ -157,6 +153,10 @@
   font-size: 1.8rem;
 }
 
+.hidden {
+  display: none;
+}
+
 .loaderContainer {
   height: 80vh;
   display: flex;
@@ -176,6 +176,13 @@
 
 .noDateAvailable {
   color: var(--error-text-color);
+}
+
+.imgLoaderContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 
 /* Reviews */

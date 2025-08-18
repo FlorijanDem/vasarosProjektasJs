@@ -4,7 +4,8 @@ import { useParams, useNavigate } from "react-router";
 import { useContext, useState, useEffect } from "react";
 import { ExcursionContext } from "../../contexts/contexts";
 import { ClipLoader } from "react-spinners";
-import LeftArrow from "../../assets/left-arrow.png";
+import LeftArrowLight from "../../assets/left-arrow.png";
+import LeftArrowDark from "../../assets/left-arrow-dark.png";
 import { renderStars } from "../../utils/renderStars";
 import {
   formatInterval,
@@ -32,6 +33,25 @@ const ExcursionDetails = ({ openAuth }) => {
   const [reviewsLoading, setReviewsLoading] = useState(false);
   const [reviewsError, setReviewsError] = useState("");
 
+  //arrow change
+  const [arrowSrc, setArrowSrc] = useState(() =>
+    document.documentElement.getAttribute("data-theme") === "dark"
+      ? LeftArrowDark
+      : LeftArrowLight
+  );
+
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      const theme = document.documentElement.getAttribute("data-theme");
+      setArrowSrc(theme === "dark" ? LeftArrowDark : LeftArrowLight);
+    });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+    return () => observer.disconnect();
+  }, []);
+
   const fetchReviews = async (p = 1) => {
     try {
       setReviewsLoading(true);
@@ -48,7 +68,6 @@ const ExcursionDetails = ({ openAuth }) => {
       setReviewsLoading(false);
     }
   };
-
 
   useEffect(() => {
     fetchReviews(page);
@@ -71,12 +90,18 @@ const ExcursionDetails = ({ openAuth }) => {
   return (
     <div className={styles.detailsLayout}>
       <button className={styles.backButton} onClick={() => navigate(`/`)}>
-        <img src={LeftArrow} alt="Back" className={styles.arrowIcon} />
+        <img src={arrowSrc} alt="Back" className={styles.arrowIcon} />
         Back
       </button>
 
       <section className={styles.infoSection}>
         <figure className={styles.figure}>
+          {!isImageLoaded && (
+            <div className={styles.imgLoaderContainer}>
+              <ClipLoader color="#808080" size={20} />
+            </div>
+          )}
+
           <img
             className={`${styles.cardImg} ${
               !isImageLoaded ? styles.hidden : ""
