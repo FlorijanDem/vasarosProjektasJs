@@ -15,7 +15,7 @@ const AddExcursionModal = ({ isOpen, onClose, onSave }) => {
       onClick={onClose}
     >
       <div
-        className="rounded bg-[var(--lighter-background-color)] p-8 relative w-1/3 shadow-2xl text-center flex gap-8 flex-col max-md:w-9/10"
+        className="rounded bg-[var(--lighter-background-color)] p-8 relative w-1/3 shadow-2xl text-center flex gap-8 flex-col max-md:w-9/10 max-h-9/10 overflow-y-scroll"
         onClick={(e) => e.stopPropagation()}
       >
         <button onClick={onClose} className="absolute top-4 right-4 text-3xl">

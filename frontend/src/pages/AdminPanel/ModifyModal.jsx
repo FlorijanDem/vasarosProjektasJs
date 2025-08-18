@@ -27,7 +27,7 @@ const ModifyExcursionModal = ({ isOpen, onClose, excursion, onSave }) => {
       onClick={onClose}
     >
       <div
-        className="rounded bg-[var(--lighter-background-color)] p-8 relative w-1/3 shadow-2xl text-center flex gap-8 flex-col max-md:w-9/10"
+        className="rounded bg-[var(--lighter-background-color)] p-8 relative w-1/3 shadow-2xl text-center flex gap-8 flex-col max-md:w-9/10 max-h-9/10 overflow-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <button onClick={onClose} className="absolute top-4 right-4 text-3xl">
@@ -58,7 +58,7 @@ const ModifyExcursionModal = ({ isOpen, onClose, excursion, onSave }) => {
           )}
           <input
             {...register("duration", { required: "Duration is required" })}
-            placeholder="Duration"
+            placeholder="Duration (HH:MM:SS)"
             className="border-2 rounded-2xl h-3/16 w-6/10 p-8 text-[2rem]"
           />
           {errors.duration && (
