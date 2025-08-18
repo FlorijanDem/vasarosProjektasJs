@@ -27,7 +27,7 @@ const ModifyExcursionModal = ({ isOpen, onClose, excursion, onSave }) => {
       onClick={onClose}
     >
       <div
-        className="rounded bg-[var(--lighter-background-color)] p-8 relative w-1/3 shadow-2xl text-center flex gap-8 flex-col max-md:w-9/10 max-h-9/10 overflow-auto"
+        className="rounded bg-[var(--lighter-background-color)] p-8 relative w-1/3 shadow-2xl text-center flex gap-8 flex-col max-md:w-9/10 max-h-9/10 overflow-y-scroll"
         onClick={(e) => e.stopPropagation()}
       >
         <button onClick={onClose} className="absolute top-4 right-4 text-3xl">
@@ -49,15 +49,29 @@ const ModifyExcursionModal = ({ isOpen, onClose, excursion, onSave }) => {
             <p className="text-red-600">{errors.title.message}</p>
           )}
           <input
-            {...register("photo_url", { required: "Photo Url is required" })}
-            placeholder="Photo Url"
+            {...register("photo_url", {
+              required: "Photo URL is required",
+              pattern: {
+                value: /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp|svg))$/i,
+                message:
+                  "Please enter a valid image URL (png, jpg, jpeg, gif, webp, svg)",
+              },
+            })}
+            placeholder="Photo URL"
             className="border-2 rounded-2xl h-3/16 w-6/10 p-8 text-[2rem]"
           />
           {errors.photo_url && (
             <p className="text-red-600">{errors.photo_url.message}</p>
           )}
           <input
-            {...register("duration", { required: "Duration is required" })}
+            {...register("duration", {
+              required: "Duration is required",
+              pattern: {
+                value: /^(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d$/,
+                message:
+                  "Duration must be in HH:MM:SS format aka 'military time' ",
+              },
+            })}
             placeholder="Duration (HH:MM:SS)"
             className="border-2 rounded-2xl h-3/16 w-6/10 p-8 text-[2rem]"
           />
@@ -65,7 +79,12 @@ const ModifyExcursionModal = ({ isOpen, onClose, excursion, onSave }) => {
             <p className="text-red-600">{errors.duration.message}</p>
           )}
           <input
-            {...register("price", { required: "Price is required" })}
+            type="number"
+            step="0.01"
+            {...register("price", {
+              required: "Price is required",
+              valueAsNumber: true,
+            })}
             placeholder="Price"
             className="border-2 rounded-2xl h-3/16 w-6/10 p-8 text-[2rem]"
           />
@@ -99,7 +118,7 @@ const ModifyExcursionModal = ({ isOpen, onClose, excursion, onSave }) => {
             placeholder="Location"
             className="border-2 rounded-2xl h-3/16 w-6/10 p-8 text-[2rem]"
           />
-           {errors.location && (
+          {errors.location && (
             <p className="text-red-600">{errors.location.message}</p>
           )}
           <button

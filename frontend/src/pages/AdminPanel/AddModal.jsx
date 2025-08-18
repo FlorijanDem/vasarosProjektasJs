@@ -4,8 +4,7 @@ const AddExcursionModal = ({ isOpen, onClose, onSave }) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-  });
+  } = useForm({});
 
   if (!isOpen) return null;
 
@@ -37,15 +36,29 @@ const AddExcursionModal = ({ isOpen, onClose, onSave }) => {
             <p className="text-red-600">{errors.title.message}</p>
           )}
           <input
-            {...register("photo_url", { required: "Photo Url is required" })}
-            placeholder="Photo Url"
+            {...register("photo_url", {
+              required: "Photo URL is required",
+              pattern: {
+                value: /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp|svg))$/i,
+                message:
+                  "Please enter a valid image URL (png, jpg, jpeg, gif, webp, svg)",
+              },
+            })}
+            placeholder="Photo URL"
             className="border-2 rounded-2xl h-3/16 w-6/10 p-8 text-[2rem]"
           />
           {errors.photo_url && (
             <p className="text-red-600">{errors.photo_url.message}</p>
           )}
           <input
-            {...register("duration", { required: "Duration is required" })}
+            {...register("duration", {
+              required: "Duration is required",
+              pattern: {
+                value: /^(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d$/,
+                message:
+                  "Duration must be in HH:MM:SS format aka 'military time' ",
+              },
+            })}
             placeholder="Duration (HH:MM:SS)"
             className="border-2 rounded-2xl h-3/16 w-6/10 p-8 text-[2rem]"
           />
@@ -53,7 +66,20 @@ const AddExcursionModal = ({ isOpen, onClose, onSave }) => {
             <p className="text-red-600">{errors.duration.message}</p>
           )}
           <input
-            {...register("price", { required: "Price is required" })}
+            type="number"
+            step="0.01"
+            {...register("price", {
+              required: "Price is required",
+              valueAsNumber: true,
+              min: {
+                value: 1,
+                message: "Price must be at least 1",
+              },
+              max: {
+                value: 10000,
+                message: "Price must not exceed 10000",
+              },
+            })}
             placeholder="Price"
             className="border-2 rounded-2xl h-3/16 w-6/10 p-8 text-[2rem]"
           />
@@ -67,6 +93,9 @@ const AddExcursionModal = ({ isOpen, onClose, onSave }) => {
             placeholder="Category ID"
             className="border-2 rounded-2xl h-3/16 w-6/10 p-8 text-[2rem]"
           />
+          {errors.category_id && (
+            <p className="text-red-600">{errors.category_id.message}</p>
+          )}
           {errors.category_id && (
             <p className="text-red-600">{errors.category_id.message}</p>
           )}
@@ -87,7 +116,7 @@ const AddExcursionModal = ({ isOpen, onClose, onSave }) => {
             placeholder="Location"
             className="border-2 rounded-2xl h-3/16 w-6/10 p-8 text-[2rem]"
           />
-           {errors.location && (
+          {errors.location && (
             <p className="text-red-600">{errors.location.message}</p>
           )}
           <button
