@@ -71,14 +71,6 @@ const AddExcursionModal = ({ isOpen, onClose, onSave }) => {
             {...register("price", {
               required: "Price is required",
               valueAsNumber: true,
-              min: {
-                value: 1,
-                message: "Price must be at least 1",
-              },
-              max: {
-                value: 10000,
-                message: "Price must not exceed 10000",
-              },
             })}
             placeholder="Price"
             className="border-2 rounded-2xl h-3/16 w-6/10 p-8 text-[2rem]"
@@ -93,9 +85,6 @@ const AddExcursionModal = ({ isOpen, onClose, onSave }) => {
             placeholder="Category ID"
             className="border-2 rounded-2xl h-3/16 w-6/10 p-8 text-[2rem]"
           />
-          {errors.category_id && (
-            <p className="text-red-600">{errors.category_id.message}</p>
-          )}
           {errors.category_id && (
             <p className="text-red-600">{errors.category_id.message}</p>
           )}
