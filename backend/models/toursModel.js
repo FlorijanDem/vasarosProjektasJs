@@ -118,3 +118,18 @@ exports.searchAndFilterTours = async (params) => {
 
   return result || [];
 };
+
+exports.createTourDate = async (newDate) => {
+  if (!newDate.tour_id) throw new Error("tour_id is required");
+  if (!newDate.date) throw new Error("date is required");
+
+  const date = await sql`
+      INSERT INTO tours_dates ${sql(
+        newDate,
+        "tour_id",
+        "date"
+      )}
+      RETURNING *;
+  `;
+  return date[0];
+};
