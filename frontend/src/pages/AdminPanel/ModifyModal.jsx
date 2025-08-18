@@ -104,7 +104,7 @@ const ModifyExcursionModal = ({ isOpen, onClose, excursion, onSave }) => {
           )}
           <button
             type="submit"
-            className="bg-[var(--lighter-background-color)] rounded-2xl border-2 h-3/16/16 w-3/16 text-[1.75rem] justify-center max-xl:text-[1.25rem] max-xl:h-3/16"
+            className="bg-[var(--lighter-background-color)] rounded-2xl border-2 h-3/16/16 w-4/16 text-[1.75rem] justify-center max-xl:text-[1.25rem] max-xl:h-3/16"
           >
             Save
           </button>
