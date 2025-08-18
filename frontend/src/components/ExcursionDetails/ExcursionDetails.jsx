@@ -16,10 +16,11 @@ import { DayPicker } from "react-day-picker";
 import { getData } from "../../services/get";
 import Review from "./Review";
 import { enUS } from "date-fns/locale";
+import BookModal from "./BookModal";
 
 const ExcursionDetails = ({ openAuth, isLoggedIn }) => {
   console.log(isLoggedIn);
-
+  const [showRegisterModal, setShowRegisterModal] = useState(false);
   const { id } = useParams();
   const { excursions, loading } = useContext(ExcursionContext);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
@@ -35,6 +36,14 @@ const ExcursionDetails = ({ openAuth, isLoggedIn }) => {
   });
   const [reviewsLoading, setReviewsLoading] = useState(false);
   const [reviewsError, setReviewsError] = useState("");
+  //modal controls
+  const openRegister = () => {
+    setShowRegisterModal(true);
+  };
+
+  const closeRegister = () => {
+    setShowRegisterModal(false);
+  };
 
   //arrow change
   const [arrowSrc, setArrowSrc] = useState(() =>
@@ -159,7 +168,9 @@ const ExcursionDetails = ({ openAuth, isLoggedIn }) => {
           </div>
           {isLoggedIn ? (
             closest ? (
-              <button className={styles.registerBtn}>Register</button>
+              <button className={styles.registerBtn} onClick={openRegister}>
+                Book Excursion
+              </button>
             ) : (
               ""
             )
@@ -299,6 +310,9 @@ const ExcursionDetails = ({ openAuth, isLoggedIn }) => {
           )}
         </section>
       </div>
+      {showRegisterModal && (
+        <BookModal excursion={excursion} availableDates={availableDates} onClose={closeRegister} />
+      )}
     </div>
   );
 };

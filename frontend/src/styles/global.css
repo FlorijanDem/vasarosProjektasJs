@@ -14,7 +14,8 @@
   --secondary-text-color: #808080;
   --accent-text-color: #111517;
   --error-text-color: #b91c1c;
-  --green-accent-color: #36d7b7;
+  --green-accent-color: #aef4e6;
+  --depper-green-accent-color: #4cf3d2;
   --grey-accent-color: #454545;
   --pagination-accent: #aef4e6;
   --button-hover-color: #e8e8e8;
@@ -32,6 +33,7 @@
   --grey-accent-color: #9a9a9a;
   --pagination-accent: #36d7b7;
   --button-hover-color: #232a31;
+  --depper-green-accent-color: #0bcba5;
 }
 
 @layer base {
