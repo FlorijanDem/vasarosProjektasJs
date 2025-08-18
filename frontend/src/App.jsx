@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Nav from "./components/Nav/Nav";
 import MainPage from "./pages/MainPage/MainPage";
 import ExcurionDetails from "./components/ExcursionDetails/ExcursionDetails";
@@ -17,6 +17,7 @@ function App() {
   const [showRegister, setShowRegister] = useState(false);
   const [userRole, setUserRole] = useState(null);
   const [userEmail, setUserEmail] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsLoggedIn(document.cookie.includes("jwt="));
@@ -46,6 +47,7 @@ function App() {
     try {
       await axios.get(`${API_URL}/auth/logout`, { withCredentials: true });
       setIsLoggedIn(false);
+      navigate("/");
     } catch (err) {
       console.error("Logout failed:", err);
     }
