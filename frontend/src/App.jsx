@@ -5,6 +5,8 @@ import Nav from "./components/Nav/Nav";
 import MainPage from "./pages/MainPage/MainPage";
 import ExcurionDetails from "./components/ExcursionDetails/ExcursionDetails";
 import ModalController from "./pages/Login/ModalController";
+import ProtectRoute from "../src/utils/protectRoute"
+import AdminPanel from "./pages/AdminPanel/AdminPanel";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -82,6 +84,14 @@ function App() {
       <Routes>
         <Route path="/" element={<MainPage openAuth={openAuth} />} />
         <Route path="/:id" element={<ExcurionDetails openAuth={openAuth} />} />
+        <Route
+          path="/admin"
+          element={
+            <ProtectRoute allowedRoles={["admin"]}>
+              <AdminPanel />
+            </ProtectRoute>
+          }
+        />
         <Route path="/*" element={<MainPage openAuth={openAuth} />} />
       </Routes>
 
