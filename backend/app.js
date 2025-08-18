@@ -1,14 +1,14 @@
-const express = require("express");
-const authRoutes = require("./routes/authRoutes");
-// const exampleRoutes = require('./routes/exampleRoutes');
-const setupSwagger = require("./utils/swagger");
-const cookieParser = require("cookie-parser");
+const express = require('express');
+const authRoutes = require('./routes/authRoutes');
+const setupSwagger = require('./utils/swagger');
+const cookieParser = require('cookie-parser');
 const cors = require("cors");
 const loggerMiddleware = require("./middleware/logger");
 const rateLimitMiddleware = require("./middleware/rateLimits");
-
 const toursRoutes = require("./routes/toursRoutes");
+const userRoutes = require("./routes/userRoutes")
 const reviewsRoutes = require("./routes/reviewRoutes");
+const reservationRoutes = require("./routes/reservationRoutes");
 
 const app = express();
 
@@ -36,8 +36,10 @@ app.get('/api/v1/test', (req, res) => {
   res.status(200).send('OK');
 });
 
-app.use("/api/v1", authRoutes);
-app.use("/api/v1/excursions", toursRoutes);
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/excursions', toursRoutes);
+app.use('/api/v1/admin', userRoutes);
 app.use("/api/v1/reviews", reviewsRoutes);
+app.use('/api/v1/reservations', reservationRoutes)
 
 module.exports = app;
