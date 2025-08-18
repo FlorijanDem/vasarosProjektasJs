@@ -54,7 +54,9 @@ exports.updateTour = async (id, updatedTour) => {
       "photo_url",
       "duration",
       "price",
-      "category_id"
+      "category_id",
+      "description",
+      "location"
     )}
     where id = ${id}
     returning *;
@@ -83,7 +85,7 @@ exports.searchAndFilterTours = async (params) => {
   const safeOrder = order.toLowerCase() === "desc" ? sql`DESC` : sql`ASC`;
   const filters = [];
   if (title) {
-    filters.push(sql`tours.title ILIKE ${'%' + title + '%'}`);
+    filters.push(sql`tours.title ILIKE ${"%" + title + "%"}`);
   }
   if (category_id) {
     filters.push(sql`tours.category_id = ${category_id}`);
