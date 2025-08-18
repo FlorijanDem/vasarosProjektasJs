@@ -17,7 +17,9 @@ import { getData } from "../../services/get";
 import Review from "./Review";
 import { enUS } from "date-fns/locale";
 
-const ExcursionDetails = ({ openAuth }) => {
+const ExcursionDetails = ({ openAuth, isLoggedIn }) => {
+  console.log(isLoggedIn);
+
   const { id } = useParams();
   const { excursions, loading } = useContext(ExcursionContext);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
@@ -104,7 +106,6 @@ const ExcursionDetails = ({ openAuth }) => {
         <img src={arrowSrc} alt="Back" className={styles.arrowIcon} />
         Back
       </button>
-
       <section className={styles.infoSection}>
         <figure className={styles.figure}>
           {!isImageLoaded && (
@@ -156,6 +157,15 @@ const ExcursionDetails = ({ openAuth }) => {
             <p className={styles.greyText}>Price: {`${excursion.price} €`}</p>
             <p className={styles.greyText}>Location: {excursion.location}</p>
           </div>
+          {isLoggedIn ? (
+            closest ? (
+              <button className={styles.registerBtn}>Register</button>
+            ) : (
+              ""
+            )
+          ) : (
+            ""
+          )}
         </div>
       </section>
       <div className={styles.sectionWrapper}>
@@ -176,20 +186,26 @@ const ExcursionDetails = ({ openAuth }) => {
           </div>
           {closest ? (
             <div className={styles.signupText}>
-              <p className={styles.greyText}>
-                Create an account to book your spot on this excursion.&nbsp;
-              </p>
-              <span
-                className={`${styles.signupBtn} ${styles.greyText}`}
-                onClick={() => openAuth("register")}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") openAuth("register");
-                }}
-              >
-                Sign up
-              </span>
+              {isLoggedIn ? (
+                ""
+              ) : (
+                <>
+                  <p className={styles.greyText}>
+                    Create an account to book your spot on this excursion.&nbsp;
+                  </p>
+                  <span
+                    className={`${styles.signupBtn} ${styles.greyText}`}
+                    onClick={() => openAuth("register")}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") openAuth("register");
+                    }}
+                  >
+                    Sign up
+                  </span>
+                </>
+              )}
             </div>
           ) : (
             <>
@@ -197,20 +213,27 @@ const ExcursionDetails = ({ openAuth }) => {
                 No upcoming dates available
               </span>
               <div className={styles.signupText}>
-                <p className={styles.greyText}>
-                  Create an account to book your spot on other excursions.&nbsp;
-                </p>
-                <span
-                  className={`${styles.signupBtn} ${styles.greyText}`}
-                  onClick={() => openAuth("register")}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") openAuth("register");
-                  }}
-                >
-                  Sign up
-                </span>
+                {isLoggedIn ? (
+                  ""
+                ) : (
+                  <>
+                    <p className={styles.greyText}>
+                      Create an account to book your spot on other
+                      excursions.&nbsp;
+                    </p>
+                    <span
+                      className={`${styles.signupBtn} ${styles.greyText}`}
+                      onClick={() => openAuth("register")}
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") openAuth("register");
+                      }}
+                    >
+                      Sign up
+                    </span>
+                  </>
+                )}
               </div>
             </>
           )}

@@ -104,6 +104,24 @@
   gap: 1rem;
 }
 
+
+.registerBtn {
+  border-radius: 10px;
+  border: 1px solid var(--secondary-text-color);
+  color: var(--secondary-text-color);
+  background: var(--lighter-background-color);
+  padding: 0.5rem 1rem;
+  width: fit-content;
+  cursor: pointer;
+  font-size: 1.4rem;
+  display: flex;
+  justify-content: end;
+}
+
+.registerBtn:hover {
+  background: var(--button-hover-color);
+}
+
 .sectionWrapper {
   display: grid;
   grid-template-columns: repeat(2, minmax(26.4rem, 50rem));
