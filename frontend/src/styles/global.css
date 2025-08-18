@@ -14,6 +14,7 @@
   --secondary-text-color: #808080;
   --accent-text-color: #111517;
   --error-text-color: #b91c1c;
+  --icon-filter: invert(0%);
 }
 
 [data-theme="dark"] {
@@ -24,6 +25,7 @@
   --secondary-text-color: #ffffff;
   --accent-text-color: #ffffff;
   --error-text-color: #fb3a3a;
+  --icon-filter: invert(100%);
 }
 
 @layer base {
@@ -42,4 +44,8 @@
   flex: 1;
   align-items: center;
   justify-content: center;
+}
+
+.img-invert {
+  filter: var(--icon-filter);
 }

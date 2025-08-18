@@ -10,7 +10,7 @@ const [showAdd, setShowAdd] = useState(false);
   return (
       <div className='flex justify-center w-full h-full '>
           <button onClick={openAddModal}>
-            <img src={AddButton} alt="Add Excursion Button" width={30}/>
+            <img src={AddButton} alt="Add Excursion Button" width={30} className='img-invert'/>
             </button>
             {showAdd && (
         <AddModalController
