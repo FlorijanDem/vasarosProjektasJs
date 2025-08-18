@@ -13,11 +13,9 @@ import adminIconLight from "../../../src/assets/admin-icon-light.png";
 import { useState, useEffect } from "react";
 import { Link } from "react-router";
 
-
 import "../../styles/global.css";
 
 const Nav = ({ isLoggedIn, logout, openAuth, userRole, userEmail }) => {
-
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem("theme") === "dark";
   });
@@ -34,7 +32,6 @@ const Nav = ({ isLoggedIn, logout, openAuth, userRole, userEmail }) => {
     localStorage.setItem("theme", next);
   };
 
-
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add("dark");
@@ -46,11 +43,9 @@ const Nav = ({ isLoggedIn, logout, openAuth, userRole, userEmail }) => {
     }
   }, [darkMode]);
 
-
-
   return isLoggedIn ? (
     userRole === "admin" ? (
-      <nav className="w-full flex-row max-md:flex-col flex h-[8rem]  bg-[var(--lighter-background-color)] justify-between sticky shadow-[0rem_0.125rem_0.25rem_0rem_rgba(0,0,0,0.0562)] items-center px-12 max-md:px-4 max-lg:px-12 top-0">
+      <nav className="w-full flex-row max-md:flex-col flex h-[8rem]  bg-[var(--lighter-background-color)] justify-between sticky shadow-[0rem_0.125rem_0.25rem_0rem_rgba(0,0,0,0.0562)] items-center px-12 max-md:px-4 max-lg:px-12 top-0 z-50">
         <div className="flex w-10/20 max-2xl:w-1/4 max-md:w-full max-md:h-1/2 ">
           <Link
             to="/"
@@ -114,7 +109,7 @@ const Nav = ({ isLoggedIn, logout, openAuth, userRole, userEmail }) => {
         </div>
       </nav>
     ) : userRole === "user" ? (
-      <nav className="w-full flex-row flex h-[8rem] sticky shadow-[0rem_0.125rem_0.25rem_0rem_rgba(0,0,0,0.0562)] items-center px-12 max-md:px-4 max-lg:px-12 top-0">
+      <nav className="w-full flex-row flex h-[8rem] bg-[var(--lighter-background-color)] sticky shadow-[0rem_0.125rem_0.25rem_0rem_rgba(0,0,0,0.0562)] items-center px-12 max-md:px-4 max-lg:px-12 top-0 z-50">
         <div className="flex w-13/20  max-2xl:w-1/4 max-md:w-1/4">
           <Link to="/">
             <h2 className="font-['Nunito_Sans',sans-serif] font-extrabold text-[2.4rem] max-md:text-[1.4rem]">
@@ -166,7 +161,7 @@ const Nav = ({ isLoggedIn, logout, openAuth, userRole, userEmail }) => {
       </nav>
     ) : null
   ) : (
-    <nav className="w-full flex-row flex h-[8rem] bg-[var(--lighter-background-color)] sticky shadow-[0rem_0.125rem_0.25rem_0rem_rgba(0,0,0,0.0562)] items-center px-12 max-md:px-4 max-lg:px-12 top-0">
+    <nav className="w-full flex-row flex h-[8rem] bg-[var(--lighter-background-color)] sticky shadow-[0rem_0.125rem_0.25rem_0rem_rgba(0,0,0,0.0562)] items-center px-12 max-md:px-4 max-lg:px-12 top-0 z-50">
       <div className="flex w-1/2  max-2xl:w-1/2 ">
         <Link to="/">
           <h2 className="font-['Nunito_Sans',sans-serif] font-extrabold text-[2.4rem] max-md:text-[1.4rem]  ">

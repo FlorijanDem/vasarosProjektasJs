@@ -17,7 +17,7 @@
   --green-accent-color: #36d7b7;
   --grey-accent-color: #454545;
   --pagination-accent: #aef4e6;
-
+  --button-hover-color: #e8e8e8;
 }
 
 [data-theme="dark"] {
@@ -30,7 +30,8 @@
   --error-text-color: #fb3a3a;
   --green-accent-color: #36d7b7;
   --grey-accent-color: #9a9a9a;
-    --pagination-accent: #36d7b7;
+  --pagination-accent: #36d7b7;
+  --button-hover-color: #232a31;
 }
 
 @layer base {
