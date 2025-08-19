@@ -44,7 +44,7 @@ const Nav = ({ isLoggedIn, logout, openAuth, userRole, userEmail }) => {
 
   return isLoggedIn ? (
     userRole === "admin" ? (
-      <nav className="w-full flex-row max-md:flex-col flex h-[8rem]  bg-[var(--lighter-background-color)] justify-between sticky shadow-[0rem_0.125rem_0.25rem_0rem_rgba(0,0,0,0.0562)] items-center px-12 max-md:px-4 max-lg:px-12 top-0 z-50">
+      <nav className="w-full flex-row max-md:flex-col flex h-[8rem]  bg-[var(--lighter-background-color)] justify-between sticky shadow-[0rem_0.125rem_0.25rem_0rem_rgba(0,0,0,0.0562)] items-center px-12 max-md:px-4 max-lg:px-12 top-0 z-0">
         <div className="flex w-10/20 max-2xl:w-1/4 max-md:w-full max-md:h-1/2 ">
           <Link
             to="/"
