@@ -13,7 +13,7 @@ const authMiddleware = require("../middleware/authMiddleware");
  * @swagger
  * tags:
  *   name: Logs
- *   description: Admin controlls for logs
+ *   description: Admin controls for logs
  */
 
 /**
@@ -31,6 +31,19 @@ const authMiddleware = require("../middleware/authMiddleware");
  *               type: array
  *               items:
  *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   user_id:
+ *                     type: integer
+ *                     nullable: true
+ *                   action:
+ *                     type: string
+ *                   description:
+ *                     type: string
+ *                   created_at:
+ *                     type: string
+ *                     format: date-time
  */
 
 /**
@@ -76,7 +89,7 @@ const authMiddleware = require("../middleware/authMiddleware");
  *         description: Items per page
  *     responses:
  *       200:
- *         description: A list of logs
+ *         description: A list of logs with pagination
  *         content:
  *           application/json:
  *             schema:
@@ -86,6 +99,19 @@ const authMiddleware = require("../middleware/authMiddleware");
  *                   type: array
  *                   items:
  *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                       user_id:
+ *                         type: integer
+ *                         nullable: true
+ *                       action:
+ *                         type: string
+ *                       description:
+ *                         type: string
+ *                       created_at:
+ *                         type: string
+ *                         format: date-time
  *                 page:
  *                   type: integer
  *                 limit:
