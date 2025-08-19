@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import styles from "../../components/ExcursionDetails/ExcursionDetails.module.css";
+import styles from "./AddDateModal.module.css"
 import { DayPicker } from "react-day-picker";
 const AddDateModal = ({ isOpen, onClose, onSave, excursion }) => {
   const {

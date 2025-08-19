@@ -1,0 +1,232 @@
+.detailsLayout {
+  margin-block: 2rem;
+  margin-inline: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  width: 80%;
+}
+
+.backButton {
+  font-size: 1.4rem;
+  font-weight: 300;
+  grid-column: span 2;
+  gap: 1rem;
+  background: var(--lighter-background-color);
+  box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.1);
+  padding-block: 1.5rem;
+  padding-inline: 2rem;
+  border-radius: 1rem;
+  width: fit-content;
+  display: flex;
+  align-self: flex-start;
+}
+
+.arrowIcon {
+  width: 20px;
+}
+
+/* Styles for info section*/
+
+.infoSection {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(26.4rem, 50rem));
+  gap: 5rem;
+  justify-content: center;
+  max-width: fit-content;
+
+  @media (max-width: 880px) {
+    grid-template-columns: repeat(1, minmax(26.4rem, 1fr));
+    gap: 3rem;
+  }
+}
+
+.figure {
+  width: 100%;
+  max-width: 60rem;
+}
+
+.cardImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  aspect-ratio: 4 / 3;
+  display: block;
+  border-radius: 1rem;
+}
+
+.textWrapper {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 60rem;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: 800;
+
+  @media (max-width: 880px) {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.subtitle {
+  font-size: 1.6rem;
+  font-weight: 800;
+}
+
+.desc {
+  font-size: 1.4rem;
+  color: var(--secondary-text-color);
+}
+
+.greyText {
+  font-size: 1.4rem;
+  color: var(--secondary-text-color);
+  display: flex;
+  align-items: center;
+}
+
+.additionalInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sectionWrapper {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(26.4rem, 50rem));
+  gap: 5rem;
+  justify-content: center;
+  max-width: fit-content;
+
+  @media (max-width: 880px) {
+    grid-template-columns: repeat(1, minmax(26.4rem, 50rem));
+  }
+}
+
+/* Calendar */
+.highlight {
+  background-color: var(--green-accent-color);
+}
+
+.calendarWrapper {
+  width: fit-content;
+  color: var(--primary-text-color);
+
+  box-sizing: border-box;
+  overflow-x: auto;
+  font-size: 1.5rem;
+}
+
+.calendarSection {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+}
+
+.signupText {
+  display: flex;
+  text-align: center;
+
+  @media (max-width: 1080px) {
+    flex-direction: column;
+  }
+}
+
+.signupBtn {
+  color: var(--green-accent-color);
+  text-decoration: underline;
+  display: inline;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* Other */
+.stars {
+  color: #ffd312;
+  font-size: 1.8rem;
+}
+
+.hidden {
+  display: none;
+}
+
+.loaderContainer {
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.noExcursionText {
+  font-size: 1.4rem;
+  color: var(--secondary-text-color);
+  text-align: center;
+  grid-column: 1 / -1;
+  justify-self: center;
+  margin-inline: 2rem;
+  margin-block: 3rem;
+}
+
+.noDateAvailable {
+  color: var(--error-text-color);
+}
+
+.imgLoaderContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+/* Reviews */
+.reviewsSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.reviews {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  margin-top: 1.2rem;
+  color: var(--secondary-text-color);
+}
+
+.pageBtn {
+  font-size: 1.4rem;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--secondary-text-color);
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.pageBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pageBtnActive {
+  font-weight: 700;
+  text-decoration: underline;
+  background-color: var(--pagination-accent);
+}
