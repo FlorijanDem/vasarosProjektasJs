@@ -44,11 +44,11 @@ const Nav = ({ isLoggedIn, logout, openAuth, userRole, userEmail }) => {
 
   return isLoggedIn ? (
     userRole === "admin" ? (
-      <nav className="w-full flex-row max-md:flex-col flex h-[8rem]  bg-[var(--lighter-background-color)] justify-between sticky shadow-[0rem_0.125rem_0.25rem_0rem_rgba(0,0,0,0.0562)] items-center px-12 max-md:px-4 max-lg:px-12 top-0 z-50">
+      <nav className="w-full flex-row max-md:flex-col flex h-[8rem]  bg-[var(--lighter-background-color)] justify-between sticky shadow-[0rem_0.125rem_0.25rem_0rem_rgba(0,0,0,0.0562)] items-center px-12 max-md:px-4 max-lg:px-12 top-0 z-0">
         <div className="flex w-10/20 max-2xl:w-1/4 max-md:w-full max-md:h-1/2 ">
           <Link
             to="/"
-            className="flex max-md:h-full max-md:w-full max-md:justify-center max-md:items-center"
+            className="flex max-md:h-full max-2xl:w-full max-2xl:justify-center max-md:items-center"
           >
             <h2 className="font-['Nunito_Sans',sans-serif] font-extrabold text-[2.4rem] max-md:text-[1.4rem] ">
               Ekskursijos
@@ -72,9 +72,9 @@ const Nav = ({ isLoggedIn, logout, openAuth, userRole, userEmail }) => {
               alt="Email icon"
               className="max-md:hidden"
             />
-            <button className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer">
+            <p className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem]">
               {userEmail}
-            </button>
+            </p>
           </div>
           <div className="flex gap-2 ">
             <img
@@ -116,16 +116,16 @@ const Nav = ({ isLoggedIn, logout, openAuth, userRole, userEmail }) => {
             </h2>
           </Link>
         </div>
-        <div className="flex w-7/20 max-2xl:w-4/5 max-md:w-3/4 justify-between">
+         <div className="flex w-7/20 max-2xl:w-4/5 max-md:w-full max-md:h-1/2 justify-between ">
           <div className="flex w-max gap-2 justify-center items-center">
             <img
               src={darkMode ? userIconDark : userIconLight}
               alt="Email icon"
               className="max-md:hidden"
             />
-            <button className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer">
+            <p className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem]">
               {userEmail}
-            </button>
+            </p>
           </div>
           <div className="flex w-max gap-2 justify-center items-center">
             <img
