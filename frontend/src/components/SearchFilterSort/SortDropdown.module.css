@@ -4,13 +4,12 @@
   font-weight: 700;
   border: 1px solid rgb(200, 200, 200);
   border-radius: 1rem;
-  background-color: white;
+  background-color: var(--lighter-background-color);
   cursor: pointer;
   min-width: 150px;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  color: rgb(61, 61, 61);
   height: 3.6rem;
-
+  color: rgb(200, 200, 200);
 }
 
 .sortDropdown:focus {

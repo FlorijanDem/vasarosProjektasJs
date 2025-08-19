@@ -1,15 +1,20 @@
 .input {
-  padding: 0.6rem 2rem;       
-  font-size: 1.2rem;             
+  padding: 0.6rem 2rem;
+  font-size: 1.2rem;
   border: 1px solid rgb(200, 200, 200);
   border-radius: 1rem;
-  background-color: white;
+  background-color: var(--lighter-background-color);
   outline: none;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
   width: 100%;
-  max-width: 150px;   
-  height: 3.6rem;   
-  font-weight: 600;       
+  max-width: 150px;
+  height: 3.6rem;
+  font-weight: 700;
+  color: rgb(200, 200, 200);
+}
+
+.input::placeholder {
+  color: rgb(200, 200, 200);
 }
 
 .input:focus {
