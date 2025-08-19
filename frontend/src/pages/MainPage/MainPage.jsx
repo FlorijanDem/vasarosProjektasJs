@@ -4,15 +4,16 @@ import styles from "./mainPage.module.css";
 import CardsGrid from "../../components/CardsGrid/CardsGrid";
 
 
-const MainPage = () => {
+const MainPage = ({searchTerm, sortOption, selectedCategories}) => {
   // Must be showing list with excursions
-
-
-
 
   return (
     <div className={styles.mainPage}>
-      <CardsGrid />
+    <CardsGrid 
+    searchTerm={searchTerm} 
+    sortOption={sortOption}
+    selectedCategories={selectedCategories}
+    /> 
     </div>
   );
 };

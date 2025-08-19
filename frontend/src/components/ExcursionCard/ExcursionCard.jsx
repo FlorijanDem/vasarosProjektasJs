@@ -7,9 +7,11 @@ import {
   formatInterval,
 } from "../../utils/dateTimeManipulations";
 import DefaultExcursionImg from "../../assets/default-tour-img.avif";
+import { useNavigate } from "react-router";
 
 const ExcursionCard = ({ excursion }) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <article className={styles.card}>
@@ -47,7 +49,12 @@ const ExcursionCard = ({ excursion }) => {
             <p>{`${excursion.price} €`}</p>
           </div>
           <div className={styles.btnContainer}>
-            <button className={styles.moreInfoBtn}>More info</button>
+            <button
+              className={styles.moreInfoBtn}
+              onClick={() => navigate(`/${excursion.id}`)}
+            >
+              More info
+            </button>
           </div>
         </div>
       </figure>
