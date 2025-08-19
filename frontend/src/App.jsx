@@ -15,6 +15,7 @@ function App() {
   const [showRegister, setShowRegister] = useState(false);
   const [userRole, setUserRole] = useState(null);
   const [userEmail, setUserEmail] = useState(null);
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
     setIsLoggedIn(document.cookie.includes("jwt="));
@@ -27,11 +28,13 @@ function App() {
       });
       setUserRole(res.data.role);
       setUserEmail(res.data.email);
+      setUserId(res.data.id);
       setIsLoggedIn(true);
     } catch (error) {
       console.error("Not logged in:", error);
       setUserRole(null);
       setUserEmail(null);
+      setUserId(null);
       setIsLoggedIn(false);
     }
   };
@@ -84,7 +87,11 @@ function App() {
         <Route
           path="/:id"
           element={
-            <ExcurionDetails openAuth={openAuth} isLoggedIn={isLoggedIn} />
+            <ExcurionDetails
+              openAuth={openAuth}
+              isLoggedIn={isLoggedIn}
+              userId={userId}
+            />
           }
         />
         <Route path="/*" element={<MainPage openAuth={openAuth} />} />

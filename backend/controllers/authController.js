@@ -1,10 +1,14 @@
-const { createUser, getUserByEmail, getUserById } = require("../models/authModel");
+const {
+  createUser,
+  getUserByEmail,
+  getUserById,
+} = require("../models/authModel");
 const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const argon2 = require("argon2");
 const db = require("../db");
-const AppError = require('../utils/appError');
-const { addToBlacklistedTokens } = require("../models/blacklistedTokensModel")
+const AppError = require("../utils/appError");
+const { addToBlacklistedTokens } = require("../models/blacklistedTokensModel");
 
 const signToken = (user) => {
   return jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, {
@@ -112,11 +116,11 @@ exports.login = async (req, res, next) => {
 exports.getAuthenticatedUser = async (req, res) => {
   try {
     req.user.password = undefined;
-    req.user.id = undefined;
+    // req.user.id = undefined; nera security kazkoks reasoningas?
     req.user.created_at = undefined;
     res.status(200).json(req.user);
   } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -126,7 +130,7 @@ exports.protect = async (req, res, next) => {
 
     if (!token) {
       throw new AppError(
-        'You are not logged in! Please log in to get access.',
+        "You are not logged in! Please log in to get access.",
         401
       );
     }
@@ -137,7 +141,7 @@ exports.protect = async (req, res, next) => {
     const currentUser = await getUserById(decoded.id);
     if (!currentUser) {
       throw new AppError(
-        'The user belonging to this token does no longer exist.',
+        "The user belonging to this token does no longer exist.",
         401
       );
     }

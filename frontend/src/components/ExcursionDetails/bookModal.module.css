@@ -87,3 +87,8 @@
 .confirmBtn:hover {
   background: var(--depper-green-accent-color);
 }
+
+.error {
+  color: var(--error-text-color);
+  text-align: center;
+}

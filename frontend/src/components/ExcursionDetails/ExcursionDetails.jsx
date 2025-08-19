@@ -18,8 +18,7 @@ import Review from "./Review";
 import { enUS } from "date-fns/locale";
 import BookModal from "./BookModal";
 
-const ExcursionDetails = ({ openAuth, isLoggedIn }) => {
-  console.log(isLoggedIn);
+const ExcursionDetails = ({ openAuth, isLoggedIn, userId }) => {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const { id } = useParams();
   const { excursions, loading } = useContext(ExcursionContext);
@@ -311,7 +310,12 @@ const ExcursionDetails = ({ openAuth, isLoggedIn }) => {
         </section>
       </div>
       {showRegisterModal && (
-        <BookModal excursion={excursion} availableDates={availableDates} onClose={closeRegister} />
+        <BookModal
+          excursion={excursion}
+          availableDates={availableDates}
+          userId={userId}
+          onClose={closeRegister}
+        />
       )}
     </div>
   );

@@ -3,19 +3,65 @@ import "react-day-picker/dist/style.css";
 import { useRef, useEffect, useState } from "react";
 import Select from "react-select";
 import { customStyles } from "../../utils/customDateSelector";
+import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL;
 
-const BookModal = ({ excursion, onClose, availableDates }) => {
-  console.log(availableDates);
+const BookModal = ({ excursion, onClose, availableDates, userId }) => {
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
+  const modalRef = useRef(null);
+  const [selectedDate, setSelectedDate] = useState(
+    availableDates.length ? availableDates[0] : null
+  );
 
   const options = availableDates.map((d) => ({
     value: d.toISOString(),
     label: d.toLocaleDateString(),
   }));
 
-  const modalRef = useRef(null);
-  const [selectedDate, setSelectedDate] = useState(
-    availableDates.length ? availableDates[0] : null
-  );
+  const toYMD = (d) => {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${y}-${m}-${day}`;
+  };
+
+  const handleConfirm = async () => {
+    if (!selectedDate) return;
+
+    try {
+      setSubmitting(true);
+      setError("");
+
+      const body = {
+        tour_id: excursion.id,
+        selected_date: toYMD(selectedDate),
+        user_id: userId,
+      };
+
+      const res = await axios.post(`${API_URL}/reservations`, body, {
+        withCredentials: true,
+      });
+
+      if (res.data?.status === "success") {
+        onClose();
+      } else {
+        throw new Error(
+          res.data?.message || "Booking failed. Please try later."
+        );
+      }
+    } catch (error) {
+      const errors = error.response?.data?.errors;
+      setError(
+        error.response?.data?.message ||
+          (Array.isArray(errors)
+            ? errors.map((e) => e.msg).join("\n")
+            : "Booking failed. Please try later.")
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   const handleOverlayClick = (e) => {
     if (modalRef.current && !modalRef.current.contains(e.target)) {
@@ -48,11 +94,14 @@ const BookModal = ({ excursion, onClose, availableDates }) => {
           </label>
 
           <Select
+            inputId="dateSelect"
             options={options}
             value={options.find((o) => o.value === selectedDate?.toISOString())}
             onChange={(opt) => setSelectedDate(new Date(opt.value))}
             styles={customStyles}
           />
+
+          {error && <p className={styles.error}>{error}</p>}
         </div>
 
         <div className={styles.btnWrapper}>
@@ -64,7 +113,13 @@ const BookModal = ({ excursion, onClose, availableDates }) => {
           >
             Cancel
           </button>
-          <button className={styles.confirmBtn}>Confirm</button>
+          <button
+            className={styles.confirmBtn}
+            onClick={handleConfirm}
+            disabled={!selectedDate || submitting}
+          >
+            {submitting ? "Booking..." : "Confirm"}
+          </button>
         </div>
       </div>
     </div>
