@@ -1,5 +1,5 @@
 const express = require("express");
-const { getReviewsById } = require("../controllers/reviewController");
+const { getReviewsById, postReview } = require("../controllers/reviewController");
 const router = express.Router();
 
 /**
@@ -84,5 +84,6 @@ const router = express.Router();
  *         description: Tour or reviews not found
  */
 router.route("/:id").get(getReviewsById);
+router.route("/").post(postReview);
 
 module.exports = router;

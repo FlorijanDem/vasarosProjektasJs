@@ -1,7 +1,9 @@
 const {
   getReviewsByIdM,
   getTotalReviewCountM,
+  postReview
 } = require("../models/reviewModel");
+const { validationResult } = require("express-validator");
 
 exports.getReviewsById = async (req, res, next) => {
   const { id } = req.params;
@@ -24,6 +26,26 @@ exports.getReviewsById = async (req, res, next) => {
           totalPages: Math.ceil(total / limit),
         },
       },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.postReview = async (req, res, next) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  try {
+    const newReview = req.body;
+
+    const createReview = await postReview(newReview);
+
+    res.status(201).json({
+      status: "success",
+      data: createReview,
     });
   } catch (error) {
     next(error);
