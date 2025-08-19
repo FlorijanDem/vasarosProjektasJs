@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-const AddExcursionModal = ({ isOpen, onClose, onSave }) => {
+const AddExcursionModal = ({ isOpen, onClose, onSave, errorMessage }) => {
   const {
     register,
     handleSubmit,
@@ -21,7 +21,9 @@ const AddExcursionModal = ({ isOpen, onClose, onSave }) => {
           ×
         </button>
         <h2 className="text-3xl font-semibold mb-6">Add Excursion</h2>
-
+         <pre className="text-[1.05rem] text-[var(--error-text-color)] text-center max-md:text-[0.95rem]">
+              {errorMessage}
+            </pre>
         <form
           onSubmit={handleSubmit(onSave)}
           className="flex flex-col  gap-12 items-center"
@@ -33,7 +35,7 @@ const AddExcursionModal = ({ isOpen, onClose, onSave }) => {
             className="border-2 rounded-2xl h-2/16 w-6/10 p-8 text-[2rem]"
           />
           {errors.title && (
-            <p className="text-red-600">{errors.title.message}</p>
+            <p className="text-[1.05rem] text-[var(--error-text-color)] text-center max-md:text-[0.95rem]">{errors.title.message}</p>
           )}
           <input
             {...register("photo_url", {
@@ -48,7 +50,7 @@ const AddExcursionModal = ({ isOpen, onClose, onSave }) => {
             className="border-2 rounded-2xl h-3/16 w-6/10 p-8 text-[2rem]"
           />
           {errors.photo_url && (
-            <p className="text-red-600">{errors.photo_url.message}</p>
+            <p className="text-[1.05rem] text-[var(--error-text-color)] text-center max-md:text-[0.95rem]">{errors.photo_url.message}</p>
           )}
           <input
             {...register("duration", {
@@ -63,7 +65,7 @@ const AddExcursionModal = ({ isOpen, onClose, onSave }) => {
             className="border-2 rounded-2xl h-3/16 w-6/10 p-8 text-[2rem]"
           />
           {errors.duration && (
-            <p className="text-red-600">{errors.duration.message}</p>
+            <p className="text-[1.05rem] text-[var(--error-text-color)] text-center max-md:text-[0.95rem]">{errors.duration.message}</p>
           )}
           <input
             type="number"
@@ -76,7 +78,7 @@ const AddExcursionModal = ({ isOpen, onClose, onSave }) => {
             className="border-2 rounded-2xl h-3/16 w-6/10 p-8 text-[2rem]"
           />
           {errors.price && (
-            <p className="text-red-600">{errors.price.message}</p>
+            <p className="text-[1.05rem] text-[var(--error-text-color)] text-center max-md:text-[0.95rem]">{errors.price.message}</p>
           )}
           <input
             {...register("category_id", {
@@ -86,7 +88,7 @@ const AddExcursionModal = ({ isOpen, onClose, onSave }) => {
             className="border-2 rounded-2xl h-3/16 w-6/10 p-8 text-[2rem]"
           />
           {errors.category_id && (
-            <p className="text-red-600">{errors.category_id.message}</p>
+            <p className="text-[1.05rem] text-[var(--error-text-color)] text-center max-md:text-[0.95rem]">{errors.category_id.message}</p>
           )}
           <input
             {...register("description", {
@@ -96,7 +98,7 @@ const AddExcursionModal = ({ isOpen, onClose, onSave }) => {
             className="border-2 rounded-2xl h-3/16 w-6/10 p-8 text-[2rem]"
           />
           {errors.description && (
-            <p className="text-red-600">{errors.description.message}</p>
+            <p className="text-[1.05rem] text-[var(--error-text-color)] text-center max-md:text-[0.95rem]">{errors.description.message}</p>
           )}
           <input
             {...register("location", {
@@ -106,7 +108,7 @@ const AddExcursionModal = ({ isOpen, onClose, onSave }) => {
             className="border-2 rounded-2xl h-3/16 w-6/10 p-8 text-[2rem]"
           />
           {errors.location && (
-            <p className="text-red-600">{errors.location.message}</p>
+            <p className="text-[1.05rem] text-[var(--error-text-color)] text-center max-md:text-[0.95rem]">{errors.location.message}</p>
           )}
           <button
             type="submit"

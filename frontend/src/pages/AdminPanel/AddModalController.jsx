@@ -1,12 +1,13 @@
-
+import { useState } from "react";
 import AddExcursionModal from "./AddModal";
 import axios from "axios";
 const API_URL = import.meta.env.VITE_API_URL;
-const AddModalController = ({ isOpen, onClose, excursion }) => {
+const AddModalController = ({ isOpen, onClose, excursion,  }) => {
       const HHMMSSToSeconds = (hhmmss) => {
   const [h, m, s] = hhmmss.split(":").map(Number);
   return h * 3600 + m * 60 + s;
-};
+}; 
+const [errorMessage, setErrorMessage] = useState([]);
   const handleAdd = async (newExcursion) => {
   try {
     await axios.post(
@@ -25,7 +26,17 @@ const AddModalController = ({ isOpen, onClose, excursion }) => {
   onClose();
   window.location.reload();
 } catch (error) {
-  console.error("Create Failed:", error.response?.data || error.message);
+ const errors = error.response?.data?.errors;
+      setErrorMessage(
+        error.response?.data?.message ||
+          (Array.isArray(errors)
+            ? errors.map((e) => e.msg).join("\n")
+            : "Registration failed")
+      );
+      console.error(
+        "Registration failed:",
+        error.response?.data || error.message
+      );
 }
   };
   return (
@@ -34,6 +45,7 @@ const AddModalController = ({ isOpen, onClose, excursion }) => {
       onClose={onClose}
       excursion={excursion}
       onSave={handleAdd}
+      errorMessage={errorMessage}
     />
   );
 };

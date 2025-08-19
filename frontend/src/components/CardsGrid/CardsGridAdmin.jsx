@@ -5,7 +5,7 @@ import { getData } from "../../services/get";
 import { useState, useEffect } from "react";
 import { ClipLoader } from "react-spinners";
 
-const CardsGrid = () => {
+const CardsGridAdmin = () => {
   const [excursions, setExcursions] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -48,4 +48,4 @@ const CardsGrid = () => {
   );
 };
 
-export default CardsGrid;
+export default CardsGridAdmin;
