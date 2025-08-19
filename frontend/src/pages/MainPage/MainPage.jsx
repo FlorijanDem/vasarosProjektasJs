@@ -7,9 +7,6 @@ import CardsGrid from "../../components/CardsGrid/CardsGrid";
 const MainPage = ({searchTerm, sortOption, selectedCategories}) => {
   // Must be showing list with excursions
 
-
-
-
   return (
     <div className={styles.mainPage}>
     <CardsGrid 

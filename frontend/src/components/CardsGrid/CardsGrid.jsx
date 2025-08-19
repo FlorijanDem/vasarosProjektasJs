@@ -1,54 +1,42 @@
 import styles from "./cardsGrid.module.css";
 import ExcursionCard from "../ExcursionCard/ExcursionCard";
-import { getData } from "../../services/get";
-import { useState, useEffect } from "react";
+
 import { ClipLoader } from "react-spinners";
+import { ExcursionContext } from "../../contexts/contexts";
+import { useContext, useEffect, useState } from "react";
 
 const CardsGrid = ({ searchTerm, sortOption, selectedCategories }) => {
-  const [excursions, setExcursions] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [filteredData, setFilteredData] = useState([]);
+  const { excursions, loading } = useContext(ExcursionContext);
+  const [filteredExcursions, setFilteredExcursions] = useState([]);
 
   useEffect(() => {
-  const fetchData = async () => {
-    try {
-      setLoading(true);
+    if (!excursions) return;
 
-      const data = await getData("excursions");
-      let filtered = data.tours;
+    let filtered = [...excursions];
 
-      // Filter by category
-      if (selectedCategories && selectedCategories.length > 0) {
-        filtered = filtered.filter((excursion) =>
-          selectedCategories.includes(excursion.category_id)
-        );
-      }
-
-      // Filter by title
-      if (searchTerm) {
-        filtered = filtered.filter((excursion) =>
-          excursion.title.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-      }
-
-      // Sort by price
-      if (sortOption === "priceAsc") {
-        filtered.sort((a, b) => a.price - b.price);
-      } else if (sortOption === "priceDesc") {
-        filtered.sort((a, b) => b.price - a.price);
-      }
-
-      setExcursions(filtered);
-    } catch (error) {
-      console.error("Error fetching excursions:", error);
-    } finally {
-      setLoading(false);
+    // Filter by category
+    if (selectedCategories?.length > 0) {
+      filtered = filtered.filter((excursion) =>
+        selectedCategories.includes(excursion.category_id)
+      );
     }
-  };
 
-  fetchData();
-}, [searchTerm, sortOption, selectedCategories]);
+    // Filter by title
+    if (searchTerm) {
+      filtered = filtered.filter((excursion) =>
+        excursion.title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
 
+    // Sort by price
+    if (sortOption === "priceAsc") {
+      filtered.sort((a, b) => a.price - b.price);
+    } else if (sortOption === "priceDesc") {
+      filtered.sort((a, b) => b.price - a.price);
+    }
+
+    setFilteredExcursions(filtered);
+  }, [excursions, searchTerm, sortOption, selectedCategories]);
 
   if (loading) {
     return (

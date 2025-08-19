@@ -11,18 +11,11 @@ import userIconDark from "../../../src/assets/user-icon-dark.png";
 import adminIconDark from "../../../src/assets/admin-icon-dark.png";
 import adminIconLight from "../../../src/assets/admin-icon-light.png";
 import { useState, useEffect } from "react";
-import ModalController from "../../pages/Login/ModalController";
 import { Link } from "react-router";
-import axios from "axios";
 
-const API_URL = import.meta.env.VITE_API_URL;
 import "../../styles/global.css";
 
-const Nav = () => {
-  const [showAuth, setShowAuth] = useState(false);
-  const [showLogin, setShowLogin] = useState(true);
-  const [showRegister, setShowRegister] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+const Nav = ({ isLoggedIn, logout, openAuth, userRole, userEmail }) => {
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem("theme") === "dark";
   });
@@ -38,30 +31,6 @@ const Nav = () => {
     document.documentElement.setAttribute("data-theme", next);
     localStorage.setItem("theme", next);
   };
-  const [userRole, setUserRole] = useState(null);
-  const [userEmail, setUserEmail] = useState(null);
-  const logout = async () => {
-    await axios.get(`${API_URL}/auth/logout`, {
-      withCredentials: true,
-    });
-    setIsLoggedIn(false);
-  };
-
-  const fetchUser = async () => {
-    try {
-      const res = await axios.get(`${API_URL}/auth/me`, {
-        withCredentials: true,
-      });
-      setUserRole(res.data.role);
-      setUserEmail(res.data.email);
-      setIsLoggedIn(true);
-    } catch (error) {
-      console.error("Not logged in:", error);
-      setUserRole(null);
-      setUserEmail(null);
-      setIsLoggedIn(false);
-    }
-  };
 
   useEffect(() => {
     if (darkMode) {
@@ -74,36 +43,9 @@ const Nav = () => {
     }
   }, [darkMode]);
 
-  useEffect(() => {
-    fetchUser();
-  }, []);
-
-  const openAuth = (type) => {
-    setShowAuth(true);
-    setShowLogin(type === "login");
-    setShowRegister(type === "register");
-  };
-
-  const closeLogin = () => {
-    setShowLogin(false);
-  };
-  const closeRegister = () => {
-    setShowRegister(false);
-    setShowAuth(false);
-  };
-  const openRegister = () => {
-    setShowRegister(true);
-    setShowLogin(false);
-  };
-  const openLogin = () => {
-    setShowLogin(true);
-    setShowRegister(false);
-    setShowAuth(true);
-  };
-
   return isLoggedIn ? (
     userRole === "admin" ? (
-      <nav className="w-full flex-row max-md:flex-col flex h-[8rem]  bg-[var(--lighter-background-color)] justify-between sticky shadow-[0rem_0.125rem_0.25rem_0rem_rgba(0,0,0,0.0562)] items-center px-12 max-md:px-4 max-lg:px-12 top-0">
+      <nav className="w-full flex-row max-md:flex-col flex h-[8rem]  bg-[var(--lighter-background-color)] justify-between sticky shadow-[0rem_0.125rem_0.25rem_0rem_rgba(0,0,0,0.0562)] items-center px-12 max-md:px-4 max-lg:px-12 top-0 z-50">
         <div className="flex w-10/20 max-2xl:w-1/4 max-md:w-full max-md:h-1/2 ">
           <Link
             to="/"
@@ -165,19 +107,9 @@ const Nav = () => {
             </button>
           </div>
         </div>
-        {showAuth && (
-          <ModalController
-            showLogin={showLogin}
-            showRegister={showRegister}
-            openRegister={openRegister}
-            closeLogin={closeLogin}
-            closeRegister={closeRegister}
-            onAuthSuccess={fetchUser}
-          />
-        )}
       </nav>
     ) : userRole === "user" ? (
-      <nav className="w-full flex-row flex h-[8rem] sticky shadow-[0rem_0.125rem_0.25rem_0rem_rgba(0,0,0,0.0562)] items-center px-12 max-md:px-4 max-lg:px-12 top-0">
+      <nav className="w-full flex-row flex h-[8rem] bg-[var(--lighter-background-color)] sticky shadow-[0rem_0.125rem_0.25rem_0rem_rgba(0,0,0,0.0562)] items-center px-12 max-md:px-4 max-lg:px-12 top-0 z-50">
         <div className="flex w-13/20  max-2xl:w-1/4 max-md:w-1/4">
           <Link to="/">
             <h2 className="font-['Nunito_Sans',sans-serif] font-extrabold text-[2.4rem] max-md:text-[1.4rem]">
@@ -226,20 +158,10 @@ const Nav = () => {
             </button>
           </div>
         </div>
-        {showAuth && (
-          <ModalController
-            showLogin={showLogin}
-            showRegister={showRegister}
-            openRegister={openRegister}
-            closeLogin={closeLogin}
-            closeRegister={closeRegister}
-            onAuthSuccess={fetchUser}
-          />
-        )}
       </nav>
     ) : null
   ) : (
-    <nav className="w-full flex-row flex h-[8rem] bg-[var(--lighter-background-color)] sticky shadow-[0rem_0.125rem_0.25rem_0rem_rgba(0,0,0,0.0562)] items-center px-12 max-md:px-4 max-lg:px-12 top-0">
+    <nav className="w-full flex-row flex h-[8rem] bg-[var(--lighter-background-color)] sticky shadow-[0rem_0.125rem_0.25rem_0rem_rgba(0,0,0,0.0562)] items-center px-12 max-md:px-4 max-lg:px-12 top-0 z-50">
       <div className="flex w-1/2  max-2xl:w-1/2 ">
         <Link to="/">
           <h2 className="font-['Nunito_Sans',sans-serif] font-extrabold text-[2.4rem] max-md:text-[1.4rem]  ">
@@ -291,18 +213,8 @@ const Nav = () => {
           </button>
         </div>
       </div>
-      {showAuth && (
-        <ModalController
-          showLogin={showLogin}
-          showRegister={showRegister}
-          openRegister={openRegister}
-          closeLogin={closeLogin}
-          closeRegister={closeRegister}
-          openLogin={openLogin}
-          onAuthSuccess={fetchUser}
-        />
-      )}
     </nav>
   );
 };
+
 export default Nav;
