@@ -9,14 +9,6 @@ exports.getAllLogs = async () => {
   return logs;
 };
 
-exports.postLog = async (newLog) => {
-  const logs = await sql`
-    INSERT INTO logs ${sql(newLog, "user_id", "action", "description")}
-       RETURNING *;
-    `;
-  return logs[0];
-};
-
 exports.searchAndFilterLogs = async (params) => {
   const {
     user_id,
