@@ -1,27 +1,42 @@
 import styles from "./cardsGrid.module.css";
 import ExcursionCard from "../ExcursionCard/ExcursionCard";
-import { getData } from "../../services/get";
-import { useState, useEffect } from "react";
-import { ClipLoader } from "react-spinners";
 
-const CardsGrid = () => {
-  const [excursions, setExcursions] = useState([]);
-  const [loading, setLoading] = useState(true);
+import { ClipLoader } from "react-spinners";
+import { ExcursionContext } from "../../contexts/contexts";
+import { useContext, useEffect, useState } from "react";
+
+const CardsGrid = ({ searchTerm, sortOption, selectedCategories }) => {
+  const { excursions, loading } = useContext(ExcursionContext);
+  const [filteredExcursions, setFilteredExcursions] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getData("excursions");
-        setExcursions(data.tours);
-      } catch (error) {
-        console.error("Error fetching excursions:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    if (!excursions) return;
 
-    fetchData();
-  }, []);
+    let filtered = [...excursions];
+
+    // Filter by category
+    if (selectedCategories?.length > 0) {
+      filtered = filtered.filter((excursion) =>
+        selectedCategories.includes(excursion.category_id)
+      );
+    }
+
+    // Filter by title
+    if (searchTerm) {
+      filtered = filtered.filter((excursion) =>
+        excursion.title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    // Sort by price
+    if (sortOption === "priceAsc") {
+      filtered.sort((a, b) => a.price - b.price);
+    } else if (sortOption === "priceDesc") {
+      filtered.sort((a, b) => b.price - a.price);
+    }
+
+    setFilteredExcursions(filtered);
+  }, [excursions, searchTerm, sortOption, selectedCategories]);
 
   if (loading) {
     return (
@@ -33,13 +48,15 @@ const CardsGrid = () => {
 
   return (
     <section className={styles.grid}>
-      {excursions.length === 0 ? (
+      {filteredExcursions.length === 0 ? (
         <p className={styles.noExcursions}>
           We couldn’t find any available excursions right now. Please check back
           later.
         </p>
       ) : (
-        excursions.map((exc) => <ExcursionCard key={exc.id} excursion={exc} />)
+        filteredExcursions.map((exc) => (
+          <ExcursionCard key={exc.id} excursion={exc} />
+        ))
       )}
     </section>
   );

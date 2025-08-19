@@ -73,6 +73,12 @@
   background: var(--lighter-background-color);
   padding: 0.5rem 1rem;
   width: fit-content;
+  cursor: pointer;
+}
+
+.moreInfoBtn:hover {
+  background: var(--button-hover-color);
+  
 }
 
 .hidden {
