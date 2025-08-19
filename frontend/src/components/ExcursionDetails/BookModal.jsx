@@ -39,8 +39,6 @@ const BookModal = ({ excursion, onClose, availableDates, userId }) => {
         status: "pending",
       };
 
-      console.log(typeof toYMD(selectedDate));
-
       const res = await axios.post(`${API_URL}/reservations`, body, {
         withCredentials: true,
       });

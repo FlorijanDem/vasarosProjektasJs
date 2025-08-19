@@ -92,3 +92,17 @@
   color: var(--error-text-color);
   text-align: center;
 }
+
+.formGroup {
+  display: flex;
+  font-size: 1.4rem;
+  flex-direction: column;
+  color: var(--secondary-text-color);
+}
+
+.comment {
+  border: 1px solid var(--secondary-text-color);
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 1.4rem;
+}

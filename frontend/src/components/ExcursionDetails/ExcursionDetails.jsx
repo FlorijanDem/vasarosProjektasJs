@@ -18,13 +18,13 @@ import Review from "./Review";
 import { enUS } from "date-fns/locale";
 import BookModal from "./BookModal";
 import CancelModal from "./CancelModal";
+import ReviewModal from "./ReviewModal";
 
 const ExcursionDetails = ({ openAuth, isLoggedIn, userId }) => {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
-
+  const [showReviewModal, setShowReviewModal] = useState(false);
   const { id } = useParams();
-
   const { excursions, loading } = useContext(ExcursionContext);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [reviews, setReviews] = useState([]);
@@ -39,6 +39,8 @@ const ExcursionDetails = ({ openAuth, isLoggedIn, userId }) => {
   });
   const [reviewsLoading, setReviewsLoading] = useState(false);
   const [reviewsError, setReviewsError] = useState("");
+  const [refreshFlag, setRefreshFlag] = useState(0);
+
   //modal controls
   const openRegister = () => {
     setShowRegisterModal(true);
@@ -53,6 +55,14 @@ const ExcursionDetails = ({ openAuth, isLoggedIn, userId }) => {
 
   const closeCancel = () => {
     setShowCancelModal(false);
+  };
+
+  const openReview = () => {
+    setShowReviewModal(true);
+  };
+
+  const closeReview = () => {
+    setShowReviewModal(false);
   };
 
   //arrow change
@@ -93,7 +103,13 @@ const ExcursionDetails = ({ openAuth, isLoggedIn, userId }) => {
 
   useEffect(() => {
     fetchReviews(page);
-  }, [id, page]);
+  }, [id, page, refreshFlag]);
+
+  const handleReviewSuccess = () => {
+    setPage(1);
+    setRefreshFlag((f) => f + 1);
+  };
+
   if (loading)
     return (
       <div className={styles.loaderContainer}>
@@ -186,7 +202,7 @@ const ExcursionDetails = ({ openAuth, isLoggedIn, userId }) => {
                 <button className={styles.cancelResBtn} onClick={openCancel}>
                   Cancel Reservation
                 </button>
-                <button className={styles.cancelResBtn} onClick={openCancel}>
+                <button className={styles.cancelResBtn} onClick={openReview}>
                   Leave Review
                 </button>
               </>
@@ -340,6 +356,14 @@ const ExcursionDetails = ({ openAuth, isLoggedIn, userId }) => {
       )}
       {showCancelModal && (
         <CancelModal excursion={excursion} onClose={closeCancel} />
+      )}
+      {showReviewModal && (
+        <ReviewModal
+          excursion={excursion}
+          onClose={closeReview}
+          userId={userId}
+          onSuccess={handleReviewSuccess}
+        />
       )}
     </div>
   );

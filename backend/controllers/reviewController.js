@@ -41,11 +41,9 @@ exports.postReview = async (req, res, next) => {
 
   try {
     if (!req.user) {
-      return res
-        .status(401)
-        .json({
-          message: "Turite būti prisijungęs, kad parašytumėte atsiliepimą",
-        });
+      return res.status(401).json({
+        message: "You must be logged in to leave a review.",
+      });
     }
 
     const newReview = {

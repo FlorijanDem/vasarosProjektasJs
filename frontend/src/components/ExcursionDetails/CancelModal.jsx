@@ -4,6 +4,10 @@ import { useRef, useEffect } from "react";
 const CancelModal = ({ onClose }) => {
   const modalRef = useRef(null);
 
+  const handleConfirm = async () => {
+    console.log("delete");
+  };
+
   const handleOverlayClick = (e) => {
     if (modalRef.current && !modalRef.current.contains(e.target)) {
       onClose();
@@ -42,7 +46,9 @@ const CancelModal = ({ onClose }) => {
           >
             Cancel
           </button>
-          <button className={styles.confirmBtn}>Confirm</button>
+          <button className={styles.confirmBtn} onClick={handleConfirm}>
+            Confirm
+          </button>
         </div>
       </div>
     </div>
