@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import SearchInput from "./SearchInput";
 import CategoryFilter from "./CategoryFilter";
 import SortDropdown from "./SortDropdown";
-import CardGrid from "../CardsGrid/CardsGrid";
 import styles from "./SearchFilterSort.module.css";
-import axios from "axios";
 import { getData } from "../../services/get";
 
 // const categoriesList = [
@@ -34,7 +32,6 @@ function SearchFilterSort({
       try {
         const categoriesList = await getData("categories");
         setCategoriesList(categoriesList.categories);
-
       } catch (error) {
         console.error("Error fetching categories:", error);
       }

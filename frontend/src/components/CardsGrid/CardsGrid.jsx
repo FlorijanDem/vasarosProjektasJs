@@ -48,13 +48,15 @@ const CardsGrid = ({ searchTerm, sortOption, selectedCategories }) => {
 
   return (
     <section className={styles.grid}>
-      {excursions.length === 0 ? (
+      {filteredExcursions.length === 0 ? (
         <p className={styles.noExcursions}>
           We couldn’t find any available excursions right now. Please check back
           later.
         </p>
       ) : (
-        excursions.map((exc) => <ExcursionCard key={exc.id} excursion={exc} />)
+        filteredExcursions.map((exc) => (
+          <ExcursionCard key={exc.id} excursion={exc} />
+        ))
       )}
     </section>
   );
