@@ -19,7 +19,6 @@ const Nav = ({ isLoggedIn, logout, openAuth, userRole, userEmail }) => {
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem("theme") === "dark";
   });
-
   useEffect(() => {
     const saved = localStorage.getItem("theme") || "light";
     document.documentElement.setAttribute("data-theme", saved);
@@ -63,7 +62,7 @@ const Nav = ({ isLoggedIn, logout, openAuth, userRole, userEmail }) => {
               alt="Admin Panel icon"
               className="max-md:hidden"
             />
-            <Link className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer">
+            <Link to="/admin" className="font-['Nunito_Sans',sans-serif] font-semibold text-[1.6rem] max-md:text-[1.2rem] cursor-pointer">
               Admin Panel
             </Link>
           </div>

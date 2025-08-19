@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Nav from "./components/Nav/Nav";
 import MainPage from "./pages/MainPage/MainPage";
 import ExcurionDetails from "./components/ExcursionDetails/ExcursionDetails";
 import ModalController from "./pages/Login/ModalController";
+import ProtectRoute from "../src/utils/protectRoute"
+import AdminPanel from "./pages/AdminPanel/AdminPanel";
 
 const API_URL = import.meta.env.VITE_API_URL;
 import SearchFilterSort from "./components/SearchFilterSort/SearchFilterSort";
@@ -17,6 +19,7 @@ function App() {
   const [showRegister, setShowRegister] = useState(false);
   const [userRole, setUserRole] = useState(null);
   const [userEmail, setUserEmail] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsLoggedIn(document.cookie.includes("jwt="));
@@ -46,6 +49,7 @@ function App() {
     try {
       await axios.get(`${API_URL}/auth/logout`, { withCredentials: true });
       setIsLoggedIn(false);
+      navigate("/");
     } catch (err) {
       console.error("Logout failed:", err);
     }
@@ -106,6 +110,14 @@ function App() {
           }
         />
         <Route path="/:id" element={<ExcurionDetails openAuth={openAuth} />} />
+        <Route
+          path="/admin"
+          element={
+            <ProtectRoute allowedRoles={["admin"]}>
+              <AdminPanel />
+            </ProtectRoute>
+          }
+        />
         <Route path="/*" element={<MainPage openAuth={openAuth} />} />
       </Routes>
 
