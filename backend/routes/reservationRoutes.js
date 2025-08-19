@@ -110,10 +110,10 @@ const authMiddleware = require("../middleware/authMiddleware");
 router
   .route("/")
   .get(authMiddleware, protect, restrictToAdmin, getAllReservations)
-  .post(authMiddleware, protect, restrictToAdmin, createReservation);
+  .post(authMiddleware, protect, createReservation);
 router
   .route("/:id")
   .put(authMiddleware, protect, restrictToAdmin, updateReservation)
-  .delete(authMiddleware, protect, restrictToAdmin, deleteReservation);
+  .delete(authMiddleware, protect, deleteReservation);
 
 module.exports = router;

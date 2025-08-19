@@ -1,5 +1,4 @@
-import styles from "./bookModal.module.css";
-import "react-day-picker/dist/style.css";
+import styles from "./modals.module.css";
 import { useRef, useEffect, useState } from "react";
 import Select from "react-select";
 import { customStyles } from "../../utils/customDateSelector";
@@ -34,10 +33,13 @@ const BookModal = ({ excursion, onClose, availableDates, userId }) => {
       setError("");
 
       const body = {
+        user_id: userId,
         tour_id: excursion.id,
         selected_date: toYMD(selectedDate),
-        user_id: userId,
+        status: "pending",
       };
+
+      console.log(typeof toYMD(selectedDate));
 
       const res = await axios.post(`${API_URL}/reservations`, body, {
         withCredentials: true,

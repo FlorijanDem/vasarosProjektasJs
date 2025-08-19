@@ -104,8 +104,8 @@
   gap: 1rem;
 }
 
-
-.registerBtn {
+.registerBtn,
+.cancelResBtn {
   border-radius: 10px;
   border: 1px solid var(--secondary-text-color);
   color: var(--secondary-text-color);

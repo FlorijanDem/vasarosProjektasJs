@@ -17,10 +17,14 @@ import { getData } from "../../services/get";
 import Review from "./Review";
 import { enUS } from "date-fns/locale";
 import BookModal from "./BookModal";
+import CancelModal from "./CancelModal";
 
 const ExcursionDetails = ({ openAuth, isLoggedIn, userId }) => {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
+  const [showCancelModal, setShowCancelModal] = useState(false);
+
   const { id } = useParams();
+
   const { excursions, loading } = useContext(ExcursionContext);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [reviews, setReviews] = useState([]);
@@ -42,6 +46,13 @@ const ExcursionDetails = ({ openAuth, isLoggedIn, userId }) => {
 
   const closeRegister = () => {
     setShowRegisterModal(false);
+  };
+  const openCancel = () => {
+    setShowCancelModal(true);
+  };
+
+  const closeCancel = () => {
+    setShowCancelModal(false);
   };
 
   //arrow change
@@ -167,9 +178,18 @@ const ExcursionDetails = ({ openAuth, isLoggedIn, userId }) => {
           </div>
           {isLoggedIn ? (
             closest ? (
-              <button className={styles.registerBtn} onClick={openRegister}>
-                Book Excursion
-              </button>
+              <>
+                <button className={styles.registerBtn} onClick={openRegister}>
+                  Reserve Excursion
+                </button>
+                {/* Sujungt su logika veliau */}
+                <button className={styles.cancelResBtn} onClick={openCancel}>
+                  Cancel Reservation
+                </button>
+                <button className={styles.cancelResBtn} onClick={openCancel}>
+                  Leave Review
+                </button>
+              </>
             ) : (
               ""
             )
@@ -309,6 +329,7 @@ const ExcursionDetails = ({ openAuth, isLoggedIn, userId }) => {
           )}
         </section>
       </div>
+      {/* Modals */}
       {showRegisterModal && (
         <BookModal
           excursion={excursion}
@@ -316,6 +337,9 @@ const ExcursionDetails = ({ openAuth, isLoggedIn, userId }) => {
           userId={userId}
           onClose={closeRegister}
         />
+      )}
+      {showCancelModal && (
+        <CancelModal excursion={excursion} onClose={closeCancel} />
       )}
     </div>
   );
