@@ -7,6 +7,8 @@ import ExcurionDetails from "./components/ExcursionDetails/ExcursionDetails";
 import ModalController from "./pages/Login/ModalController";
 
 const API_URL = import.meta.env.VITE_API_URL;
+import SearchFilterSort from "./components/SearchFilterSort/SearchFilterSort";
+
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -70,6 +72,9 @@ function App() {
     setShowAuth(true);
   };
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortOption, setSortOption] = useState("priceAsc");
+  const [selectedCategories, setSelectedCategories] = useState([]);
   return (
     <>
       <Nav
@@ -80,7 +85,26 @@ function App() {
         userEmail={userEmail}
       />
       <Routes>
-        <Route path="/" element={<MainPage openAuth={openAuth} />} />
+        <Route
+          path="/"
+          element={
+            <>
+              <SearchFilterSort
+                setSearchTerm={setSearchTerm}
+                sortOption={sortOption}
+                setSortOption={setSortOption}
+                selectedCategories={selectedCategories}
+                setSelectedCategories={setSelectedCategories}
+              />
+              <MainPage
+                openAuth={openAuth}
+                searchTerm={searchTerm}
+                sortOption={sortOption}
+                selectedCategories={selectedCategories}
+              />
+            </>
+          }
+        />
         <Route path="/:id" element={<ExcurionDetails openAuth={openAuth} />} />
         <Route path="/*" element={<MainPage openAuth={openAuth} />} />
       </Routes>
