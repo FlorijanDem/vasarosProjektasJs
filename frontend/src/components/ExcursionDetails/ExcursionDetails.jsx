@@ -16,8 +16,14 @@ import { DayPicker } from "react-day-picker";
 import { getData } from "../../services/get";
 import Review from "./Review";
 import { enUS } from "date-fns/locale";
+import BookModal from "./BookModal";
+import CancelModal from "./CancelModal";
+import ReviewModal from "./ReviewModal";
 
-const ExcursionDetails = ({ openAuth }) => {
+const ExcursionDetails = ({ openAuth, isLoggedIn, userId }) => {
+  const [showRegisterModal, setShowRegisterModal] = useState(false);
+  const [showCancelModal, setShowCancelModal] = useState(false);
+  const [showReviewModal, setShowReviewModal] = useState(false);
   const { id } = useParams();
   const { excursions, loading } = useContext(ExcursionContext);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
@@ -33,6 +39,74 @@ const ExcursionDetails = ({ openAuth }) => {
   });
   const [reviewsLoading, setReviewsLoading] = useState(false);
   const [reviewsError, setReviewsError] = useState("");
+  const [refreshFlag, setRefreshFlag] = useState(0);
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [reservation, setReservation] = useState(null);
+  const [, setReservations] = useState([]);
+  const [regRefresh, setRegRefresh] = useState(0);
+
+  const fetchReservations = async () => {
+    if (!isLoggedIn || !userId || !id) {
+      setIsRegistered(false);
+      setReservation(null);
+      setReservations([]);
+      return;
+    }
+
+    try {
+      const res = await getData("reservations");
+      const all = res?.data?.reservations ?? res?.data ?? [];
+
+      setReservations(all);
+
+      const active = all.find(
+        (r) =>
+          r.user_id === userId &&
+          r.tour_id === Number(id) &&
+          ["pending", "confirmed"].includes(r.status)
+      );
+
+      setIsRegistered(Boolean(active));
+      setReservation(active || null);
+    } catch (error) {
+      console.error("Error fetching reservations:", error);
+      setIsRegistered(false);
+      setReservation(null);
+      setReservations([]);
+    }
+  };
+
+  const handleReservationChanged = () => {
+    setRegRefresh((f) => f + 1);
+  };
+
+  useEffect(() => {
+    fetchReservations();
+  }, [id, userId, isLoggedIn, regRefresh]);
+
+  //modal controls
+  const openRegister = () => {
+    setShowRegisterModal(true);
+  };
+
+  const closeRegister = () => {
+    setShowRegisterModal(false);
+  };
+  const openCancel = () => {
+    setShowCancelModal(true);
+  };
+
+  const closeCancel = () => {
+    setShowCancelModal(false);
+  };
+
+  const openReview = () => {
+    setShowReviewModal(true);
+  };
+
+  const closeReview = () => {
+    setShowReviewModal(false);
+  };
 
   //arrow change
   const [arrowSrc, setArrowSrc] = useState(() =>
@@ -72,7 +146,13 @@ const ExcursionDetails = ({ openAuth }) => {
 
   useEffect(() => {
     fetchReviews(page);
-  }, [id, page]);
+  }, [id, page, refreshFlag]);
+
+  const handleReviewSuccess = () => {
+    setPage(1);
+    setRefreshFlag((f) => f + 1);
+  };
+
   if (loading)
     return (
       <div className={styles.loaderContainer}>
@@ -104,7 +184,6 @@ const ExcursionDetails = ({ openAuth }) => {
         <img src={arrowSrc} alt="Back" className={styles.arrowIcon} />
         Back
       </button>
-
       <section className={styles.infoSection}>
         <figure className={styles.figure}>
           {!isImageLoaded && (
@@ -155,7 +234,34 @@ const ExcursionDetails = ({ openAuth }) => {
             </p>
             <p className={styles.greyText}>Price: {`${excursion.price} €`}</p>
             <p className={styles.greyText}>Location: {excursion.location}</p>
+            <p className={styles.greyText}>
+              Category: {excursion.category_name}
+            </p>
           </div>
+          {isLoggedIn &&
+            closest &&
+            (!isRegistered ? (
+              <button className={styles.registerBtn} onClick={openRegister}>
+                Reserve Excursion
+              </button>
+            ) : (
+              <>
+                <p className={styles.confirmationText}>
+                  You’re registered
+                  {reservation?.selected_date
+                    ? ` for ${new Date(
+                        reservation.selected_date
+                      ).toLocaleDateString()}`
+                    : ""}
+                </p>
+                <button className={styles.cancelResBtn} onClick={openCancel}>
+                  Cancel Reservation
+                </button>
+                <button className={styles.cancelResBtn} onClick={openReview}>
+                  Leave Review
+                </button>
+              </>
+            ))}
         </div>
       </section>
       <div className={styles.sectionWrapper}>
@@ -176,20 +282,26 @@ const ExcursionDetails = ({ openAuth }) => {
           </div>
           {closest ? (
             <div className={styles.signupText}>
-              <p className={styles.greyText}>
-                Create an account to book your spot on this excursion.&nbsp;
-              </p>
-              <span
-                className={`${styles.signupBtn} ${styles.greyText}`}
-                onClick={() => openAuth("register")}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") openAuth("register");
-                }}
-              >
-                Sign up
-              </span>
+              {isLoggedIn ? (
+                ""
+              ) : (
+                <>
+                  <p className={styles.greyText}>
+                    Create an account to book your spot on this excursion.&nbsp;
+                  </p>
+                  <span
+                    className={`${styles.signupBtn} ${styles.greyText}`}
+                    onClick={() => openAuth("register")}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") openAuth("register");
+                    }}
+                  >
+                    Sign up
+                  </span>
+                </>
+              )}
             </div>
           ) : (
             <>
@@ -197,20 +309,27 @@ const ExcursionDetails = ({ openAuth }) => {
                 No upcoming dates available
               </span>
               <div className={styles.signupText}>
-                <p className={styles.greyText}>
-                  Create an account to book your spot on other excursions.&nbsp;
-                </p>
-                <span
-                  className={`${styles.signupBtn} ${styles.greyText}`}
-                  onClick={() => openAuth("register")}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") openAuth("register");
-                  }}
-                >
-                  Sign up
-                </span>
+                {isLoggedIn ? (
+                  ""
+                ) : (
+                  <>
+                    <p className={styles.greyText}>
+                      Create an account to book your spot on other
+                      excursions.&nbsp;
+                    </p>
+                    <span
+                      className={`${styles.signupBtn} ${styles.greyText}`}
+                      onClick={() => openAuth("register")}
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") openAuth("register");
+                      }}
+                    >
+                      Sign up
+                    </span>
+                  </>
+                )}
               </div>
             </>
           )}
@@ -276,6 +395,31 @@ const ExcursionDetails = ({ openAuth }) => {
           )}
         </section>
       </div>
+      {/* Modals */}
+      {showRegisterModal && (
+        <BookModal
+          excursion={excursion}
+          availableDates={availableDates}
+          userId={userId}
+          onClose={closeRegister}
+          onSuccess={handleReservationChanged}
+        />
+      )}
+      {showCancelModal && (
+        <CancelModal
+          reservationId={reservation.id}
+          onClose={closeCancel}
+          onSuccess={handleReservationChanged}
+        />
+      )}
+      {showReviewModal && (
+        <ReviewModal
+          excursion={excursion}
+          onClose={closeReview}
+          userId={userId}
+          onSuccess={handleReviewSuccess}
+        />
+      )}
     </div>
   );
 };

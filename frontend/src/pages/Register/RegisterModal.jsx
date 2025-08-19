@@ -73,7 +73,7 @@ const RegisterModal = ({
   };
   return (
     <div
-      className="fixed inset-0 z-10 flex items-center justify-center max-lg:p-4 bg-[#D9D9D9]/[var(--bg-opacity)] [--bg-opacity:40%] backdrop-blur-xs"
+      className="fixed inset-0 z-52 flex items-center justify-center max-lg:p-4 bg-[#D9D9D9]/[var(--bg-opacity)] [--bg-opacity:40%] backdrop-blur-xs"
       onClick={handleClose}
     >
       <div

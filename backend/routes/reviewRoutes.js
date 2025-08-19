@@ -1,12 +1,39 @@
 const express = require("express");
-const { getReviewsById } = require("../controllers/reviewController");
+const { getReviewsById, postReview } = require("../controllers/reviewController");
 const router = express.Router();
+const protect = require("../middleware/protect");
 
 /**
  * @swagger
  * tags:
  *   name: Reviews
  *   description: Endpoints for tour reviews
+ */
+
+/**
+ * @swagger
+ * /api/v1/reviews:
+ *   post:
+ *     summary: Create a new review
+ *     tags: [Reviews]
+ *     security:
+ *       - CookieAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               tour_id:
+ *                 type: integer
+ *               rating:
+ *                 type: integer
+ *               comment:
+ *                 type: text
+ *     responses:
+ *       201:
+ *         description: Reservation created successfully
  */
 
 /**
@@ -84,5 +111,6 @@ const router = express.Router();
  *         description: Tour or reviews not found
  */
 router.route("/:id").get(getReviewsById);
+router.route("/").post(protect, postReview);
 
 module.exports = router;
