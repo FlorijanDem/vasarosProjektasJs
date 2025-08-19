@@ -1,7 +1,7 @@
 const {
   getReviewsByIdM,
   getTotalReviewCountM,
-  postReview
+  postReview,
 } = require("../models/reviewModel");
 const { validationResult } = require("express-validator");
 
@@ -38,8 +38,20 @@ exports.postReview = async (req, res, next) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
+
   try {
-    const newReview = req.body;
+    if (!req.user) {
+      return res
+        .status(401)
+        .json({
+          message: "Turite būti prisijungęs, kad parašytumėte atsiliepimą",
+        });
+    }
+
+    const newReview = {
+      ...req.body,
+      user_id: req.user.id,
+    };
 
     const createReview = await postReview(newReview);
 
