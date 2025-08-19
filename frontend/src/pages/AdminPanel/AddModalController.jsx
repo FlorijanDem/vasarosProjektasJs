@@ -2,7 +2,7 @@ import { useState } from "react";
 import AddExcursionModal from "./AddModal";
 import axios from "axios";
 const API_URL = import.meta.env.VITE_API_URL;
-const AddModalController = ({ isOpen, onClose, excursion,  }) => {
+const AddModalController = ({ isOpen, onClose, excursion, }) => {
       const HHMMSSToSeconds = (hhmmss) => {
   const [h, m, s] = hhmmss.split(":").map(Number);
   return h * 3600 + m * 60 + s;
