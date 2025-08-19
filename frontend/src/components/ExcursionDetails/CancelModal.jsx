@@ -1,11 +1,31 @@
 import styles from "./modals.module.css";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
+import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL;
 
-const CancelModal = ({ onClose }) => {
+const CancelModal = ({ reservationId, onClose, onSuccess }) => {
   const modalRef = useRef(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
   const handleConfirm = async () => {
-    console.log("delete");
+    try {
+      setSubmitting(true);
+      setError("");
+
+      await axios.delete(`${API_URL}/reservations/${reservationId}`, {
+        withCredentials: true,
+      });
+
+      onSuccess?.(); // triggers parent to refetch reservations
+      onClose();
+    } catch (e) {
+      setError(
+        e.response?.data?.message || "Cancellation failed. Please try later."
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleOverlayClick = (e) => {
@@ -33,10 +53,13 @@ const CancelModal = ({ onClose }) => {
         </button>
         <h2 className={styles.title}>Cancel Reservation?</h2>
 
-        <p className={styles.textWrapper}>
-          Do you really want to cancel your excursion? Once cancelled, it cannot
-          be reversed.
-        </p>
+        <div className={styles.textWrapper}>
+          <p>
+            Do you really want to cancel your excursion? Once cancelled, it
+            cannot be reversed.
+          </p>
+          {error && <p className={styles.error}>{error}</p>}
+        </div>
         <div className={styles.btnWrapper}>
           <button
             className={styles.cancelBtn}
@@ -46,8 +69,8 @@ const CancelModal = ({ onClose }) => {
           >
             Cancel
           </button>
-          <button className={styles.confirmBtn} onClick={handleConfirm}>
-            Confirm
+          <button className={styles.confirmBtn} onClick={handleConfirm} disabled={submitting}>
+            {submitting ? "Cancelling..." : "Cancel Reservation"}
           </button>
         </div>
       </div>

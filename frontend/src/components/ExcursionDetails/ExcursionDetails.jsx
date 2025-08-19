@@ -40,10 +40,9 @@ const ExcursionDetails = ({ openAuth, isLoggedIn, userId }) => {
   const [reviewsLoading, setReviewsLoading] = useState(false);
   const [reviewsError, setReviewsError] = useState("");
   const [refreshFlag, setRefreshFlag] = useState(0);
-
   const [isRegistered, setIsRegistered] = useState(false);
   const [reservation, setReservation] = useState(null);
-  const [reservations, setReservations] = useState([]);
+  const [, setReservations] = useState([]);
   const [regRefresh, setRegRefresh] = useState(0);
 
   const fetchReservations = async () => {
@@ -56,7 +55,6 @@ const ExcursionDetails = ({ openAuth, isLoggedIn, userId }) => {
 
     try {
       const res = await getData("reservations");
-      // shape-safe extraction
       const all = res?.data?.reservations ?? res?.data ?? [];
 
       setReservations(all);
@@ -78,13 +76,13 @@ const ExcursionDetails = ({ openAuth, isLoggedIn, userId }) => {
     }
   };
 
+  const handleReservationChanged = () => {
+    setRegRefresh((f) => f + 1);
+  };
+
   useEffect(() => {
     fetchReservations();
   }, [id, userId, isLoggedIn, regRefresh]);
-
-  console.log(reservations);
-
-  console.log("is reg " + isRegistered);
 
   //modal controls
   const openRegister = () => {
@@ -236,6 +234,9 @@ const ExcursionDetails = ({ openAuth, isLoggedIn, userId }) => {
             </p>
             <p className={styles.greyText}>Price: {`${excursion.price} €`}</p>
             <p className={styles.greyText}>Location: {excursion.location}</p>
+            <p className={styles.greyText}>
+              Category: {excursion.category_name}
+            </p>
           </div>
           {isLoggedIn &&
             closest &&
@@ -245,7 +246,7 @@ const ExcursionDetails = ({ openAuth, isLoggedIn, userId }) => {
               </button>
             ) : (
               <>
-                <p className={styles.greyText}>
+                <p className={styles.confirmationText}>
                   You’re registered
                   {reservation?.selected_date
                     ? ` for ${new Date(
@@ -401,10 +402,15 @@ const ExcursionDetails = ({ openAuth, isLoggedIn, userId }) => {
           availableDates={availableDates}
           userId={userId}
           onClose={closeRegister}
+          onSuccess={handleReservationChanged}
         />
       )}
       {showCancelModal && (
-        <CancelModal excursion={excursion} onClose={closeCancel} />
+        <CancelModal
+          reservationId={reservation.id}
+          onClose={closeCancel}
+          onSuccess={handleReservationChanged}
+        />
       )}
       {showReviewModal && (
         <ReviewModal

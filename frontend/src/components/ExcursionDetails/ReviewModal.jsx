@@ -21,8 +21,6 @@ const ReviewModal = ({ onClose, excursion, onSuccess }) => {
   const [comment, setComment] = useState("");
 
   const handleConfirm = async () => {
-    console.log(rating);
-
     try {
       setSubmitting(true);
       setError("");

@@ -19,6 +19,7 @@
   --grey-accent-color: #454545;
   --pagination-accent: #aef4e6;
   --button-hover-color: #e8e8e8;
+  --success-text-color: #28cb07;
 }
 
 [data-theme="dark"] {
@@ -34,6 +35,7 @@
   --pagination-accent: #36d7b7;
   --button-hover-color: #232a31;
   --depper-green-accent-color: #0bcba5;
+  --success-text-color: #42fa1d;
 }
 
 @layer base {

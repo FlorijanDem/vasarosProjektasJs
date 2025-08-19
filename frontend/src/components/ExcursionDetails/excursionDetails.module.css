@@ -98,6 +98,11 @@
   align-items: center;
 }
 
+.confirmationText {
+  font-size: 1.4rem;
+  color: var(--success-text-color);
+}
+
 .additionalInfo {
   display: flex;
   flex-direction: column;

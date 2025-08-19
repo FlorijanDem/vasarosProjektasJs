@@ -5,7 +5,13 @@ import { customStyles } from "../../utils/customDateSelector";
 import axios from "axios";
 const API_URL = import.meta.env.VITE_API_URL;
 
-const BookModal = ({ excursion, onClose, availableDates, userId }) => {
+const BookModal = ({
+  excursion,
+  onClose,
+  availableDates,
+  userId,
+  onSuccess,
+}) => {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const modalRef = useRef(null);
@@ -44,6 +50,7 @@ const BookModal = ({ excursion, onClose, availableDates, userId }) => {
       });
 
       if (res.data?.status === "success") {
+        onSuccess?.();
         onClose();
       } else {
         throw new Error(
