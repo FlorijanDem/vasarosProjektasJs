@@ -45,7 +45,6 @@ exports.signup = async (req, res, next) => {
     sendTokenCookie(token, res);
 
     createdUser.password = undefined;
-    createdUser.id = undefined;
 
     res.status(201).json({
       status: "success",

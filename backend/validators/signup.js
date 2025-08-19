@@ -28,7 +28,7 @@ const validateSignup = [
   body("password")
     .notEmpty()
     .withMessage("Password is required")
-    .isLength({ min: 8 })
+    .isLength({ min: 8, max: 50 })
     .withMessage("Password must be at least 8 characters")
     .matches(/\d/)
     .withMessage("Password must contain at least one number")

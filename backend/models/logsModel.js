@@ -66,3 +66,12 @@ exports.searchAndFilterLogs = async (params) => {
 
   return result || [];
 };
+
+exports.createLog = async ({ user_id, action, description }) => {
+  const logs = await sql`
+    INSERT INTO logs (user_id, action, description, created_at)
+    VALUES (${user_id}, ${action}, ${description}, NOW())
+    RETURNING *;
+  `;
+  return logs[0];
+};
