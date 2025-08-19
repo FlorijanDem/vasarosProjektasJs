@@ -109,7 +109,7 @@ const authMiddleware = require("../middleware/authMiddleware");
 
 router
   .route("/")
-  .get(authMiddleware, protect, restrictToAdmin, getAllReservations)
+  .get(authMiddleware, protect, getAllReservations)
   .post(authMiddleware, protect, createReservation);
 router
   .route("/:id")

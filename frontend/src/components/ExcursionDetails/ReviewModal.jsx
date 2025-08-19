@@ -110,6 +110,7 @@ const ReviewModal = ({ onClose, excursion, onSuccess }) => {
             onChange={(e) => setComment(e.target.value)}
             disabled={submitting}
             placeholder="Write your experience..."
+            maxLength={300}
           />
         </div>
         {error && <p className={styles.error}>{error}</p>}
@@ -125,7 +126,7 @@ const ReviewModal = ({ onClose, excursion, onSuccess }) => {
           <button
             className={styles.confirmBtn}
             onClick={handleConfirm}
-            disabled={submitting || !comment.trim()}
+            disabled={submitting}
           >
             {submitting ? "Submitting..." : "Confirm"}
           </button>

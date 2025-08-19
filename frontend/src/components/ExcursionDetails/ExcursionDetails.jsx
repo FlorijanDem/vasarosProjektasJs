@@ -41,6 +41,51 @@ const ExcursionDetails = ({ openAuth, isLoggedIn, userId }) => {
   const [reviewsError, setReviewsError] = useState("");
   const [refreshFlag, setRefreshFlag] = useState(0);
 
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [reservation, setReservation] = useState(null);
+  const [reservations, setReservations] = useState([]);
+  const [regRefresh, setRegRefresh] = useState(0);
+
+  const fetchReservations = async () => {
+    if (!isLoggedIn || !userId || !id) {
+      setIsRegistered(false);
+      setReservation(null);
+      setReservations([]);
+      return;
+    }
+
+    try {
+      const res = await getData("reservations");
+      // shape-safe extraction
+      const all = res?.data?.reservations ?? res?.data ?? [];
+
+      setReservations(all);
+
+      const active = all.find(
+        (r) =>
+          r.user_id === userId &&
+          r.tour_id === Number(id) &&
+          ["pending", "confirmed"].includes(r.status)
+      );
+
+      setIsRegistered(Boolean(active));
+      setReservation(active || null);
+    } catch (error) {
+      console.error("Error fetching reservations:", error);
+      setIsRegistered(false);
+      setReservation(null);
+      setReservations([]);
+    }
+  };
+
+  useEffect(() => {
+    fetchReservations();
+  }, [id, userId, isLoggedIn, regRefresh]);
+
+  console.log(reservations);
+
+  console.log("is reg " + isRegistered);
+
   //modal controls
   const openRegister = () => {
     setShowRegisterModal(true);
@@ -192,13 +237,22 @@ const ExcursionDetails = ({ openAuth, isLoggedIn, userId }) => {
             <p className={styles.greyText}>Price: {`${excursion.price} €`}</p>
             <p className={styles.greyText}>Location: {excursion.location}</p>
           </div>
-          {isLoggedIn ? (
-            closest ? (
+          {isLoggedIn &&
+            closest &&
+            (!isRegistered ? (
+              <button className={styles.registerBtn} onClick={openRegister}>
+                Reserve Excursion
+              </button>
+            ) : (
               <>
-                <button className={styles.registerBtn} onClick={openRegister}>
-                  Reserve Excursion
-                </button>
-                {/* Sujungt su logika veliau */}
+                <p className={styles.greyText}>
+                  You’re registered
+                  {reservation?.selected_date
+                    ? ` for ${new Date(
+                        reservation.selected_date
+                      ).toLocaleDateString()}`
+                    : ""}
+                </p>
                 <button className={styles.cancelResBtn} onClick={openCancel}>
                   Cancel Reservation
                 </button>
@@ -206,12 +260,7 @@ const ExcursionDetails = ({ openAuth, isLoggedIn, userId }) => {
                   Leave Review
                 </button>
               </>
-            ) : (
-              ""
-            )
-          ) : (
-            ""
-          )}
+            ))}
         </div>
       </section>
       <div className={styles.sectionWrapper}>

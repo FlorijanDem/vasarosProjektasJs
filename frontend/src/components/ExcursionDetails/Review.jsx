@@ -8,7 +8,9 @@ const Review = ({ review }) => {
       <div className={styles.layoutWrapper}>
         <div className={styles.textWrapper}>
           <h3 className={styles.reviewerName}>{review.email}</h3>
-          <p className={styles.dateText}>{formatToMonthDayYear(review.created_at)}</p>
+          <p className={styles.dateText}>
+            {formatToMonthDayYear(review.created_at)}
+          </p>
         </div>
         <div className={styles.stars}>{renderStars(review.rating)}</div>
       </div>
