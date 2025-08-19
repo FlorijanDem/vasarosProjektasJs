@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Nav from "./components/Nav/Nav";
 import MainPage from "./pages/MainPage/MainPage";
 import ExcurionDetails from "./components/ExcursionDetails/ExcursionDetails";
 import ModalController from "./pages/Login/ModalController";
+import ProtectRoute from "../src/utils/protectRoute";
+import AdminPanel from "./pages/AdminPanel/AdminPanel";
 
 const API_URL = import.meta.env.VITE_API_URL;
+import SearchFilterSort from "./components/SearchFilterSort/SearchFilterSort";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -15,6 +18,7 @@ function App() {
   const [showRegister, setShowRegister] = useState(false);
   const [userRole, setUserRole] = useState(null);
   const [userEmail, setUserEmail] = useState(null);
+  const navigate = useNavigate();
   const [userId, setUserId] = useState(null);
 
   useEffect(() => {
@@ -47,6 +51,7 @@ function App() {
     try {
       await axios.get(`${API_URL}/auth/logout`, { withCredentials: true });
       setIsLoggedIn(false);
+      navigate("/");
     } catch (err) {
       console.error("Logout failed:", err);
     }
@@ -73,6 +78,9 @@ function App() {
     setShowAuth(true);
   };
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortOption, setSortOption] = useState("priceAsc");
+  const [selectedCategories, setSelectedCategories] = useState([]);
   return (
     <>
       <Nav
@@ -83,7 +91,26 @@ function App() {
         userEmail={userEmail}
       />
       <Routes>
-        <Route path="/" element={<MainPage openAuth={openAuth} />} />
+        <Route
+          path="/"
+          element={
+            <>
+              <SearchFilterSort
+                setSearchTerm={setSearchTerm}
+                sortOption={sortOption}
+                setSortOption={setSortOption}
+                selectedCategories={selectedCategories}
+                setSelectedCategories={setSelectedCategories}
+              />
+              <MainPage
+                openAuth={openAuth}
+                searchTerm={searchTerm}
+                sortOption={sortOption}
+                selectedCategories={selectedCategories}
+              />
+            </>
+          }
+        />
         <Route
           path="/:id"
           element={
@@ -92,6 +119,14 @@ function App() {
               isLoggedIn={isLoggedIn}
               userId={userId}
             />
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <ProtectRoute allowedRoles={["admin"]}>
+              <AdminPanel />
+            </ProtectRoute>
           }
         />
         <Route path="/*" element={<MainPage openAuth={openAuth} />} />
