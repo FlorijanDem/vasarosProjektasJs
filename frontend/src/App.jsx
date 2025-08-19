@@ -5,12 +5,11 @@ import Nav from "./components/Nav/Nav";
 import MainPage from "./pages/MainPage/MainPage";
 import ExcurionDetails from "./components/ExcursionDetails/ExcursionDetails";
 import ModalController from "./pages/Login/ModalController";
-import ProtectRoute from "../src/utils/protectRoute"
+import ProtectRoute from "../src/utils/protectRoute";
 import AdminPanel from "./pages/AdminPanel/AdminPanel";
 
 const API_URL = import.meta.env.VITE_API_URL;
 import SearchFilterSort from "./components/SearchFilterSort/SearchFilterSort";
-
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -20,6 +19,7 @@ function App() {
   const [userRole, setUserRole] = useState(null);
   const [userEmail, setUserEmail] = useState(null);
   const navigate = useNavigate();
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
     setIsLoggedIn(document.cookie.includes("jwt="));
@@ -32,11 +32,13 @@ function App() {
       });
       setUserRole(res.data.role);
       setUserEmail(res.data.email);
+      setUserId(res.data.id);
       setIsLoggedIn(true);
     } catch (error) {
       console.error("Not logged in:", error);
       setUserRole(null);
       setUserEmail(null);
+      setUserId(null);
       setIsLoggedIn(false);
     }
   };
@@ -109,7 +111,16 @@ function App() {
             </>
           }
         />
-        <Route path="/:id" element={<ExcurionDetails openAuth={openAuth} />} />
+        <Route
+          path="/:id"
+          element={
+            <ExcurionDetails
+              openAuth={openAuth}
+              isLoggedIn={isLoggedIn}
+              userId={userId}
+            />
+          }
+        />
         <Route
           path="/admin"
           element={

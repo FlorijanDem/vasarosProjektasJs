@@ -20,3 +20,17 @@ exports.getTotalReviewCountM = async (id) => {
   `;
   return result[0].count;
 };
+
+exports.postReview = async (newReview) => {
+  const review = await sql`
+      INSERT INTO reviews ${sql(
+        newReview,
+        "user_id",
+        "tour_id",
+        "rating",
+        "comment"
+      )}
+         RETURNING *;
+      `;
+  return review[0];
+};
