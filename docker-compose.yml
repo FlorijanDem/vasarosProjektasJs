@@ -2,7 +2,7 @@
 
 services:
   db:
-    image: postgres:latest
+    image: postgres:17
     # Do not run with extra if you do it
     # Uncomment if you want to connect to db outside of docker
     # ports:
