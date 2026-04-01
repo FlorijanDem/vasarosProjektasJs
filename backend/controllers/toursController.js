@@ -27,9 +27,9 @@ exports.createTour = async (req, res, next) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
+
   try {
     const newTour = req.body;
-
     const createdTour = await createTour(newTour);
 
     res.status(201).json({
@@ -37,9 +37,16 @@ exports.createTour = async (req, res, next) => {
       data: createdTour,
     });
   } catch (error) {
+    if (error.code === "23503") {
+      return res.status(400).json({
+        field: "category_id",
+        message: "Category ID does not exist",
+      });
+    }
     next(error);
   }
 };
+
 
 exports.deleteTour = async (req, res, next) => {
   try {
@@ -80,9 +87,16 @@ exports.updateTour = async (req, res, next) => {
       data: updatedTour,
     });
   } catch (error) {
+    if (error.code === "23503") {
+      return res.status(400).json({
+        field: "category_id",
+        message: "Category ID does not exist",
+      });
+    }
     next(error);
   }
 };
+
 
 exports.searchTours = async (req, res, next) => {
   try {

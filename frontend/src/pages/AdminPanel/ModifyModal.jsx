@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
-const ModifyExcursionModal = ({ isOpen, onClose, excursion, onSave }) => {
+const ModifyExcursionModal = ({ isOpen, onClose, excursion, onSave, errorMessage }) => {
   const {
     register,
     handleSubmit,
@@ -34,7 +34,9 @@ const ModifyExcursionModal = ({ isOpen, onClose, excursion, onSave }) => {
           ×
         </button>
         <h2 className="text-3xl font-semibold mb-6">Modify Excursion</h2>
-
+         <pre className="text-[1.05rem] text-[var(--error-text-color)] text-center max-md:text-[0.95rem]">
+              {errorMessage}
+            </pre>
         <form
           onSubmit={handleSubmit(onSave)}
           className="flex flex-col  gap-12 items-center"
